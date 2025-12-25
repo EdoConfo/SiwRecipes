@@ -10,22 +10,7 @@
 <body>
 
     <!-- Header -->
-    <header>
-        <nav>
-            <div class="logo">
-                <a href="/"><i class="fas fa-utensils"></i> SiwRecipes</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/recipes">Ricette</a></li>
-            </ul>
-            <div class="auth-buttons">
-                <span style="margin-right: 10px;">Ciao, <span th:text="${#authentication.name}">User</span>!</span>
-                <a href="/profile" class="btn btn-register" style="margin-right: 10px;">Area Personale</a>
-                <a href="/logout" class="btn btn-login">Logout</a>
-            </div>
-        </nav>
-    </header>
+    <header th:replace="fragments/base :: header"></header>
 
     <main>
         <div class="auth-container wide">
@@ -110,11 +95,7 @@
         </div>
     </main>
 
-    <footer>
-        <div class="footer-bottom">
-            <p>&copy; 2025 SiwRecipes - Università Roma Tre.</p>
-        </div>
-    </footer>
+    <footer th:replace="fragments/base :: footer"></footer>
 
 </body>
 </html>

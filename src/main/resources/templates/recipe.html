@@ -59,17 +59,7 @@
 </head>
 <body>
 
-    <header>
-        <nav>
-            <div class="logo">
-                <a href="/"><i class="fas fa-utensils"></i> SiwRecipes</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/recipes" class="active">Ricette</a></li>
-            </ul>
-        </nav>
-    </header>
+    <header th:replace="fragments/base :: header"></header>
 
     <main class="container" style="max-width: 1200px; margin: 2rem auto; padding: 0 1rem;">
         
@@ -135,11 +125,7 @@
 
     </main>
 
-    <footer>
-        <div class="footer-bottom">
-            <p>&copy; 2025 SiwRecipes - Università Roma Tre.</p>
-        </div>
-    </footer>
+    <footer th:replace="fragments/base :: footer"></footer>
 
 </body>
 </html>

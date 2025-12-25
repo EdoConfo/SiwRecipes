@@ -26,4 +26,7 @@ public interface RecipeRepository extends CrudRepository<Recipe, Long> {
 
     /* Cerca ricette il cui titolo contiene la stringa passata (case insensitive) */
     List<Recipe> findByTitleContainingIgnoreCase(String title);
+
+    /* Trova le ultime 6 ricette create */
+    List<Recipe> findTop6ByOrderByCreationDateDesc();
 }

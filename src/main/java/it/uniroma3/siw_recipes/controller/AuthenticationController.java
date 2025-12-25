@@ -49,6 +49,7 @@ public class AuthenticationController {
 	public String index(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication instanceof AnonymousAuthenticationToken) {
+            model.addAttribute("latestRecipes", this.recipeService.getLastRecipes());
 	        return "home";
 		}
 		else {		
@@ -58,9 +59,10 @@ public class AuthenticationController {
 				return "admin/indexAdmin";
 			}
             // Se è un utente normale, lo mandiamo alla home page
+            model.addAttribute("latestRecipes", this.recipeService.getLastRecipes());
             return "home";
-		}
-	}
+        }
+    }
     
     @GetMapping(value = "/profile")
     public String showProfile(Model model) {

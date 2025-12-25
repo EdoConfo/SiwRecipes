@@ -10,22 +10,7 @@
 <body>
 
     <!-- Header (Copiato da home.html per coerenza) -->
-    <header>
-        <nav>
-            <div class="logo">
-                <a href="/"><i class="fas fa-utensils"></i> SiwRecipes</a>
-            </div>
-            <ul class="nav-links">
-                <li><a href="/">Home</a></li>
-                <li><a href="/recipes" class="active">Ricette</a></li>
-                <li><a href="#">Chef</a></li>
-            </ul>
-            <div class="auth-buttons">
-                <a href="#" class="btn btn-login">Accedi</a>
-                <a href="#" class="btn btn-register">Registrati</a>
-            </div>
-        </nav>
-    </header>
+    <header th:replace="fragments/base :: header"></header>
 
     <main class="container" style="max-width: 1200px; margin: 2rem auto; padding: 0 1rem;">
         <h1 class="section-title">Tutte le nostre Ricette</h1>
@@ -73,17 +58,7 @@
     </main>
 
     <!-- Footer -->
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>SiwRecipes</h3>
-                <p>La tua destinazione quotidiana per ispirazione culinaria.</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 SiwRecipes - Università Roma Tre.</p>
-        </div>
-    </footer>
+    <footer th:replace="fragments/base :: footer"></footer>
 
 </body>
 </html>

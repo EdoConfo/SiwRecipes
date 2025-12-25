@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Base Fragment</title>
+</head>
+<body>
+
+    <header th:fragment="header">
+        <nav>
+            <div class="logo">
+                <a href="/" style="text-decoration: none; color: inherit;">
+                    <i class="fas fa-utensils"></i> SiwRecipes
+                </a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/recipes">Ricette</a></li>
+                <li><a href="#">Chef</a></li>
+                <li><a href="#">Chi Siamo</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <div th:if="${#authentication == null || #authorization.expression('isAnonymous()')}">
+                    <a href="/login" class="btn btn-login">Accedi</a>
+                    <a href="/register" class="btn btn-register">Registrati</a>
+                </div>
+                <div th:unless="${#authentication == null || #authorization.expression('isAnonymous()')}">
+                    <span style="margin-right: 10px;">Ciao, <span th:text="${#authentication.name}">User</span>!</span>
+                    <a href="/profile" class="btn btn-register" style="margin-right: 10px;">Area Personale</a>
+                    <a href="/logout" class="btn btn-login">Logout</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <footer th:fragment="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>SiwRecipes</h3>
+                <p>La tua destinazione quotidiana per ispirazione culinaria.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Link Utili</h3>
+                <ul>
+                    <li><a href="#">Chi Siamo</a></li>
+                    <li><a href="#">Contatti</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Seguici</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 SiwRecipes - Università Roma Tre. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

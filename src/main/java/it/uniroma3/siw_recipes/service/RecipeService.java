@@ -89,4 +89,8 @@ public class RecipeService {
     public List<Recipe> findByTitle(String title) {
         return this.recipeRepository.findByTitleContainingIgnoreCase(title);
     }
+
+    public List<Recipe> getLastRecipes() {
+        return this.recipeRepository.findTop6ByOrderByCreationDateDesc();
+    }
 }

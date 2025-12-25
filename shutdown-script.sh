@@ -18,7 +18,8 @@ dump_table() {
     # pg_dump flags:
     # --data-only: solo i dati, niente schema (create table)
     # --column-inserts: usa INSERT INTO table (col1, col2) VALUES ... (più sicuro)
-    pg_dump --username "$DB_USER" --dbname "$DB_NAME" --host "$DB_HOST" --port "$DB_PORT" --table "public.$TABLE_NAME" --data-only --column-inserts | grep '^INSERT' >> "$SQL_FILE"
+    # Filtriamo via i commenti e i comandi SET/SELECT di pg_dump, mantenendo solo gli INSERT
+    pg_dump --username "$DB_USER" --dbname "$DB_NAME" --host "$DB_HOST" --port "$DB_PORT" --table "public.$TABLE_NAME" --data-only --column-inserts | sed '/^SET/d' | sed '/^SELECT pg_catalog/d' | sed '/^--/d' | sed '/^\\/d' | sed '/^$/d' >> "$SQL_FILE"
     echo "" >> "$SQL_FILE"
 }
 

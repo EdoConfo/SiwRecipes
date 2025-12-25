@@ -338,7 +338,7 @@ footer p {
 
 .recipe-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 2rem;
     margin-bottom: 2rem;
 }
@@ -570,4 +570,104 @@ footer p {
 
 .btn-view:hover {
     text-decoration: underline;
+}
+
+/* Carousel Styles */
+.carousel-container {
+    width: 100%;
+    overflow-x: auto;
+    padding: 1rem 0;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+}
+
+.carousel-container::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
+.carousel-track {
+    display: flex;
+    gap: 1.5rem;
+    padding: 0.5rem;
+}
+
+.carousel-card {
+    flex: 0 0 300px; /* Fixed width for cards */
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+.carousel-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.carousel-card .card-image {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-card .card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.carousel-card:hover .card-image img {
+    transform: scale(1.05);
+}
+
+.carousel-card .card-content {
+    padding: 1.2rem;
+}
+
+.carousel-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.carousel-card .card-meta {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin-bottom: 1rem;
+}
+
+.carousel-card .card-link {
+    display: inline-block;
+    color: #e67e22;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.carousel-card .card-link:hover {
+    text-decoration: underline;
+}
+
+/* Updated Carousel Card Styles to match Recipe Card */
+a.carousel-card {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    height: 100%; /* Ensure it fills the height if needed, though in carousel it's fixed width */
+}
+
+/* Ensure recipe-description inside carousel doesn't break layout */
+.carousel-card .recipe-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-bottom: 1rem;
 }
