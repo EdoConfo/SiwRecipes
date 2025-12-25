@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${recipe.title} + ' - SiwRecipes'">Dettaglio Ricetta</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Stili specifici per la pagina di dettaglio */
+        .recipe-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .recipe-meta-large {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0;
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+        .recipe-detail-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+        .ingredients-box {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            height: fit-content;
+        }
+        .ingredients-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+        }
+        .procedure-box {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .procedure-text {
+            white-space: pre-line; /* Mantiene i ritorni a capo del testo */
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+        @media (max-width: 768px) {
+            .recipe-detail-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="/"><i class="fas fa-utensils"></i> SiwRecipes</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/recipes" class="active">Ricette</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container" style="max-width: 1200px; margin: 2rem auto; padding: 0 1rem;">
+        
+        <!-- Intestazione Ricetta -->
+        <div class="recipe-header">
+            <h1 th:text="${recipe.title}" style="font-size: 3rem; color: #2c3e50;">Titolo Ricetta</h1>
+            <p th:text="${recipe.description}" style="font-size: 1.2rem; color: #7f8c8d;">Descrizione breve...</p>
+            
+            <div class="recipe-meta-large">
+                <span><i class="far fa-clock"></i> <span th:text="${recipe.prepTime} + ' min'">45 min</span></span>
+                <span><i class="fas fa-signal"></i> 
+                    <span th:if="${recipe.difficulty == 1}">Facile</span>
+                    <span th:if="${recipe.difficulty == 2}">Media</span>
+                    <span th:if="${recipe.difficulty == 3}">Difficile</span>
+                </span>
+                <span th:if="${recipe.author != null}"><i class="fas fa-user"></i> <span th:text="${recipe.author.name} + ' ' + ${recipe.author.surname}">Mario Rossi</span></span>
+            </div>
+
+            <!-- Pulsanti Modifica/Elimina per l'autore -->
+            <div th:if="${currentUser != null && recipe.author != null && currentUser.id == recipe.author.id}" style="margin-top: 1rem;">
+                <a th:href="@{'/recipe/' + ${recipe.id} + '/edit'}" class="btn" style="background-color: #f39c12; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; margin-right: 10px;">
+                    <i class="fas fa-edit"></i> Modifica
+                </a>
+                <a th:href="@{'/recipe/' + ${recipe.id} + '/delete'}" class="btn" style="background-color: #e74c3c; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none;" onclick="return confirm('Sei sicuro di voler eliminare questa ricetta?');">
+                    <i class="fas fa-trash-alt"></i> Elimina
+                </a>
+            </div>
+        </div>
+
+        <!-- Immagine Ricetta -->
+        <div th:if="${recipe.image != null}" style="text-align: center; margin-bottom: 2rem;">
+            <img th:src="@{'/images/uploads/' + ${recipe.image}}" alt="Immagine Ricetta" style="max-width: 100%; max-height: 500px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        </div>
+
+        <div class="recipe-detail-container">
+            
+            <!-- Colonna Sinistra: Ingredienti -->
+            <aside class="ingredients-box">
+                <h3 style="margin-bottom: 1.5rem; color: #e67e22;"><i class="fas fa-shopping-basket"></i> Ingredienti</h3>
+                
+                <ul class="ingredients-list" th:if="${recipe.ingredients != null && !recipe.ingredients.isEmpty()}">
+                    <li th:each="ingredient : ${recipe.ingredients}">
+                        <span th:text="${ingredient.name}">Farina</span>
+                        <span style="font-weight: bold; color: #2c3e50;">
+                            <span th:text="${ingredient.quantity}">200</span>
+                            <span th:text="${ingredient.unitOfMeasure}">g</span>
+                        </span>
+                    </li>
+                </ul>
+                
+                <p th:if="${recipe.ingredients == null || recipe.ingredients.isEmpty()}">Nessun ingrediente specificato.</p>
+            </aside>
+
+            <!-- Colonna Destra: Procedimento -->
+            <section class="procedure-box">
+                <h3 style="margin-bottom: 1.5rem; color: #e67e22;"><i class="fas fa-list-ol"></i> Procedimento</h3>
+                <div class="procedure-text" th:text="${recipe.procedure}">
+                    Qui apparirà il testo del procedimento della ricetta...
+                </div>
+            </section>
+
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="footer-bottom">
+            <p>&copy; 2025 SiwRecipes - Università Roma Tre.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

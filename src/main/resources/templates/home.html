@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="it" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiwRecipes - Scopri il gusto</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-utensils"></i> SiwRecipes
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/recipes">Ricette</a></li>
+                <li><a href="#">Chef</a></li>
+                <li><a href="#">Chi Siamo</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <!-- Se l'utente NON è autenticato, mostra Accedi e Registrati -->
+                <div th:if="${#authentication == null || #authorization.expression('isAnonymous()')}">
+                    <a href="/login" class="btn btn-login">Accedi</a>
+                    <a href="/register" class="btn btn-register">Registrati</a>
+                </div>
+                
+                <!-- Se l'utente È autenticato, mostra il suo nome e il Logout -->
+                <div th:unless="${#authentication == null || #authorization.expression('isAnonymous()')}">
+                    <span style="margin-right: 10px;">Ciao, <span th:text="${#authentication.name}">User</span>!</span>
+                    <a href="/profile" class="btn btn-register" style="margin-right: 10px;">Area Personale</a>
+                    <a href="/logout" class="btn btn-login">Logout</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Trova la ricetta perfetta</h1>
+            <p>Esplora migliaia di ricette deliziose condivise dalla nostra community di appassionati.</p>
+            <form class="search-bar" action="#" method="get">
+                <input type="text" placeholder="Cosa vuoi cucinare oggi? (es. Carbonara, Tiramisù...)">
+                <button type="submit">Cerca</button>
+            </form>
+        </section>
+
+        <!-- Featured Recipes -->
+        <section class="featured-recipes">
+            <h2 class="section-title">Ultime Ricette</h2>
+            <div class="recipe-grid">
+                <p style="text-align: center; width: 100%; color: #7f8c8d; font-size: 1.1rem;">Le nuove ricette appariranno qui.</p>
+            </div>
+            <div style="text-align: center; margin-top: 3rem; margin-bottom: 2rem;">
+                <a href="/recipes" class="cta-button">Vedi tutte le ricette</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>SiwRecipes</h3>
+                <p>La tua destinazione quotidiana per ispirazione culinaria. Condividi la passione per il cibo.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Link Utili</h3>
+                <ul>
+                    <li><a href="#">Chi Siamo</a></li>
+                    <li><a href="#">Contatti</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Seguici</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 SiwRecipes - Università Roma Tre. All rights reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

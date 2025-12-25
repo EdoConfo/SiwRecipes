@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiwRecipes - Accedi</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-utensils"></i> SiwRecipes
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/recipes">Ricette</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="/register" class="btn btn-register">Registrati</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="auth-container">
+            <h1>Bentornato!</h1>
+            <p>Inserisci le tue credenziali per accedere al tuo account.</p>
+            
+            <div th:if="${param.error}" class="error-message">
+                <i class="fas fa-exclamation-circle"></i> Username o password non validi.
+            </div>
+            
+            <form th:action="@{/login}" method="post" class="auth-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Inserisci il tuo username" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" placeholder="Inserisci la tua password" required>
+                </div>
+                <button type="submit">Accedi</button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>Non hai ancora un account? <a href="/register">Registrati ora</a></p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SiwRecipes - Università Roma Tre</p>
+    </footer>
+</body>
+</html>

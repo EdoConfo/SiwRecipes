@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SiwRecipes - Area Personale</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <i class="fas fa-utensils"></i> SiwRecipes
+            </div>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/recipes">Ricette</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <span style="margin-right: 10px;">Ciao, <span th:text="${user.name}">User</span>!</span>
+                <a href="/logout" class="btn btn-login">Logout</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="profile-header">
+            <h1>Area Personale</h1>
+            <p>Benvenuto nel tuo spazio creativo, <span th:text="${user.name}">Nome</span>.</p>
+        </section>
+
+        <section class="user-recipes">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h2 class="section-title" style="margin-bottom: 0; text-align: left;">Le tue Ricette</h2>
+                <a href="/recipes/new" class="cta-button"><i class="fas fa-plus"></i> Nuova Ricetta</a>
+            </div>
+
+            <div th:if="${recipes.empty}" style="text-align: center; padding: 3rem; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+                <i class="fas fa-book-open" style="font-size: 3rem; color: #ddd; margin-bottom: 1rem;"></i>
+                <p style="color: #7f8c8d; font-size: 1.1rem;">Non hai ancora creato nessuna ricetta.</p>
+                <p>Condividi la tua prima creazione con la community!</p>
+            </div>
+
+            <div th:unless="${recipes.empty}" class="recipe-grid">
+                <a th:href="@{'/recipe/' + ${recipe.id}}" class="recipe-card" th:each="recipe : ${recipes}">
+                    <div class="recipe-image">
+                        <img th:if="${recipe.image != null}" th:src="@{'/images/uploads/' + ${recipe.image}}" alt="Immagine Ricetta">
+                        <i th:if="${recipe.image == null}" class="fas fa-utensils"></i>
+                    </div>
+                    <div class="recipe-content">
+                        <h3 class="recipe-title" th:text="${recipe.title}">Titolo Ricetta</h3>
+                        <div class="recipe-meta">
+                            <span><i class="far fa-clock"></i> <span th:text="${recipe.prepTime} + ' min'">30 min</span></span>
+                            <span>
+                                <i class="fas fa-signal"></i> 
+                                <span th:if="${recipe.difficulty == 1}">Facile</span>
+                                <span th:if="${recipe.difficulty == 2}">Media</span>
+                                <span th:if="${recipe.difficulty >= 3}">Difficile</span>
+                            </span>
+                        </div>
+                        <p class="recipe-description" th:text="${recipe.description}">Descrizione breve della ricetta...</p>
+                        <div class="recipe-footer">
+                            <span class="btn-view">Gestisci &rarr;</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 SiwRecipes - Università Roma Tre</p>
+    </footer>
+</body>
+</html>
