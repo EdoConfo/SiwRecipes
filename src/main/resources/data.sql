@@ -1,4 +1,4 @@
-/* Dati iniziali salvati automaticamente il Ven 26 Dic 2025 12:35:23 CET */
+/* Dati iniziali salvati automaticamente il Ven 26 Dic 2025 13:28:54 CET */
 
 -- Dump dati per la tabella: users
 INSERT INTO public.users (date_of_birth, id, email, name, surname) VALUES (NULL, 1, 'edo.conforti@stud.uniroma3.it', 'Edoardo', 'Conforti');
@@ -18,6 +18,7 @@ Cottura
 -- Dump dati per la tabella: ingredient
 INSERT INTO public.ingredient (id, recipe_id, name, quantity, unit_of_measure) VALUES (1, 5, 'Farina', '200', 'g');
 INSERT INTO public.ingredient (id, recipe_id, name, quantity, unit_of_measure) VALUES (3, 6, 'Palle', '2', 'Nazar');
+INSERT INTO public.ingredient (id, recipe_id, name, quantity, unit_of_measure) VALUES (4, 6, 'Farina', '2', 'N');
 
 -- Dump dati per la tabella: review
 
