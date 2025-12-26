@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -22,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.uniroma3.siw_recipes.model.Credentials;
+import it.uniroma3.siw_recipes.model.Ingredient;
 import it.uniroma3.siw_recipes.model.Recipe;
 import it.uniroma3.siw_recipes.service.CredentialsService;
 import it.uniroma3.siw_recipes.service.RecipeService;
@@ -65,7 +70,11 @@ public class RecipeController {
 
     @PostMapping("/recipes")
     public String newRecipe(@Valid @ModelAttribute("recipe") Recipe recipe, BindingResult bindingResult, 
-            @RequestParam("file") MultipartFile file, Model model) {
+            @RequestParam("file") MultipartFile file, 
+            @RequestParam(value = "ingName", required = false) List<String> ingNames,
+            @RequestParam(value = "ingQuantity", required = false) List<String> ingQuantities,
+            @RequestParam(value = "ingUnit", required = false) List<String> ingUnits,
+            Model model) {
         if (bindingResult.hasErrors()) {
             return "formNewRecipe";
         } else {
@@ -133,6 +142,26 @@ public class RecipeController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            }
+
+            // Gestione Ingredienti
+            if (ingNames != null && !ingNames.isEmpty()) {
+                List<Ingredient> ingredients = new ArrayList<>();
+                for (int i = 0; i < ingNames.size(); i++) {
+                    String name = ingNames.get(i);
+                    if (name != null && !name.trim().isEmpty()) {
+                        String qty = (ingQuantities != null && i < ingQuantities.size()) ? ingQuantities.get(i) : "";
+                        String unit = (ingUnits != null && i < ingUnits.size()) ? ingUnits.get(i) : "";
+                        
+                        Ingredient ingredient = new Ingredient();
+                        ingredient.setName(name);
+                        ingredient.setQuantity(qty);
+                        ingredient.setUnitOfMeasure(unit);
+                        ingredient.setRecipe(recipe);
+                        ingredients.add(ingredient);
+                    }
+                }
+                recipe.setIngredients(ingredients);
             }
 
             this.recipeService.saveRecipe(recipe);
@@ -232,7 +261,12 @@ public class RecipeController {
 
     @PostMapping("/recipe/{id}/update")
     public String updateRecipe(@PathVariable("id") Long id, @Valid @ModelAttribute("recipe") Recipe recipe, 
-            BindingResult bindingResult, @RequestParam("file") MultipartFile file, Model model) {
+            BindingResult bindingResult, @RequestParam("file") MultipartFile file,
+            @RequestParam(value = "ingId", required = false) List<String> ingIds,
+            @RequestParam(value = "ingName", required = false) List<String> ingNames,
+            @RequestParam(value = "ingQuantity", required = false) List<String> ingQuantities,
+            @RequestParam(value = "ingUnit", required = false) List<String> ingUnits,
+            Model model) {
         if (bindingResult.hasErrors()) {
             return "formEditRecipe";
         } else {
@@ -243,10 +277,53 @@ public class RecipeController {
             
             // Aggiorniamo i campi
             oldRecipe.setTitle(recipe.getTitle());
+            oldRecipe.setCategory(recipe.getCategory());
             oldRecipe.setDescription(recipe.getDescription());
             oldRecipe.setPrepTime(recipe.getPrepTime());
             oldRecipe.setDifficulty(recipe.getDifficulty());
             oldRecipe.setProcedure(recipe.getProcedure());
+
+            // Aggiorniamo gli ingredienti
+            if (ingNames != null) {
+                // Mappa degli ingredienti esistenti per ID
+                Map<Long, Ingredient> existingIngredients = new HashMap<>();
+                for (Ingredient i : oldRecipe.getIngredients()) {
+                    existingIngredients.put(i.getId(), i);
+                }
+                
+                List<Ingredient> updatedIngredients = new ArrayList<>();
+                
+                for (int i = 0; i < ingNames.size(); i++) {
+                    String name = ingNames.get(i);
+                    if (name != null && !name.trim().isEmpty()) {
+                        String idStr = (ingIds != null && i < ingIds.size()) ? ingIds.get(i) : null;
+                        Ingredient ing = null;
+                        
+                        if (idStr != null && !idStr.isEmpty()) {
+                            try {
+                                Long ingId = Long.parseLong(idStr);
+                                ing = existingIngredients.get(ingId);
+                            } catch (NumberFormatException e) {}
+                        }
+                        
+                        if (ing == null) {
+                            ing = new Ingredient();
+                            ing.setRecipe(oldRecipe);
+                        }
+                        
+                        ing.setName(name);
+                        ing.setQuantity((ingQuantities != null && i < ingQuantities.size()) ? ingQuantities.get(i) : "");
+                        ing.setUnitOfMeasure((ingUnits != null && i < ingUnits.size()) ? ingUnits.get(i) : "");
+                        
+                        updatedIngredients.add(ing);
+                    }
+                }
+                
+                oldRecipe.getIngredients().clear();
+                oldRecipe.getIngredients().addAll(updatedIngredients);
+            } else {
+                oldRecipe.getIngredients().clear();
+            }
             
             if (!file.isEmpty()) {
                 // Elimina la vecchia immagine se esiste

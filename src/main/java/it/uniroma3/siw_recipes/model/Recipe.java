@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * La classe Recipe è il cuore dell'applicazione: rappresenta una Ricetta di cucina.
@@ -55,6 +56,10 @@ public class Recipe {
     /* Livello di difficoltà (es. 1=Facile, 2=Medio, 3=Difficile) */
     private int difficulty;
 
+    /* Categoria della ricetta (es. Primi, Secondi, Dolci) */
+    @NotBlank
+    private String category;
+
     /* Data di inserimento della ricetta */
     private LocalDateTime creationDate;
 
@@ -76,8 +81,9 @@ public class Recipe {
      * Gli ingredienti della ricetta.
      * @OneToMany: Una ricetta ha molti ingredienti.
      * cascade = CascadeType.ALL: Se cancello la ricetta, cancello anche i suoi ingredienti.
+     * orphanRemoval = true: Se rimuovo un ingrediente dalla lista, viene cancellato dal DB.
      */
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Ingredient> ingredients;
 
     /*
@@ -149,6 +155,14 @@ public class Recipe {
 
     public void setDifficulty(int difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public LocalDateTime getCreationDate() {

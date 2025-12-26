@@ -38,6 +38,24 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="category">Categoria</label>
+                    <div class="input-group">
+                        <i class="fas fa-tag"></i>
+                        <input type="text" id="category" th:field="*{category}" placeholder="Es. Primi Piatti" list="categories" required>
+                        <datalist id="categories">
+                            <option value="Antipasti">
+                            <option value="Primi Piatti">
+                            <option value="Secondi Piatti">
+                            <option value="Contorni">
+                            <option value="Dolci">
+                            <option value="Lievitati">
+                            <option value="Bevande">
+                        </datalist>
+                    </div>
+                    <span th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="error-message" style="margin-top: 0.5rem;"></span>
+                </div>
+
+                <div class="form-group">
                     <label for="description">Breve Descrizione</label>
                     <div class="input-group">
                         <i class="fas fa-align-left"></i>
@@ -64,6 +82,45 @@
                         </div>
                         <span th:if="${#fields.hasErrors('difficulty')}" th:errors="*{difficulty}" class="error-message" style="margin-top: 0.5rem;"></span>
                     </div>
+                </div>
+
+                <!-- Sezione Ingredienti -->
+                <div class="form-group">
+                    <label>Ingredienti</label>
+                    <div id="ingredients-container">
+                        <!-- Ingredienti Esistenti -->
+                        <div th:each="ing : ${recipe.ingredients}" class="form-row ingredient-row" style="margin-bottom: 10px;">
+                            <input type="hidden" name="ingId" th:value="${ing.id}">
+                            <div class="input-group" style="flex: 2;">
+                                <input type="text" name="ingName" th:value="${ing.name}" placeholder="Nome (es. Farina)" required>
+                            </div>
+                            <div class="input-group" style="flex: 1;">
+                                <input type="text" name="ingQuantity" th:value="${ing.quantity}" placeholder="Quantità (es. 200)" required>
+                            </div>
+                            <div class="input-group" style="flex: 1;">
+                                <input type="text" name="ingUnit" th:value="${ing.unitOfMeasure}" placeholder="Unità di misura (es. g)">
+                            </div>
+                            <button type="button" class="btn btn-danger" onclick="removeRow(this)" style="padding: 0 10px; height: 42px; margin-top: 0;"><i class="fas fa-times"></i></button>
+                        </div>
+                        
+                        <!-- Riga vuota se non ci sono ingredienti -->
+                        <div th:if="${recipe.ingredients.isEmpty()}" class="form-row ingredient-row" style="margin-bottom: 10px;">
+                            <input type="hidden" name="ingId" value="">
+                            <div class="input-group" style="flex: 2;">
+                                <input type="text" name="ingName" placeholder="Nome (es. Farina)" required>
+                            </div>
+                            <div class="input-group" style="flex: 1;">
+                                <input type="text" name="ingQuantity" placeholder="Qt (es. 200)" required>
+                            </div>
+                            <div class="input-group" style="flex: 1;">
+                                <input type="text" name="ingUnit" placeholder="Unità di misura (es. g)">
+                            </div>
+                            <button type="button" class="btn btn-danger" onclick="removeRow(this)" style="padding: 0 10px; height: 42px; margin-top: 0;"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="addIngredientRow()" style="margin-top: 5px;">
+                        <i class="fas fa-plus"></i> Aggiungi Ingrediente
+                    </button>
                 </div>
 
                 <div class="form-group">
@@ -95,7 +152,85 @@
         </div>
     </main>
 
-    <footer th:replace="fragments/base :: footer"></footer>
+    <footer th:replace="~{fragments/base :: footer}"></footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const procedureTextarea = document.getElementById('procedure');
+            if (procedureTextarea) {
+                // Initialize with "1. " if empty on focus
+                procedureTextarea.addEventListener('focus', function() {
+                    if (!this.value.trim()) {
+                        this.value = "1. ";
+                    }
+                });
+
+                procedureTextarea.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const cursorPosition = this.selectionStart;
+                        const currentContent = this.value;
+                        const textBeforeCursor = currentContent.substring(0, cursorPosition);
+                        const lines = textBeforeCursor.split('\n');
+                        const currentLine = lines[lines.length - 1];
+                        
+                        // Check if current line starts with a number
+                        const match = currentLine.match(/^(\d+)\./);
+                        let nextNum = 1;
+                        if (match) {
+                            nextNum = parseInt(match[1]) + 1;
+                        } else if (lines.length > 1) {
+                             // Try to find the last number used
+                             for (let i = lines.length - 1; i >= 0; i--) {
+                                 const m = lines[i].match(/^(\d+)\./);
+                                 if (m) {
+                                     nextNum = parseInt(m[1]) + 1;
+                                     break;
+                                 }
+                             }
+                        }
+
+                        const insertion = "\n" + nextNum + ". ";
+                        const newContent = currentContent.substring(0, cursorPosition) + 
+                                         insertion + 
+                                         currentContent.substring(this.selectionEnd);
+                        
+                        this.value = newContent;
+                        this.selectionStart = this.selectionEnd = cursorPosition + insertion.length;
+                        
+                        // Scroll to cursor
+                        this.blur();
+                        this.focus();
+                    }
+                });
+            }
+        });
+
+        function addIngredientRow() {
+            const container = document.getElementById('ingredients-container');
+            const row = document.createElement('div');
+            row.className = 'form-row ingredient-row';
+            row.style.marginBottom = '10px';
+            row.innerHTML = `
+                <input type="hidden" name="ingId" value="">
+                <div class="input-group" style="flex: 2;">
+                    <input type="text" name="ingName" placeholder="Nome (es. Farina)" required>
+                </div>
+                <div class="input-group" style="flex: 1;">
+                    <input type="text" name="ingQuantity" placeholder="Qt (es. 200)" required>
+                </div>
+                <div class="input-group" style="flex: 1;">
+                    <input type="text" name="ingUnit" placeholder="Unità di misura (es. g)">
+                </div>
+                <button type="button" class="btn btn-danger" onclick="removeRow(this)" style="padding: 0 10px; height: 42px; margin-top: 0;"><i class="fas fa-times"></i></button>
+            `;
+            container.appendChild(row);
+        }
+    
+        function removeRow(btn) {
+            const row = btn.closest('.ingredient-row');
+            row.remove();
+        }
+    </script>
 </body>
 </html>

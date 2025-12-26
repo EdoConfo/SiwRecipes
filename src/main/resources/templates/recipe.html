@@ -8,14 +8,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* Stili specifici per la pagina di dettaglio */
-        .recipe-header {
-            text-align: center;
-            margin-bottom: 2rem;
+        .recipe-top-section {
+            display: flex;
+            gap: 3rem;
+            align-items: flex-start;
+            margin-bottom: 3rem;
+        }
+        .recipe-image-container {
+            flex: 1;
+        }
+        .recipe-image-container img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            object-fit: cover;
+        }
+        .recipe-info-container {
+            flex: 1;
+            text-align: left;
         }
         .recipe-meta-large {
             display: flex;
-            justify-content: center;
-            gap: 2rem;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+            gap: 1.5rem;
             margin: 1rem 0;
             color: #7f8c8d;
             font-size: 1.1rem;
@@ -39,6 +56,9 @@
             display: flex;
             justify-content: space-between;
         }
+        .ingredients-list li:last-child {
+            border-bottom: none;
+        }
         .procedure-box {
             background-color: #fff;
             padding: 2rem;
@@ -51,6 +71,9 @@
             font-size: 1.1rem;
         }
         @media (max-width: 768px) {
+            .recipe-top-section {
+                flex-direction: column;
+            }
             .recipe-detail-container {
                 grid-template-columns: 1fr;
             }
@@ -59,39 +82,71 @@
 </head>
 <body>
 
-    <header th:replace="fragments/base :: header"></header>
+    <header th:replace="~{fragments/base :: header}"></header>
 
     <main class="container" style="max-width: 1200px; margin: 2rem auto; padding: 0 1rem;">
         
-        <!-- Intestazione Ricetta -->
-        <div class="recipe-header">
-            <h1 th:text="${recipe.title}" style="font-size: 3rem; color: #2c3e50;">Titolo Ricetta</h1>
-            <p th:text="${recipe.description}" style="font-size: 1.2rem; color: #7f8c8d;">Descrizione breve...</p>
-            
-            <div class="recipe-meta-large">
-                <span><i class="far fa-clock"></i> <span th:text="${recipe.prepTime} + ' min'">45 min</span></span>
-                <span><i class="fas fa-signal"></i> 
-                    <span th:if="${recipe.difficulty == 1}">Facile</span>
-                    <span th:if="${recipe.difficulty == 2}">Media</span>
-                    <span th:if="${recipe.difficulty == 3}">Difficile</span>
-                </span>
-                <span th:if="${recipe.author != null}"><i class="fas fa-user"></i> <span th:text="${recipe.author.name} + ' ' + ${recipe.author.surname}">Mario Rossi</span></span>
+        <div class="recipe-top-section">
+            <!-- Immagine Ricetta (Sinistra) -->
+            <div class="recipe-image-container">
+                <img th:if="${recipe.image != null}" th:src="@{'/images/uploads/' + ${recipe.image}}" alt="Immagine Ricetta">
+                <div th:if="${recipe.image == null}" style="background-color: #eee; height: 300px; display: flex; align-items: center; justify-content: center; border-radius: 10px; color: #aaa;">
+                    <i class="fas fa-image fa-3x"></i>
+                </div>
             </div>
 
-            <!-- Pulsanti Modifica/Elimina per l'autore -->
-            <div th:if="${currentUser != null && recipe.author != null && currentUser.id == recipe.author.id}" style="margin-top: 1rem;">
-                <a th:href="@{'/recipe/' + ${recipe.id} + '/edit'}" class="btn" style="background-color: #f39c12; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; margin-right: 10px;">
-                    <i class="fas fa-edit"></i> Modifica
-                </a>
-                <a th:href="@{'/recipe/' + ${recipe.id} + '/delete'}" class="btn" style="background-color: #e74c3c; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none;" onclick="return confirm('Sei sicuro di voler eliminare questa ricetta?');">
-                    <i class="fas fa-trash-alt"></i> Elimina
-                </a>
-            </div>
-        </div>
+            <!-- Intestazione Ricetta (Destra) -->
+            <div class="recipe-info-container">
+                <h1 th:text="${recipe.title}" style="font-size: 3rem; color: #2c3e50; margin-top: 0;">Titolo Ricetta</h1>
+                <p th:text="${recipe.description}" style="font-size: 1.2rem; color: #7f8c8d; margin-bottom: 1.5rem;">Descrizione breve...</p>
+                
+                <!-- New Info Block -->
+                <div class="recipe-info-block" style="background-color: #f8f9fa; padding: 1.5rem; border-radius: 10px; border: 1px solid #eee;">
+                    <!-- Row 1: Author & Date -->
+                    <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1rem; color: #555;">
+                        <div th:if="${recipe.author != null}">
+                            <i class="fas fa-user" style="color: #e67e22; margin-right: 5px;"></i> 
+                            <strong>Autore:</strong> <span th:text="${recipe.author.name} + ' ' + ${recipe.author.surname}">Mario Rossi</span>
+                        </div>
+                        <div th:if="${recipe.creationDate != null}">
+                            <i class="far fa-calendar-alt" style="color: #e67e22; margin-right: 5px;"></i>
+                            <strong>Data di inserimento:</strong> <span th:text="${#temporals.format(recipe.creationDate, 'dd/MM/yyyy')}">01/01/2024</span>
+                        </div>
+                    </div>
 
-        <!-- Immagine Ricetta -->
-        <div th:if="${recipe.image != null}" style="text-align: center; margin-bottom: 2rem;">
-            <img th:src="@{'/images/uploads/' + ${recipe.image}}" alt="Immagine Ricetta" style="max-width: 100%; max-height: 500px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <hr style="border: 0; border-top: 1px solid #ddd; margin: 1rem 0;">
+
+                    <!-- Row 2: Category, Time, Difficulty -->
+                    <div style="display: flex; flex-direction: column; gap: 0.8rem; color: #555;">
+                        <div th:if="${recipe.category != null}">
+                            <i class="fas fa-tag" style="color: #e67e22; margin-right: 5px;"></i>
+                            <strong>Categoria:</strong> <span th:text="${recipe.category}">Categoria</span>
+                        </div>
+                        <div>
+                            <i class="far fa-clock" style="color: #e67e22; margin-right: 5px;"></i>
+                            <strong>Tempo:</strong> <span th:text="${recipe.prepTime} + ' min'">45 min</span>
+                        </div>
+                        <div>
+                            <i class="fas fa-signal" style="color: #e67e22; margin-right: 5px;"></i>
+                            <strong>Difficoltà:</strong>
+                            <span th:if="${recipe.difficulty == 1}">Facile</span>
+                            <span th:if="${recipe.difficulty == 2}">Media</span>
+                            <span th:if="${recipe.difficulty == 3}">Difficile</span>
+                            <span th:if="${recipe.difficulty > 3}">Molto Difficile</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pulsanti Modifica/Elimina per l'autore -->
+                <div th:if="${currentUser != null && recipe.author != null && currentUser.id == recipe.author.id}" style="margin-top: 2rem;">
+                    <a th:href="@{'/recipe/' + ${recipe.id} + '/edit'}" class="btn" style="background-color: #f39c12; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; margin-right: 10px;">
+                        <i class="fas fa-edit"></i> Modifica
+                    </a>
+                    <a th:href="@{'/recipe/' + ${recipe.id} + '/delete'}" class="btn" style="background-color: #e74c3c; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none;" onclick="return confirm('Sei sicuro di voler eliminare questa ricetta?');">
+                        <i class="fas fa-trash-alt"></i> Elimina
+                    </a>
+                </div>
+            </div>
         </div>
 
         <div class="recipe-detail-container">
@@ -125,7 +180,7 @@
 
     </main>
 
-    <footer th:replace="fragments/base :: footer"></footer>
+    <footer th:replace="~{fragments/base :: footer}"></footer>
 
 </body>
 </html>
