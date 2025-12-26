@@ -12,6 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 /**
@@ -51,9 +53,12 @@ public class Recipe {
     private String procedure;
 
     /* Tempo di preparazione in minuti */
+    @Min(1)
     private int prepTime;
 
     /* Livello di difficoltà (es. 1=Facile, 2=Medio, 3=Difficile) */
+    @Min(1)
+    @Max(5)
     private int difficulty;
 
     /* Categoria della ricetta (es. Primi, Secondi, Dolci) */

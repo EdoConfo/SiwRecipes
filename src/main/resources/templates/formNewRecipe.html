@@ -9,127 +9,136 @@
 </head>
 <body>
 
-    <!-- Header -->
-    <header th:replace="fragments/base :: header"></header>
+    <header th:replace="~{fragments/base :: header}"></header>
 
-    <main>
-        <div class="auth-container wide">
-            <div style="text-align: center; margin-bottom: 2rem;">
-                <div style="font-size: 3rem; color: #e67e22; margin-bottom: 1rem;">
-                    <i class="fas fa-utensils"></i>
-                </div>
-                <h1>Nuova Ricetta</h1>
-                <p>Condividi la tua creazione con il mondo</p>
+    <main class="container" style="max-width: 1200px; margin: 2rem auto; padding: 0 1rem;">
+        
+        <form th:action="@{/recipes}" method="POST" th:object="${recipe}" enctype="multipart/form-data">
+            
+            <div th:if="${#fields.hasGlobalErrors()}" class="error-message" style="margin-bottom: 2rem; background-color: #ffebee; color: #c62828; padding: 1rem; border-radius: 5px; border: 1px solid #ef9a9a;">
+                <p th:each="err : ${#fields.globalErrors()}" th:text="${err}" style="margin: 0;">Errore Globale</p>
             </div>
 
-            <form th:action="@{/recipes}" method="POST" th:object="${recipe}" class="auth-form" enctype="multipart/form-data">
-                
-                <div th:if="${#fields.hasGlobalErrors()}" class="error-message">
-                    <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">Errore Globale</p>
-                </div>
-
-                <div class="form-group">
-                    <label for="title">Titolo della Ricetta</label>
-                    <div class="input-group">
-                        <i class="fas fa-heading"></i>
-                        <input type="text" id="title" th:field="*{title}" placeholder="Es. Carbonara Perfetta" required>
-                    </div>
-                    <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error-message" style="margin-top: 0.5rem;"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="category">Categoria</label>
-                    <div class="input-group">
-                        <i class="fas fa-tag"></i>
-                        <input type="text" id="category" th:field="*{category}" placeholder="Es. Primi Piatti" list="categories" required>
-                        <datalist id="categories">
-                            <option value="Antipasti">
-                            <option value="Primi Piatti">
-                            <option value="Secondi Piatti">
-                            <option value="Contorni">
-                            <option value="Dolci">
-                            <option value="Lievitati">
-                            <option value="Bevande">
-                        </datalist>
-                    </div>
-                    <span th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="error-message" style="margin-top: 0.5rem;"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="description">Breve Descrizione</label>
-                    <div class="input-group">
-                        <i class="fas fa-align-left"></i>
-                        <textarea id="description" th:field="*{description}" placeholder="Una breve introduzione al piatto..." rows="3"></textarea>
-                    </div>
-                    <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error-message" style="margin-top: 0.5rem;"></span>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group" style="flex: 1;">
-                        <label for="prepTime">Tempo (minuti)</label>
-                        <div class="input-group">
-                            <i class="fas fa-clock"></i>
-                            <input type="number" id="prepTime" th:field="*{prepTime}" min="1" placeholder="30" required>
+            <div class="recipe-top-section">
+                <!-- Immagine Ricetta (Sinistra) -->
+                <div class="recipe-image-container">
+                    <div id="imagePreview" style="background-color: #eee; height: 300px; display: flex; align-items: center; justify-content: center; border-radius: 10px; color: #aaa; cursor: pointer; overflow: hidden; position: relative; border: 2px dashed #ccc; transition: all 0.3s ease;" onclick="document.getElementById('image').click()" onmouseover="this.style.borderColor='#e67e22'; this.style.color='#e67e22'" onmouseout="this.style.borderColor='#ccc'; this.style.color='#aaa'">
+                        <div id="placeholderContent" style="text-align: center;">
+                            <i class="fas fa-camera fa-3x" id="uploadIcon" style="margin-bottom: 10px;"></i>
+                            <div style="font-size: 0.9rem;">Clicca per caricare un'immagine</div>
                         </div>
-                        <span th:if="${#fields.hasErrors('prepTime')}" th:errors="*{prepTime}" class="error-message" style="margin-top: 0.5rem;"></span>
+                        <img id="previewImg" src="#" alt="Anteprima" style="display: none; width: 100%; height: 100%; object-fit: cover;">
                     </div>
-
-                    <div class="form-group" style="flex: 1;">
-                        <label for="difficulty">Difficoltà (1-5)</label>
-                        <div class="input-group">
-                            <i class="fas fa-chart-line"></i>
-                            <input type="number" id="difficulty" th:field="*{difficulty}" min="1" max="5" placeholder="1" required>
-                        </div>
-                        <span th:if="${#fields.hasErrors('difficulty')}" th:errors="*{difficulty}" class="error-message" style="margin-top: 0.5rem;"></span>
-                    </div>
+                    <input type="file" id="image" name="file" accept="image/*" style="display: none;" onchange="previewImage(this)">
+                    <span th:if="${#fields.hasErrors('image')}" th:errors="*{image}" class="error-message" style="color: #e74c3c; font-size: 0.9rem; display: block; margin-top: 5px; text-align: center;"></span>
                 </div>
 
-                <!-- Sezione Ingredienti -->
-                <div class="form-group">
-                    <label>Ingredienti</label>
+                <!-- Intestazione Ricetta (Destra) -->
+                <div class="recipe-info-container">
+                    <!-- Titolo -->
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <input type="text" id="title" th:field="*{title}" placeholder="Titolo della Ricetta" required style="font-size: 2.5rem; color: #2c3e50; width: 100%; border: none; border-bottom: 2px solid #eee; padding: 0.5rem 0; outline: none; background: transparent; font-weight: bold;">
+                        <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error-message" style="color: #e74c3c; font-size: 0.9rem;"></span>
+                    </div>
+
+                    <!-- Descrizione -->
+                    <div class="form-group" style="margin-bottom: 1.5rem;">
+                        <textarea id="description" th:field="*{description}" placeholder="Breve descrizione del piatto..." rows="3" style="width: 100%; border: 1px solid #eee; padding: 1rem; border-radius: 5px; font-size: 1.1rem; color: #7f8c8d; resize: vertical; font-family: inherit;"></textarea>
+                        <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error-message" style="color: #e74c3c; font-size: 0.9rem;"></span>
+                    </div>
+                    
+                    <!-- Info Block -->
+                    <div class="recipe-info-block" style="background-color: #f8f9fa; padding: 1.5rem; border-radius: 10px; border: 1px solid #eee;">
+                        <!-- Row 1: Author & Date (Static/Hidden for new recipe) -->
+                        <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1rem; color: #555;">
+                            <div>
+                                <i class="fas fa-user" style="color: #e67e22; margin-right: 5px;"></i> 
+                                <strong>Autore:</strong> <span th:text="${currentUser.name} + ' ' + ${currentUser.surname}">Mario Rossi</span>
+                            </div>
+                            <div>
+                                <i class="far fa-calendar-alt" style="color: #e67e22; margin-right: 5px;"></i>
+                                <strong>Data:</strong> <span th:text="${#temporals.format(#temporals.createNow(), 'dd/MM/yyyy')}">Oggi</span>
+                            </div>
+                        </div>
+
+                        <hr style="border: 0; border-top: 1px solid #ddd; margin: 1rem 0;">
+
+                        <!-- Row 2: Category, Time, Difficulty -->
+                        <div style="display: flex; flex-direction: column; gap: 0.8rem; color: #555;">
+                            <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
+                                <i class="fas fa-tag" style="color: #e67e22; margin-right: 5px; width: 20px;"></i>
+                                <strong style="margin-right: 10px;">Categoria:</strong>
+                                <input type="text" id="category" th:field="*{category}" placeholder="Es. Primi Piatti" list="categories" required style="border: 1px solid #ddd; padding: 0.3rem; border-radius: 4px; flex: 1;">
+                                <datalist id="categories">
+                                    <option value="Antipasti">
+                                    <option value="Primi Piatti">
+                                    <option value="Secondi Piatti">
+                                    <option value="Contorni">
+                                    <option value="Dolci">
+                                    <option value="Lievitati">
+                                    <option value="Bevande">
+                                </datalist>
+                            </div>
+                            <span th:if="${#fields.hasErrors('category')}" th:errors="*{category}" class="error-message" style="color: #e74c3c; font-size: 0.9rem; margin-left: 25px;"></span>
+
+                            <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
+                                <i class="far fa-clock" style="color: #e67e22; margin-right: 5px; width: 20px;"></i>
+                                <strong style="margin-right: 10px;">Tempo:</strong>
+                                <input type="number" id="prepTime" th:field="*{prepTime}" min="1" placeholder="30" required style="width: 80px; border: 1px solid #ddd; padding: 0.3rem; border-radius: 4px;"> <span style="margin-left: 5px;">min</span>
+                            </div>
+                            <span th:if="${#fields.hasErrors('prepTime')}" th:errors="*{prepTime}" class="error-message" style="color: #e74c3c; font-size: 0.9rem; margin-left: 25px;"></span>
+
+                            <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
+                                <i class="fas fa-signal" style="color: #e67e22; margin-right: 5px; width: 20px;"></i>
+                                <strong style="margin-right: 10px;">Difficoltà:</strong>
+                                <select id="difficulty" th:field="*{difficulty}" required style="border: 1px solid #ddd; padding: 0.3rem; border-radius: 4px; flex: 1;">
+                                    <option value="1">Facile</option>
+                                    <option value="2">Media</option>
+                                    <option value="3">Difficile</option>
+                                    <option value="4">Molto Difficile</option>
+                                    <option value="5">Da Chef</option>
+                                </select>
+                            </div>
+                            <span th:if="${#fields.hasErrors('difficulty')}" th:errors="*{difficulty}" class="error-message" style="color: #e74c3c; font-size: 0.9rem; margin-left: 25px;"></span>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 2rem;">
+                        <button type="submit" class="btn" style="background-color: #2ecc71; color: white; padding: 0.8rem 2rem; border-radius: 5px; border: none; font-size: 1.1rem; cursor: pointer; width: 100%; transition: background-color 0.3s;">
+                            <i class="fas fa-save"></i> Salva Ricetta
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recipe-detail-container">
+                <!-- Colonna Sinistra: Ingredienti -->
+                <aside class="ingredients-box">
+                    <h3 style="margin-bottom: 1.5rem; color: #e67e22;"><i class="fas fa-shopping-basket"></i> Ingredienti</h3>
+                    
                     <div id="ingredients-container">
-                        <div class="form-row ingredient-row" style="margin-bottom: 10px;">
-                            <div class="input-group" style="flex: 2;">
-                                <input type="text" name="ingName" placeholder="Nome (es. Farina)" required>
-                            </div>
-                            <div class="input-group" style="flex: 1;">
-                                <input type="text" name="ingQuantity" placeholder="Qt (es. 200)" required>
-                            </div>
-                            <div class="input-group" style="flex: 1;">
-                                <input type="text" name="ingUnit" placeholder="Unità di misura (es. g)">
-                            </div>
-                            <button type="button" class="btn btn-danger" onclick="removeRow(this)" style="padding: 0 10px; height: 42px; margin-top: 0;"><i class="fas fa-times"></i></button>
+                        <div class="form-row ingredient-row" style="margin-bottom: 10px; display: flex; gap: 5px;">
+                            <input type="text" name="ingName" placeholder="Nome (Es. Farina)" required style="flex: 2; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                            <input type="text" name="ingQuantity" placeholder="Quantità (Es. 200)" required style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                            <input type="text" name="ingUnit" placeholder="Unità di misura (Es. g)" style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                            <button type="button" class="btn btn-danger" onclick="removeRow(this)" style="padding: 0 10px; background-color: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer;"><i class="fas fa-times"></i></button>
                         </div>
                     </div>
-                    <button type="button" class="btn btn-secondary btn-sm" onclick="addIngredientRow()" style="margin-top: 5px;">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="addIngredientRow()" style="margin-top: 10px; width: 100%; padding: 0.5rem; background-color: #e67e22; color: white; border: none; border-radius: 4px; cursor: pointer;">
                         <i class="fas fa-plus"></i> Aggiungi Ingrediente
                     </button>
-                </div>
+                </aside>
 
-                <div class="form-group">
-                    <label for="procedure">Procedimento</label>
-                    <div class="input-group">
-                        <i class="fas fa-list-ol"></i>
-                        <textarea id="procedure" th:field="*{procedure}" placeholder="Descrivi i passaggi passo dopo passo..." rows="6"></textarea>
-                    </div>
-                    <span th:if="${#fields.hasErrors('procedure')}" th:errors="*{procedure}" class="error-message" style="margin-top: 0.5rem;"></span>
-                </div>
-
-                <div class="form-group">
-                    <label for="image">Immagine</label>
-                    <div class="input-group">
-                        <i class="fas fa-camera"></i>
-                        <input type="file" id="image" name="file" accept="image/*" style="padding-top: 0.7rem;">
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-block">Crea Ricetta</button>
-            </form>
-
-            <div class="auth-footer">
-                <p><a href="/profile">Annulla e torna al profilo</a></p>
+                <!-- Colonna Destra: Procedimento -->
+                <section class="procedure-box">
+                    <h3 style="margin-bottom: 1.5rem; color: #e67e22;"><i class="fas fa-list-ol"></i> Procedimento</h3>
+                    <textarea id="procedure" th:field="*{procedure}" placeholder="Descrivi i passaggi passo dopo passo..." rows="15" style="width: 100%; border: 1px solid #ddd; padding: 1rem; border-radius: 5px; font-size: 1.1rem; line-height: 1.6; resize: vertical; font-family: inherit;"></textarea>
+                    <span th:if="${#fields.hasErrors('procedure')}" th:errors="*{procedure}" class="error-message" style="color: #e74c3c; font-size: 0.9rem;"></span>
+                </section>
             </div>
-        </div>
+
+        </form>
+
     </main>
 
     <footer th:replace="~{fragments/base :: footer}"></footer>
@@ -191,17 +200,13 @@
             const row = document.createElement('div');
             row.className = 'form-row ingredient-row';
             row.style.marginBottom = '10px';
+            row.style.display = 'flex';
+            row.style.gap = '5px';
             row.innerHTML = `
-                <div class="input-group" style="flex: 2;">
-                    <input type="text" name="ingName" placeholder="Nome (es. Farina)" required>
-                </div>
-                <div class="input-group" style="flex: 1;">
-                    <input type="text" name="ingQuantity" placeholder="Qt (es. 200)" required>
-                </div>
-                <div class="input-group" style="flex: 1;">
-                    <input type="text" name="ingUnit" placeholder="Unità di misura (es. g)">
-                </div>
-                <button type="button" class="btn btn-danger" onclick="removeRow(this)" style="padding: 0 10px; height: 42px; margin-top: 0;"><i class="fas fa-times"></i></button>
+                <input type="text" name="ingName" placeholder="Es. Farina" required style="flex: 2; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                <input type="text" name="ingQuantity" placeholder="Quantità" required style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                <input type="text" name="ingUnit" placeholder="Unità di misura" style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                <button type="button" class="btn btn-danger" onclick="removeRow(this)" style="padding: 0 10px; background-color: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer;"><i class="fas fa-times"></i></button>
             `;
             container.appendChild(row);
         }
@@ -212,6 +217,18 @@
                 row.remove();
             } else {
                 row.querySelectorAll('input').forEach(input => input.value = '');
+            }
+        }
+
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImg').src = e.target.result;
+                    document.getElementById('previewImg').style.display = 'block';
+                    document.getElementById('placeholderContent').style.display = 'none';
+                }
+                reader.readAsDataURL(input.files[0]);
             }
         }
     </script>

@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import it.uniroma3.siw_recipes.model.Credentials;
 import it.uniroma3.siw_recipes.model.Ingredient;
 import it.uniroma3.siw_recipes.model.Recipe;
+import it.uniroma3.siw_recipes.model.User;
 import it.uniroma3.siw_recipes.service.CredentialsService;
 import it.uniroma3.siw_recipes.service.RecipeService;
 import jakarta.validation.Valid;
@@ -65,6 +66,7 @@ public class RecipeController {
     @GetMapping("/recipes/new")
     public String formNewRecipe(Model model) {
         model.addAttribute("recipe", new Recipe());
+        model.addAttribute("currentUser", this.getCurrentUser());
         return "formNewRecipe";
     }
 
@@ -75,7 +77,33 @@ public class RecipeController {
             @RequestParam(value = "ingQuantity", required = false) List<String> ingQuantities,
             @RequestParam(value = "ingUnit", required = false) List<String> ingUnits,
             Model model) {
+        
+        // Validazione Immagine: Obbligatoria per nuove ricette
+        if (file.isEmpty()) {
+            bindingResult.rejectValue("image", "required", "L'immagine è obbligatoria");
+        }
+
+        // Validazione Ingredienti: Se c'è il nome, deve esserci la quantità
+        boolean atLeastOneIngredient = false;
+        if (ingNames != null) {
+            for (int i = 0; i < ingNames.size(); i++) {
+                String name = ingNames.get(i);
+                if (name != null && !name.trim().isEmpty()) {
+                    atLeastOneIngredient = true;
+                    String qty = (ingQuantities != null && i < ingQuantities.size()) ? ingQuantities.get(i) : "";
+                    if (qty == null || qty.trim().isEmpty()) {
+                        bindingResult.reject("ingredients.quantity", "La quantità è obbligatoria per l'ingrediente: " + name);
+                    }
+                }
+            }
+        }
+        
+        if (!atLeastOneIngredient) {
+            bindingResult.reject("ingredients.empty", "Inserisci almeno un ingrediente");
+        }
+
         if (bindingResult.hasErrors()) {
+            model.addAttribute("currentUser", this.getCurrentUser());
             return "formNewRecipe";
         } else {
             UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -253,6 +281,7 @@ public class RecipeController {
             Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
             if (recipe.getAuthor().getId().equals(credentials.getUser().getId())) {
                 model.addAttribute("recipe", recipe);
+                model.addAttribute("currentUser", credentials.getUser());
                 return "formEditRecipe";
             }
         }
@@ -268,6 +297,7 @@ public class RecipeController {
             @RequestParam(value = "ingUnit", required = false) List<String> ingUnits,
             Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("currentUser", this.getCurrentUser());
             return "formEditRecipe";
         } else {
             Recipe oldRecipe = this.recipeService.getRecipe(id);
@@ -403,5 +433,15 @@ public class RecipeController {
             this.recipeService.saveRecipe(oldRecipe);
             return "redirect:/recipe/" + oldRecipe.getId();
         }
+    }
+
+    private User getCurrentUser() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) principal;
+            Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+            return credentials.getUser();
+        }
+        return null;
     }
 }

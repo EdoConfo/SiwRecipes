@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * La classe Ingredient rappresenta una riga nella lista della spesa di una ricetta.
@@ -32,6 +33,8 @@ public class Ingredient {
     private String name;
 
     /* Quantità dell'ingrediente (es. "200", "1/2") */
+    @Column(nullable = false)
+    @NotBlank
     private String quantity;
 
     /* Unità di misura (es. "g", "ml", "cucchiai") */
