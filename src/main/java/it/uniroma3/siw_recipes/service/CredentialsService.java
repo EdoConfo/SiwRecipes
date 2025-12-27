@@ -51,6 +51,16 @@ public class CredentialsService {
         Optional<Credentials> result = this.credentialsRepository.findById(id);
         return result.orElse(null);
     }
+    
+    @Transactional(readOnly = true)
+    public Iterable<Credentials> getAllCredentials() {
+        return this.credentialsRepository.findAll();
+    }
+    
+    @Transactional
+    public Credentials updateCredentials(Credentials credentials) {
+        return this.credentialsRepository.save(credentials);
+    }
 
     /**
      * Salva le credenziali nel database, cifrando la password e assegnando il ruolo di default.

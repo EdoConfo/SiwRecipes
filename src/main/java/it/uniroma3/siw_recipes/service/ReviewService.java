@@ -1,11 +1,13 @@
 package it.uniroma3.siw_recipes.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.uniroma3.siw_recipes.model.Recipe;
 import it.uniroma3.siw_recipes.model.Review;
 import it.uniroma3.siw_recipes.repository.ReviewRepository;
 
@@ -49,5 +51,15 @@ public class ReviewService {
     public Review getReview(Long id) {
         Optional<Review> result = this.reviewRepository.findById(id);
         return result.orElse(null);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Review> getReviewsByRecipe(Recipe recipe) {
+        return this.reviewRepository.findByRecipe(recipe);
+    }
+
+    @Transactional
+    public void deleteReview(Long id) {
+        this.reviewRepository.deleteById(id);
     }
 }

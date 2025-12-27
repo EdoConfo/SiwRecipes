@@ -45,7 +45,15 @@ public class RecipeService {
     @Transactional(readOnly = true)
     public Recipe getRecipe(Long id) {
         Optional<Recipe> result = this.recipeRepository.findById(id);
-        return result.orElse(null);
+        if (result.isPresent()) {
+            Recipe recipe = result.get();
+            // Inizializza gli ingredienti per evitare LazyInitializationException
+            if (recipe.getIngredients() != null) {
+                recipe.getIngredients().size();
+            }
+            return recipe;
+        }
+        return null;
     }
 
     /**

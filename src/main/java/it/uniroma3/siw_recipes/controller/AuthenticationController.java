@@ -53,12 +53,7 @@ public class AuthenticationController {
 	        return "home";
 		}
 		else {		
-			UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-			if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
-				return "admin/indexAdmin";
-			}
-            // Se è un utente normale, lo mandiamo alla home page
+            // Sia admin che utenti normali vanno alla home page
             model.addAttribute("latestRecipes", this.recipeService.getLastRecipes());
             return "home";
         }
@@ -78,13 +73,7 @@ public class AuthenticationController {
 		
     @GetMapping(value = "/success")
     public String defaultAfterLogin(Model model) {
-        
-    	UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    	Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-    	if (credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
-            return "admin/indexAdmin";
-        }
-        return "index";
+        return "redirect:/";
     }
 
 	@PostMapping(value = { "/register" })

@@ -46,7 +46,7 @@ public class AuthConfiguration {
         auth.jdbcAuthentication()
                 .dataSource(dataSource)
                 .authoritiesByUsernameQuery("SELECT username, role FROM credentials WHERE username=?")
-                .usersByUsernameQuery("SELECT username, password, 1 as enabled FROM credentials WHERE username=?");
+                .usersByUsernameQuery("SELECT username, password, enabled FROM credentials WHERE username=?");
     }
 
     @Bean

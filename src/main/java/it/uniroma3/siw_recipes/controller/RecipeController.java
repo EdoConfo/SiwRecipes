@@ -28,9 +28,11 @@ import org.springframework.web.multipart.MultipartFile;
 import it.uniroma3.siw_recipes.model.Credentials;
 import it.uniroma3.siw_recipes.model.Ingredient;
 import it.uniroma3.siw_recipes.model.Recipe;
+import it.uniroma3.siw_recipes.model.Review;
 import it.uniroma3.siw_recipes.model.User;
 import it.uniroma3.siw_recipes.service.CredentialsService;
 import it.uniroma3.siw_recipes.service.RecipeService;
+import it.uniroma3.siw_recipes.service.ReviewService;
 import jakarta.validation.Valid;
 
 /**
@@ -62,6 +64,9 @@ public class RecipeController {
 
     @Autowired
     private CredentialsService credentialsService;
+
+    @Autowired
+    private ReviewService reviewService;
 
     @GetMapping("/recipes/new")
     public String formNewRecipe(Model model) {
@@ -224,20 +229,40 @@ public class RecipeController {
      * @return Il nome della vista di dettaglio o la lista se non trovata.
      */
     @GetMapping("/recipe/{id}")
-    public String getRecipe(@PathVariable("id") Long id, Model model) {
+    public String getRecipe(@PathVariable("id") Long id, @RequestParam(required = false) Long editingReviewId, Model model) {
         // Cerchiamo la ricetta per ID
         Recipe recipe = this.recipeService.getRecipe(id);
 
         if (recipe != null) {
+            // Carichiamo esplicitamente le recensioni per evitare LazyInitializationException
+            recipe.setReviews(this.reviewService.getReviewsByRecipe(recipe));
+            
             // Se esiste, la mettiamo nel modello
             model.addAttribute("recipe", recipe);
+            model.addAttribute("editingReviewId", editingReviewId);
+            
+            // Se siamo in modalità modifica, carichiamo la recensione nel model per il form
+            if (editingReviewId != null) {
+                Review reviewToEdit = this.reviewService.getReview(editingReviewId);
+                if (reviewToEdit != null) {
+                    model.addAttribute("review", reviewToEdit);
+                }
+            }
             
             // Aggiungiamo l'utente corrente se loggato
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (principal instanceof UserDetails) {
-                UserDetails userDetails = (UserDetails) principal;
-                Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-                model.addAttribute("currentUser", credentials.getUser());
+            User currentUser = this.getCurrentUser();
+            if (currentUser != null) {
+                model.addAttribute("currentUser", currentUser);
+                
+                Credentials credentials = this.getCurrentCredentials();
+                if (credentials != null && credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+                    model.addAttribute("isAdmin", true);
+                }
+                
+                // Se l'utente non è l'autore, prepara l'oggetto per la recensione
+                if (recipe.getAuthor() != null && !recipe.getAuthor().getId().equals(currentUser.getId())) {
+                    model.addAttribute("newReview", new Review());
+                }
             }
             
             return "recipe"; // Mostra recipe.html
@@ -248,13 +273,102 @@ public class RecipeController {
         }
     }
 
+    @PostMapping("/recipe/{recipeId}/review")
+    public String addReview(@PathVariable("recipeId") Long recipeId, @Valid @ModelAttribute("newReview") Review review, BindingResult bindingResult, Model model) {
+        Recipe recipe = this.recipeService.getRecipe(recipeId);
+        if (recipe == null) return "redirect:/recipes";
+        
+        User currentUser = this.getCurrentUser();
+        if (currentUser == null) {
+            return "redirect:/login";
+        }
+        
+        if (recipe.getAuthor() != null && recipe.getAuthor().getId().equals(currentUser.getId())) {
+            return "redirect:/recipe/" + recipeId;
+        }
+        
+        if (bindingResult.hasErrors()) {
+            // Ricarichiamo le recensioni per la vista
+            recipe.setReviews(this.reviewService.getReviewsByRecipe(recipe));
+            
+            model.addAttribute("recipe", recipe);
+            model.addAttribute("currentUser", currentUser);
+            return "recipe";
+        }
+        
+        review.setAuthor(currentUser);
+        review.setRecipe(recipe);
+        this.reviewService.saveReview(review);
+        
+        return "redirect:/recipe/" + recipeId;
+    }
+
+    @GetMapping("/review/{id}/edit")
+    public String editReview(@PathVariable("id") Long id, Model model) {
+        Review review = this.reviewService.getReview(id);
+        if (review != null) {
+            User currentUser = this.getCurrentUser();
+            if (currentUser != null && review.getAuthor().getId().equals(currentUser.getId())) {
+                // Redirect alla pagina della ricetta con parametro per attivare la modifica inline
+                return "redirect:/recipe/" + review.getRecipe().getId() + "?editingReviewId=" + id + "#review-" + id;
+            }
+        }
+        return "redirect:/recipes";
+    }
+
+    @PostMapping("/review/{id}/update")
+    public String updateReview(@PathVariable("id") Long id, @Valid @ModelAttribute("review") Review review, BindingResult bindingResult, Model model) {
+        Review oldReview = this.reviewService.getReview(id);
+        if (oldReview == null) return "redirect:/recipes";
+        
+        User currentUser = this.getCurrentUser();
+        if (currentUser == null || !oldReview.getAuthor().getId().equals(currentUser.getId())) {
+            return "redirect:/recipes";
+        }
+
+        if (bindingResult.hasErrors()) {
+            // Ricarichiamo la pagina della ricetta mantenendo lo stato di modifica
+            Recipe recipe = oldReview.getRecipe();
+            recipe.setReviews(this.reviewService.getReviewsByRecipe(recipe));
+            
+            model.addAttribute("recipe", recipe);
+            model.addAttribute("currentUser", currentUser);
+            model.addAttribute("editingReviewId", id);
+            // 'review' (con errori) è già nel model grazie a @ModelAttribute
+            
+            return "recipe";
+        }
+
+        oldReview.setTitle(review.getTitle());
+        oldReview.setText(review.getText());
+        oldReview.setRating(review.getRating());
+        
+        this.reviewService.saveReview(oldReview);
+        return "redirect:/recipe/" + oldReview.getRecipe().getId() + "#review-" + id;
+    }
+
+    @GetMapping("/review/{id}/delete")
+    public String deleteReview(@PathVariable("id") Long id) {
+        Review review = this.reviewService.getReview(id);
+        if (review != null) {
+            Credentials credentials = this.getCurrentCredentials();
+            if (credentials != null && (credentials.getRole().equals(Credentials.ADMIN_ROLE) || 
+                (credentials.getUser() != null && review.getAuthor().getId().equals(credentials.getUser().getId())))) {
+                Long recipeId = review.getRecipe().getId();
+                this.reviewService.deleteReview(id);
+                return "redirect:/recipe/" + recipeId;
+            }
+        }
+        return "redirect:/recipes";
+    }
+
     @GetMapping("/recipe/{id}/delete")
     public String deleteRecipe(@PathVariable("id") Long id) {
         Recipe recipe = this.recipeService.getRecipe(id);
         if (recipe != null) {
-            UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-            if (recipe.getAuthor().getId().equals(credentials.getUser().getId())) {
+            Credentials credentials = this.getCurrentCredentials();
+            if (credentials != null && (credentials.getRole().equals(Credentials.ADMIN_ROLE) || 
+                (credentials.getUser() != null && recipe.getAuthor().getId().equals(credentials.getUser().getId())))) {
                 // Elimina l'immagine associata se esiste
                 if (recipe.getImage() != null) {
                     String uploadDirSrc = "src/main/resources/static/images/uploads/";
@@ -440,7 +554,18 @@ public class RecipeController {
         if (principal instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) principal;
             Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-            return credentials.getUser();
+            if (credentials != null) {
+                return credentials.getUser();
+            }
+        }
+        return null;
+    }
+    
+    private Credentials getCurrentCredentials() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) principal;
+            return credentialsService.getCredentials(userDetails.getUsername());
         }
         return null;
     }

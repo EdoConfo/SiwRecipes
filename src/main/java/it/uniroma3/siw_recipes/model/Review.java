@@ -9,6 +9,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * La classe Review rappresenta l'opinione di un utente su una ricetta.
@@ -31,16 +35,20 @@ public class Review {
     private Long id;
 
     /* Titolo della recensione */
+    @NotBlank
     private String title;
 
     /* Testo della recensione */
     @Column(length = 1000)
+    @NotBlank
     private String text;
 
     /* Valutazione numerica (es. da 1 a 5 stelle) */
-    private int rating;
+    @NotNull
+    @Min(1)
+    @Max(5)
+    private Integer rating;
 
-    /* Data di inserimento della recensione */
     private LocalDateTime creationDate;
 
     /*
@@ -67,7 +75,7 @@ public class Review {
     }
 
     /* COSTRUTTORE CON PARAMETRI */
-    public Review(String title, String text, int rating) {
+    public Review(String title, String text, Integer rating) {
         this();
         this.title = title;
         this.text = text;
@@ -100,11 +108,11 @@ public class Review {
         this.text = text;
     }
 
-    public int getRating() {
+    public Integer getRating() {
         return rating;
     }
 
-    public void setRating(int rating) {
+    public void setRating(Integer rating) {
         this.rating = rating;
     }
 

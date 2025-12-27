@@ -2,7 +2,9 @@ package it.uniroma3.siw_recipes.repository;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 
 import it.uniroma3.siw_recipes.model.Recipe;
 import it.uniroma3.siw_recipes.model.Review;
@@ -17,6 +19,7 @@ import it.uniroma3.siw_recipes.model.Review;
  */
 public interface ReviewRepository extends CrudRepository<Review, Long> {
     
-    /* Trova tutte le recensioni associate a una specifica ricetta */
-    List<Review> findByRecipe(Recipe recipe);
+    /* Trova tutte le recensioni associate a una specifica ricetta, escludendo quelle di utenti bannati */
+    @Query("SELECT r FROM Review r WHERE r.recipe = :recipe AND r.author.credentials.enabled = true")
+    List<Review> findByRecipe(@Param("recipe") Recipe recipe);
 }

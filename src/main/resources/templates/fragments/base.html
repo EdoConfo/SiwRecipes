@@ -25,6 +25,7 @@
                 </div>
                 <div th:unless="${#authentication == null || #authorization.expression('isAnonymous()')}">
                     <span style="margin-right: 10px;">Ciao, <span th:text="${#authentication.name}">User</span>!</span>
+                    <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" href="/admin/indexAdmin" class="btn btn-register" style="background-color: #e74c3c; border-color: #e74c3c; margin-right: 10px;">Admin</a>
                     <a href="/profile" class="btn btn-register" style="margin-right: 10px;">Area Personale</a>
                     <a href="/logout" class="btn btn-login">Logout</a>
                 </div>

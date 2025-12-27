@@ -54,6 +54,9 @@ public class Credentials {
      */
     @Column(nullable = false)
     private String role;
+    
+    @Column(nullable = false)
+    private boolean enabled = true;
 
     /*
      * RELAZIONE CON USER
@@ -106,6 +109,14 @@ public class Credentials {
 
     public void setRole(String role) {
         this.role = role;
+    }
+    
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public User getUser() {
