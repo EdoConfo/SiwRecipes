@@ -1,4 +1,4 @@
-/* Dati iniziali salvati automaticamente su Edoardo-Pc dom 28 dic 2025 14:29:26 CET */
+/* Dati iniziali salvati automaticamente su Edoardo's MacBook Pro Dom 28 Dic 2025 14:30:55 CET */
 
 -- Dump dati per la tabella: users
 INSERT INTO public.users (date_of_birth, id, email, name, surname) VALUES (NULL, 1, 'edo.conforti@stud.uniroma3.it', 'Edoardo', 'Conforti');
