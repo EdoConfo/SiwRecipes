@@ -18,7 +18,8 @@ $utf8NoBom = New-Object System.Text.UTF8Encoding $false
 
 # Inizializza il contenuto del file
 $content = New-Object System.Collections.Generic.List[string]
-$content.Add("/* Dati iniziali salvati automaticamente il $(Get-Date) */")
+$dateStr = Get-Date -Format "ddd dd MMM yyyy HH:mm:ss"
+$content.Add("/* Dati iniziali salvati automaticamente su Edoardo-Pc $dateStr CET */")
 $content.Add("")
 
 # Funzione helper per dumpare una tabella

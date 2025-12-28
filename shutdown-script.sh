@@ -8,7 +8,7 @@ DB_PORT="5432"
 DB_USER="postgres"
 
 # Sovrascrive il file con l'intestazione
-echo "/* Dati iniziali salvati automaticamente il $(date) */" > "$SQL_FILE"
+echo "/* Dati iniziali salvati automaticamente su Edoardo's MacBook Pro $(date '+%a %d %b %Y %H:%M:%S %Z') */" > "$SQL_FILE"
 echo "" >> "$SQL_FILE"
 
 # Funzione per dumpare una tabella
