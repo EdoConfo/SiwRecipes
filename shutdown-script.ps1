@@ -1,38 +1,65 @@
 # Script PowerShell per il dump dei dati su Windows
+# Versione migliorata per gestire correttamente UTF-8 senza BOM e caratteri accentati
 
 $SQL_FILE = "src\main\resources\data.sql"
 $DB_NAME = "SiwRecipes"
 $DB_HOST = "localhost"
 $DB_PORT = "5432"
 $DB_USER = "postgres"
+$DB_PASSWORD = "postgres"
 
-# Sovrascrive il file con l'intestazione
-Set-Content -Path $SQL_FILE -Value "/* Dati iniziali salvati automaticamente il $(Get-Date) */"
-Add-Content -Path $SQL_FILE -Value ""
+# Configura la console per usare UTF-8
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+$env:PGCLIENTENCODING = "UTF8"
+$env:PGPASSWORD = $DB_PASSWORD
+
+# Prepara l'encoding UTF-8 senza BOM
+$utf8NoBom = New-Object System.Text.UTF8Encoding $false
+
+# Inizializza il contenuto del file
+$content = New-Object System.Collections.Generic.List[string]
+$content.Add("/* Dati iniziali salvati automaticamente il $(Get-Date) */")
+$content.Add("")
 
 # Funzione helper per dumpare una tabella
-function Dump-Table {
+function Get-TableDump {
     param (
         [string]$TableName
     )
-    Add-Content -Path $SQL_FILE -Value "-- Dump dati per la tabella: $TableName"
+    $localLines = New-Object System.Collections.Generic.List[string]
+    $localLines.Add("-- Dump dati per la tabella: $TableName")
     
-    # Esegue pg_dump e filtra solo le righe che iniziano con INSERT
-    pg_dump.exe --username $DB_USER --dbname $DB_NAME --host $DB_HOST --port $DB_PORT --table "public.$TableName" --data-only --column-inserts | Select-String -Pattern "^INSERT" | Add-Content -Path $SQL_FILE
+    # Esegue pg_dump
+    # Nota: Usiamo cmd /c per assicurarci che l'encoding della pipe sia gestito correttamente
+    $dumpOutput = cmd /c "pg_dump.exe --username $DB_USER --dbname $DB_NAME --host $DB_HOST --port $DB_PORT --table public.$TableName --data-only --column-inserts"
+
+    if ($dumpOutput) {
+        foreach ($line in $dumpOutput) {
+            # Filtra le righe indesiderate
+            if ($line -notmatch "^--" -and 
+                $line -notmatch "^SET" -and 
+                $line -notmatch "^SELECT pg_catalog" -and 
+                $line -notmatch "^\\" -and 
+                $line -notmatch "^$") {
+                $localLines.Add($line)
+            }
+        }
+    }
     
-    Add-Content -Path $SQL_FILE -Value ""
+    $localLines.Add("")
+    return $localLines
 }
 
-# Dump delle tabelle (Ordine: Users -> Credentials -> Recipe -> Ingredient, Review)
-Dump-Table "users"
-Dump-Table "credentials"
-Dump-Table "recipe"
-Dump-Table "ingredient"
-Dump-Table "review"
+# Raccogli i dati
+$content.AddRange([string[]](Get-TableDump "users"))
+$content.AddRange([string[]](Get-TableDump "credentials"))
+$content.AddRange([string[]](Get-TableDump "recipe"))
+$content.AddRange([string[]](Get-TableDump "ingredient"))
+$content.AddRange([string[]](Get-TableDump "review"))
 
 # Reset delle sequenze
-Add-Content -Path $SQL_FILE -Value ""
-Add-Content -Path $SQL_FILE -Value "-- Reset delle sequenze per la generazione degli ID"
+$content.Add("")
+$content.Add("-- Reset delle sequenze per la generazione degli ID")
 
 $sequences = @(
     @{Seq="credentials_seq"; Table="credentials"},
@@ -44,7 +71,10 @@ $sequences = @(
 
 foreach ($item in $sequences) {
     $cmd = "SELECT setval('$($item.Seq)', (SELECT MAX(id) FROM public.$($item.Table)));"
-    Add-Content -Path $SQL_FILE -Value $cmd
+    $content.Add($cmd)
 }
 
-Write-Host "Dump completato in $SQL_FILE"
+# Scrivi tutto su file in un colpo solo usando UTF-8 senza BOM
+[System.IO.File]::WriteAllLines($SQL_FILE, $content, $utf8NoBom)
+
+Write-Host "Dump completato in $SQL_FILE (UTF-8 No BOM)"

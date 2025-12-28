@@ -1,4 +1,4 @@
-/* Dati iniziali salvati automaticamente il Dom 28 Dic 2025 11:01:03 CET */
+/* Dati iniziali salvati automaticamente il 12/28/2025 14:08:23 */
 
 -- Dump dati per la tabella: users
 INSERT INTO public.users (date_of_birth, id, email, name, surname) VALUES (NULL, 1, 'edo.conforti@stud.uniroma3.it', 'Edoardo', 'Conforti');
