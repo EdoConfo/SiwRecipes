@@ -1,4 +1,4 @@
-/* Dati iniziali salvati automaticamente il Sab 27 Dic 2025 18:30:00 CET */
+/* Dati iniziali salvati automaticamente il Dom 28 Dic 2025 01:59:27 CET */
 
 -- Dump dati per la tabella: users
 INSERT INTO public.users (date_of_birth, id, email, name, surname) VALUES (NULL, 1, 'edo.conforti@stud.uniroma3.it', 'Edoardo', 'Conforti');
@@ -19,220 +19,220 @@ INSERT INTO public.credentials (enabled, id, user_id, password, role, username) 
 INSERT INTO public.credentials (enabled, id, user_id, password, role, username) VALUES (true, 7, 7, '$2a$10$fu.tfs0N2p2PYsC8L6GGKu3DI/iDrGFveDCsYsZH2dlkg/0xyKpyK', 'DEFAULT', 'Matty');
 
 -- Dump dati per la tabella: recipe
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (1, 'Carbonara Romana', 'Un classico della cucina romana.
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (2, 25, 1, '2025-01-15 12:30:00', 1, 'Un classico della cucina romana.
 Cremosa e saporita, senza panna!', '1. Cuocere la pasta in acqua bollente salata.
 2. Rosolare il guanciale in padella.
 3. Sbattere i tuorli con il pecorino e pepe.
-4. Scolare la pasta e mantecare fuori dal fuoco con le uova.', 'Primi Piatti', 2, 25, '2025-01-15 12:30:00', 1, 'Conforti-Edoardo-titolo-1766854366928.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (2, 'Tiramisù Classico', 'Il dolce italiano più amato nel mondo.
+4. Scolare la pasta e mantecare fuori dal fuoco con le uova.', 'Primi Piatti', 'Conforti-Edoardo-carbonara-romana-1766876115290.jpg', 'Carbonara Romana');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (2, 40, 2, '2025-02-10 14:15:00', 2, 'Il dolce italiano più amato nel mondo.
 Perfetto per ogni occasione.', '1. Preparare il caffè e lasciarlo raffreddare.
 2. Montare i tuorli con lo zucchero e il mascarpone.
 3. Inzuppare i savoiardi nel caffè e creare strati alternati con la crema.
-4. Spolverare con cacao amaro.', 'Dolci', 2, 40, '2025-02-10 14:15:00', 2, 'Tabacchini-Tommaso-Tiramisù-Classico-1707574500.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (3, 'Lasagna alla Bolognese', 'Ricca e sostanziosa.
+4. Spolverare con cacao amaro.', 'Dolci', 'Tabacchini-Tommaso-tiramisù-classico-1766876939485.avif', 'Tiramisù Classico');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (3, 120, 3, '2025-03-05 09:00:00', 3, 'Ricca e sostanziosa.
 Il piatto della domenica per eccellenza.', '1. Preparare il ragù alla bolognese con lunga cottura.
 2. Preparare la besciamella.
 3. Alternare strati di sfoglia, ragù, besciamella e parmigiano.
-4. Infornare a 180 gradi per 40 minuti.', 'Primi Piatti', 3, 120, '2025-03-05 09:00:00', 3, 'Orlandi-Emanuele-Lasagna-alla-Bolognese-1709629200.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (4, 'Pizza Margherita', 'La regina delle pizze.
+4. Infornare a 180 gradi per 40 minuti.', 'Primi Piatti', 'Orlandi-Emanuele-lasagna-alla-bolognese-1766876424140.jpg', 'Lasagna alla Bolognese');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (3, 30, 5, '2025-01-20 19:30:00', 4, 'La regina delle pizze.
 Semplice ma insuperabile.', '1. Impastare farina, acqua, lievito e sale.
 2. Lasciar lievitare per 24 ore.
 3. Stendere il disco e condire con pomodoro e mozzarella.
-4. Cuocere in forno al massimo della temperatura.', 'Lievitati', 3, 30, '2025-01-20 19:30:00', 5, 'Sprynskyy-Nazar-Pizza-Margherita-1705779000.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (5, 'Risotto ai Funghi', 'Cremoso e profumato.
+4. Cuocere in forno al massimo della temperatura.', 'Lievitati', 'Sprynskyy-Nazar-pizza-margherita-1766877701535.jpg', 'Pizza Margherita');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (3, 45, 6, '2025-04-12 20:00:00', 5, 'Cremoso e profumato.
 Ideale per le cene autunnali.', '1. Tostare il riso con un soffritto di cipolla.
 2. Sfumare con vino bianco.
 3. Aggiungere il brodo poco alla volta.
 4. A metà cottura unire i funghi porcini.
-5. Mantecare con burro e parmigiano.', 'Primi Piatti', 3, 45, '2025-04-12 20:00:00', 6, 'Di Lorenzo-Daniele-Risotto-ai-Funghi-1712952000.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (6, 'Cotoletta alla Milanese', 'Croccante fuori, tenera dentro.
+5. Mantecare con burro e parmigiano.', 'Primi Piatti', 'Di Lorenzo-Daniele-risotto-ai-funghi-1766877179583.jpg', 'Risotto ai Funghi');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (2, 30, 7, '2025-02-28 13:00:00', 6, 'Croccante fuori, tenera dentro.
 Un secondo piatto intramontabile.', '1. Battere le fettine di vitello.
 2. Passarle nella farina, poi nell''uovo sbattuto, infine nel pangrattato.
-3. Friggere nel burro chiarificato fino a doratura.', 'Secondi Piatti', 2, 30, '2025-02-28 13:00:00', 7, 'Ambrosio-Mattia-Cotoletta-alla-Milanese-1709125200.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (7, 'Spritz Aperol', 'L''aperitivo italiano per eccellenza.
+3. Friggere nel burro chiarificato fino a doratura.', 'Secondi Piatti', 'Ambrosio-Mattia-cotoletta-alla-milanese-1766877518296.avif', 'Cotoletta alla Milanese');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (1, 5, 1, '2025-05-01 18:00:00', 7, 'L''aperitivo italiano per eccellenza.
 Fresco e dissetante.', '1. Riempire un calice di ghiaccio.
 2. Versare 3 parti di Prosecco.
 3. Aggiungere 2 parti di Aperol.
-4. Completare con 1 parte di Soda e una fetta d''arancia.', 'Bevande', 1, 5, '2025-05-01 18:00:00', 1, 'Conforti-Edoardo-Spritz-Aperol-1714586400.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (8, 'Insalata Caprese', 'I colori dell''Italia nel piatto.
+4. Completare con 1 parte di Soda e una fetta d''arancia.', 'Bevande', 'Conforti-Edoardo-spritz-aperol-1766876753296.avif', 'Spritz Aperol');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (1, 10, 4, '2025-06-15 12:00:00', 8, 'I colori dell''Italia nel piatto.
 Fresca e leggera.', '1. Tagliare i pomodori e la mozzarella a fette.
 2. Disporre alternati su un piatto.
-3. Condire con olio, sale, origano e basilico fresco.', 'Antipasti', 1, 10, '2025-06-15 12:00:00', 4, 'Conforti-Edoardo-Insalata-Caprese-1718452800.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (9, 'Pollo al Forno con Patate', 'Il classico pranzo della domenica.
+3. Condire con olio, sale, origano e basilico fresco.', 'Antipasti', 'Conforti-Edoardo-insalata-caprese-1766876162521.jpg', 'Insalata Caprese');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (1, 70, 2, '2025-01-10 11:00:00', 9, 'Il classico pranzo della domenica.
 Semplice e gustoso.', '1. Tagliare le patate a spicchi.
 2. Condire pollo e patate con olio, sale e rosmarino.
-3. Infornare a 200 gradi per circa un''ora.', 'Secondi Piatti', 1, 70, '2025-01-10 11:00:00', 2, 'Tabacchini-Tommaso-Pollo-al-Forno-con-Patate-1704884400.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (10, 'Focaccia Genovese', 'Alta, soffice e unta al punto giusto.
+3. Infornare a 200 gradi per circa un''ora.', 'Secondi Piatti', 'Tabacchini-Tommaso-pollo-al-forno-con-patate-1766876996338.jpg', 'Pollo al Forno con Patate');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (3, 180, 3, '2025-03-20 16:00:00', 10, 'Alta, soffice e unta al punto giusto.
 Perfetta per la merenda.', '1. Preparare l''impasto e stenderlo in teglia.
 2. Creare i buchi con le dita.
 3. Emulsionare acqua e olio e versare sopra.
-4. Cospargere di sale grosso e cuocere.', 'Lievitati', 3, 180, '2025-03-20 16:00:00', 3, 'Orlandi-Emanuele-Focaccia-Genovese-1710946800.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (11, 'Verdure Grigliate', 'Contorno sano e colorato.
+4. Cospargere di sale grosso e cuocere.', 'Lievitati', 'Orlandi-Emanuele-focaccia-genovese-1766876464975.jpg', 'Focaccia Genovese');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (1, 20, 5, '2025-04-05 19:00:00', 11, 'Contorno sano e colorato.
 Ottimo accompagnamento per carne e pesce.', '1. Lavare e tagliare le verdure a fette.
 2. Grigliare su piastra ben calda.
-3. Condire con olio, aglio e prezzemolo.', 'Contorni', 1, 20, '2025-04-05 19:00:00', 5, 'Sprynskyy-Nazar-Verdure-Grigliate-1712343600.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (12, 'Torta di Mele', 'Il dolce della nonna.
+3. Condire con olio, aglio e prezzemolo.', 'Contorni', 'Sprynskyy-Nazar-verdure-grigliate-1766877766017.jpg', 'Verdure Grigliate');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (2, 60, 6, '2025-02-15 15:30:00', 12, 'Il dolce della nonna.
 Soffice e profumato alla cannella.', '1. Sbucciare e tagliare le mele.
 2. Preparare l''impasto con uova, zucchero e farina.
 3. Unire le mele e versare nello stampo.
-4. Cuocere in forno a 180 gradi.', 'Dolci', 2, 60, '2025-02-15 15:30:00', 6, 'Di Lorenzo-Daniele-Torta-di-Mele-1708007400.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (13, 'Pasta al Pesto', 'Un primo piatto veloce e profumato.
+4. Cuocere in forno a 180 gradi.', 'Dolci', 'Di Lorenzo-Daniele-torta-di-mele-1766877278998.jpg', 'Torta di Mele');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (1, 15, 7, '2025-05-10 13:15:00', 13, 'Un primo piatto veloce e profumato.
 Il sapore della Liguria.', '1. Pestare basilico, pinoli, aglio e formaggi nel mortaio (o frullare).
 2. Aggiungere olio a filo.
-3. Condire la pasta cotta al dente, aggiungendo un po'' di acqua di cottura.', 'Primi Piatti', 1, 15, '2025-05-10 13:15:00', 7, 'Ambrosio-Mattia-Pasta-al-Pesto-1715346900.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (14, 'Orata al Cartoccio', 'Pesce leggero e saporito.
+3. Condire la pasta cotta al dente, aggiungendo un po'' di acqua di cottura.', 'Primi Piatti', 'Ambrosio-Mattia-pasta-al-pesto-1766877606102.avif', 'Pasta al Pesto');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (2, 30, 1, '2025-06-01 20:30:00', 14, 'Pesce leggero e saporito.
 Cottura sana che mantiene i sapori.', '1. Pulire l''orata.
 2. Adagiare su carta forno con pomodorini e capperi.
-3. Chiudere il cartoccio e infornare per 20 minuti.', 'Secondi Piatti', 2, 30, '2025-06-01 20:30:00', 1, 'Conforti-Edoardo-Orata-al-Cartoccio-1717273800.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (15, 'Bruschetta al Pomodoro', 'Antipasto rustico e saporito.
+3. Chiudere il cartoccio e infornare per 20 minuti.', 'Secondi Piatti', 'Conforti-Edoardo-orata-al-cartoccio-1766876769732.jpg', 'Orata al Cartoccio');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (1, 10, 2, '2025-07-01 19:00:00', 15, 'Antipasto rustico e saporito.
 L''inizio perfetto per una cena.', '1. Tostare le fette di pane casereccio.
 2. Strofinare con aglio fresco.
-3. Condire con pomodori a cubetti, olio e basilico.', 'Antipasti', 1, 10, '2025-07-01 19:00:00', 2, 'Tabacchini-Tommaso-Bruschetta-al-Pomodoro-1719860400.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (16, 'Patate al Forno Croccanti', 'Il contorno che piace a tutti.
+3. Condire con pomodori a cubetti, olio e basilico.', 'Antipasti', 'Tabacchini-Tommaso-bruschetta-al-pomodoro-1766877024506.jpg', 'Bruschetta al Pomodoro');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (1, 50, 3, '2025-01-25 12:45:00', 16, 'Il contorno che piace a tutti.
 Croccanti fuori e morbide dentro.', '1. Sbollentare le patate per 5 minuti.
 2. Condire con olio e rosmarino.
-3. Infornare a temperatura alta finché non sono dorate.', 'Contorni', 1, 50, '2025-01-25 12:45:00', 3, 'Orlandi-Emanuele-Patate-al-Forno-Croccanti-1706186700.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (17, 'Negroni Sbagliato', 'Un cocktail nato per errore.
+3. Infornare a temperatura alta finché non sono dorate.', 'Contorni', 'Orlandi-Emanuele-patate-al-forno-croccanti-1766876487474.jpg', 'Patate al Forno Croccanti');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (1, 5, 4, '2025-03-15 18:30:00', 17, 'Un cocktail nato per errore.
 Meno alcolico del classico, ma delizioso.', '1. Mettere ghiaccio nel bicchiere.
 2. Versare Vermouth Rosso e Campari.
-3. Completare con Spumante Brut invece del Gin.', 'Bevande', 1, 5, '2025-03-15 18:30:00', 4, 'Conforti-Edoardo-Negroni-Sbagliato-1710527400.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (18, 'Panzerotti Fritti', 'Specialità pugliese.
+3. Completare con Spumante Brut invece del Gin.', 'Bevande', 'Conforti-Edoardo-negroni-sbagliato-1766877994108.jpg', 'Negroni Sbagliato');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (3, 90, 5, '2025-04-20 20:00:00', 18, 'Specialità pugliese.
 Calzoni fritti ripieni di bontà.', '1. Preparare l''impasto per pizza.
 2. Stendere dei dischi piccoli.
 3. Farcire con pomodoro e mozzarella.
-4. Richiudere a mezzaluna e friggere in olio bollente.', 'Lievitati', 3, 90, '2025-04-20 20:00:00', 5, 'Sprynskyy-Nazar-Panzerotti-Fritti-1713643200.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (19, 'Cannoli Siciliani', 'Il re della pasticceria siciliana.
+4. Richiudere a mezzaluna e friggere in olio bollente.', 'Lievitati', 'Sprynskyy-Nazar-panzerotti-fritti-1766877816475.avif', 'Panzerotti Fritti');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (4, 60, 6, '2025-05-25 14:00:00', 19, 'Il re della pasticceria siciliana.
 Cialda croccante e cuore di ricotta.', '1. Friggere le cialde avvolte nei cilindri.
 2. Setacciare la ricotta e mescolarla con lo zucchero.
-3. Farcire i cannoli solo al momento di servire.', 'Dolci', 4, 60, '2025-05-25 14:00:00', 6, 'Di Lorenzo-Daniele-Cannoli-Siciliani-1716638400.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (20, 'Spaghetti alle Vongole', 'Profumo di mare.
+3. Farcire i cannoli solo al momento di servire.', 'Dolci', 'Di Lorenzo-Daniele-cannoli-siciliani-1766877288451.jpg', 'Cannoli Siciliani');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (2, 20, 7, '2025-06-30 20:00:00', 20, 'Profumo di mare.
 Un classico della Vigilia e dell''estate.', '1. Far aprire le vongole in padella con aglio e olio.
 2. Sgusciare una parte delle vongole.
-3. Scolare la pasta e saltarla nel sugo di vongole con prezzemolo.', 'Primi Piatti', 2, 20, '2025-06-30 20:00:00', 7, 'Ambrosio-Mattia-Spaghetti-alle-Vongole-1719777600.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (21, 'Carbonara Vegetariana', 'Una variante per chi non mangia carne.
+3. Scolare la pasta e saltarla nel sugo di vongole con prezzemolo.', 'Primi Piatti', 'Ambrosio-Mattia-spaghetti-alle-vongole-1766877597711.jpg', 'Spaghetti alle Vongole');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (2, 25, 1, '2025-02-05 12:45:00', 21, 'Una variante per chi non mangia carne.
 Zucchine al posto del guanciale.', '1. Friggere le zucchine a cubetti.
 2. Preparare la crema di uova e pecorino.
-3. Condire la pasta con zucchine e crema.', 'Primi Piatti', 2, 25, '2025-02-05 12:45:00', 1, 'Conforti-Edoardo-Carbonara-Vegetariana-1707137100.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (22, 'Tiramisù alle Fragole', 'Versione estiva e fresca.
+3. Condire la pasta con zucchine e crema.', 'Primi Piatti', 'Conforti-Edoardo-carbonara-vegetariana-1766876795135.avif', 'Carbonara Vegetariana');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (2, 45, 2, '2025-05-15 15:00:00', 22, 'Versione estiva e fresca.
 Piace molto ai bambini.', '1. Preparare uno sciroppo di fragole.
 2. Fare la crema al mascarpone classica.
-3. Inzuppare i savoiardi nello sciroppo e alternare con crema e fragole fresche.', 'Dolci', 2, 45, '2025-05-15 15:00:00', 2, 'Tabacchini-Tommaso-Tiramisù-alle-Fragole-1715778000.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (23, 'Parmigiana di Melanzane', 'Strati di pura goduria.
+3. Inzuppare i savoiardi nello sciroppo e alternare con crema e fragole fresche.', 'Dolci', 'Tabacchini-Tommaso-tiramisù-alle-fragole-1766877060030.jpg', 'Tiramisù alle Fragole');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (3, 90, 3, '2025-08-10 12:00:00', 23, 'Strati di pura goduria.
 Melanzane fritte, pomodoro e mozzarella.', '1. Friggere le melanzane a fette.
 2. Fare un sugo di pomodoro semplice.
 3. Alternare in teglia melanzane, sugo, mozzarella e parmigiano.
-4. Infornare.', 'Secondi Piatti', 3, 90, '2025-08-10 12:00:00', 3, 'Orlandi-Emanuele-Parmigiana-di-Melanzane-1723284000.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (24, 'Pizza Napoletana', 'Cornicione alto e impasto morbido.
+4. Infornare.', 'Secondi Piatti', 'Orlandi-Emanuele-parmigiana-di-melanzane-1766876525401.jpg', 'Parmigiana di Melanzane');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (5, 45, 4, '2025-01-28 20:00:00', 24, 'Cornicione alto e impasto morbido.
 La vera pizza.', '1. Impasto a lunga lievitazione.
 2. Stesura a mano spingendo l''aria verso i bordi.
-3. Cottura velocissima ad altissima temperatura.', 'Lievitati', 5, 45, '2025-01-28 20:00:00', 4, 'Conforti-Edoardo-Pizza-Napoletana-1706468400.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (25, 'Risotto alla Milanese', 'Il risotto giallo.
+3. Cottura velocissima ad altissima temperatura.', 'Lievitati', 'Conforti-Edoardo-pizza-napoletana-1766876272008.jpg', 'Pizza Napoletana');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (3, 40, 5, '2025-10-05 20:30:00', 25, 'Il risotto giallo.
 Con vero zafferano in pistilli.', '1. Soffritto di cipolla e midollo.
 2. Tostatura riso e sfumatura vino.
 3. Aggiungere brodo e zafferano sciolto.
-4. Mantecare con burro freddo.', 'Primi Piatti', 3, 40, '2025-10-05 20:30:00', 5, 'Sprynskyy-Nazar-Risotto-alla-Milanese-1728153000.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (26, 'Scaloppine al Limone', 'Secondo veloce e fresco.
+4. Mantecare con burro freddo.', 'Primi Piatti', 'Sprynskyy-Nazar-risotto-alla-milanese-1766877836800.avif', 'Risotto alla Milanese');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (1, 15, 6, '2025-03-10 13:00:00', 26, 'Secondo veloce e fresco.
 Carne tenerissima.', '1. Infarinare le fettine di vitello.
 2. Rosolare nel burro.
-3. Aggiungere succo di limone e far restringere la salsa.', 'Secondi Piatti', 1, 15, '2025-03-10 13:00:00', 6, 'Di Lorenzo-Daniele-Scaloppine-al-Limone-1710072000.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (27, 'Mojito Cubano', 'Cocktail estivo per eccellenza.
+3. Aggiungere succo di limone e far restringere la salsa.', 'Secondi Piatti', 'Di Lorenzo-Daniele-scaloppine-al-limone-1766877294605.jpg', 'Scaloppine al Limone');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (2, 10, 7, '2025-07-20 22:00:00', 27, 'Cocktail estivo per eccellenza.
 Menta, lime e rum.', '1. Pestare delicatamente lime e zucchero di canna.
 2. Aggiungere la menta e premere piano.
-3. Ghiaccio, Rum bianco e soda.', 'Bevande', 2, 10, '2025-07-20 22:00:00', 7, 'Ambrosio-Mattia-Mojito-Cubano-1721505600.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (28, 'Insalata di Mare', 'Antipasto fresco e raffinato.
+3. Ghiaccio, Rum bianco e soda.', 'Bevande', 'Ambrosio-Mattia-mojito-cubano-1766877614105.jpg', 'Mojito Cubano');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (3, 60, 1, '2025-08-15 12:30:00', 28, 'Antipasto fresco e raffinato.
 Molluschi e crostacei.', '1. Lessare separatamente polpo, calamari e gamberi.
 2. Unire tutto e condire con emulsione di olio e limone.
-3. Lasciar insaporire in frigo.', 'Antipasti', 3, 60, '2025-08-15 12:30:00', 1, 'Conforti-Edoardo-Insalata-di-Mare-1723717800.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (29, 'Arrosto di Vitello', 'Il piatto delle feste.
+3. Lasciar insaporire in frigo.', 'Antipasti', 'Conforti-Edoardo-insalata-di-mare-1766876824380.avif', 'Insalata di Mare');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (3, 120, 2, '2025-12-25 12:00:00', 29, 'Il piatto delle feste.
 Morbido e succoso.', '1. Legare la carne con spago.
 2. Rosolare su tutti i lati.
-3. Sfumare con vino e cuocere lentamente con brodo.', 'Secondi Piatti', 3, 120, '2025-12-25 12:00:00', 2, 'Tabacchini-Tommaso-Arrosto-di-Vitello-1735124400.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (30, 'Babà al Rum', 'Dolce tipico napoletano.
+3. Sfumare con vino e cuocere lentamente con brodo.', 'Secondi Piatti', 'Tabacchini-Tommaso-arrosto-di-vitello-1766877084220.avif', 'Arrosto di Vitello');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (5, 180, 3, '2025-04-01 15:00:00', 30, 'Dolce tipico napoletano.
 Spugnoso e inzuppato.', '1. Impasto lievitato molto morbido.
 2. Doppia lievitazione negli stampini.
-3. Cottura e immersione nella bagna al rum.', 'Dolci', 5, 180, '2025-04-01 15:00:00', 3, 'Orlandi-Emanuele-Babà-al-Rum-1711976400.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (31, 'Caponata Siciliana', 'Contorno agrodolce ricco di sapori.
+3. Cottura e immersione nella bagna al rum.', 'Dolci', 'Orlandi-Emanuele-babà al-rum-1766876620017.jpg', 'Babà al Rum');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (3, 50, 4, '2025-09-01 19:30:00', 31, 'Contorno agrodolce ricco di sapori.
 Melanzane protagoniste.', '1. Friggere le melanzane.
 2. Cuocere sedano, cipolla, capperi e olive.
-3. Unire tutto con pomodoro, aceto e zucchero.', 'Contorni', 3, 50, '2025-09-01 19:30:00', 4, 'Conforti-Edoardo-Caponata-Siciliana-1725211800.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (32, 'Pasta alla Norma', 'Omaggio a Bellini.
+3. Unire tutto con pomodoro, aceto e zucchero.', 'Contorni', 'Conforti-Edoardo-caponata-siciliana-1766876299354.avif', 'Caponata Siciliana');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (2, 30, 5, '2025-06-20 13:00:00', 32, 'Omaggio a Bellini.
 Pomodoro, melanzane e ricotta salata.', '1. Friggere le melanzane a cubetti.
 2. Preparare un sugo di pomodoro fresco.
-3. Condire la pasta e aggiungere abbondante ricotta salata.', 'Primi Piatti', 2, 30, '2025-06-20 13:00:00', 5, 'Sprynskyy-Nazar-Pasta-alla-Norma-1718881200.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (33, 'Salmone al Forno', 'Secondo di pesce semplice e sano.
+3. Condire la pasta e aggiungere abbondante ricotta salata.', 'Primi Piatti', 'Sprynskyy-Nazar-pasta-alla-norma-1766877857004.jpg', 'Pasta alla Norma');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (1, 20, 6, '2025-03-05 20:00:00', 33, 'Secondo di pesce semplice e sano.
 Ricco di Omega 3.', '1. Marinare il salmone con limone ed erbe.
 2. Cuocere in forno per 15 minuti.
-3. Servire con verdure.', 'Secondi Piatti', 1, 20, '2025-03-05 20:00:00', 6, 'Di Lorenzo-Daniele-Salmone-al-Forno-1709665200.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (34, 'Cocktail Martini', 'L''aperitivo di James Bond.
+3. Servire con verdure.', 'Secondi Piatti', 'Di Lorenzo-Daniele-salmone-al-forno-1766877310072.jpg', 'Salmone al Forno');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (2, 5, 7, '2025-11-10 19:00:00', 34, 'L''aperitivo di James Bond.
 Secco ed elegante.', '1. Raffreddare il bicchiere.
 2. Mescolare Gin e Vermouth Dry nel mixing glass con ghiaccio.
-3. Filtrare e decorare con oliva.', 'Bevande', 2, 5, '2025-11-10 19:00:00', 7, 'Ambrosio-Mattia-Cocktail-Martini-1731261600.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (35, 'Pane Casereccio', 'Il profumo del pane fatto in casa.
+3. Filtrare e decorare con oliva.', 'Bevande', 'Ambrosio-Mattia-cocktail-martini-1766877621701.jpg', 'Cocktail Martini');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (4, 300, 1, '2025-01-12 08:00:00', 35, 'Il profumo del pane fatto in casa.
 Crosta croccante.', '1. Impasto con farina, acqua, lievito madre.
 2. Pieghe di rinforzo e lievitazione lunga.
-3. Cottura in forno con vapore iniziale.', 'Lievitati', 4, 300, '2025-01-12 08:00:00', 1, 'Conforti-Edoardo-Pane-Casereccio-1705042800.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (36, 'Crostata di Frutta', 'Base di frolla e frutta fresca.
+3. Cottura in forno con vapore iniziale.', 'Lievitati', 'Conforti-Edoardo-pane-casereccio-1766876848733.jpg', 'Pane Casereccio');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (3, 60, 2, '2025-05-30 16:00:00', 36, 'Base di frolla e frutta fresca.
 Colorata e golosa.', '1. Cuocere il guscio di pasta frolla "alla cieca".
 2. Riempire con crema pasticcera.
-3. Decorare con frutta fresca di stagione e gelatina.', 'Dolci', 3, 60, '2025-05-30 16:00:00', 2, 'Tabacchini-Tommaso-Crostata-di-Frutta-1717077600.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (37, 'Amatriciana', 'Il gusto verace di Amatrice.
+3. Decorare con frutta fresca di stagione e gelatina.', 'Dolci', 'Tabacchini-Tommaso-crostata-di-frutta-1766877108898.jpg', 'Crostata di Frutta');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (2, 25, 3, '2025-02-15 13:00:00', 37, 'Il gusto verace di Amatrice.
 Guanciale, pomodoro e pecorino.', '1. Rosolare il guanciale finché diventa trasparente.
 2. Aggiungere il pomodoro e cuocere.
-3. Scolare i bucatini e saltare nel sugo con pecorino.', 'Primi Piatti', 2, 25, '2025-02-15 13:00:00', 3, 'Orlandi-Emanuele-Amatriciana-1708000800.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (38, 'Polpette al Sugo', 'Come quelle della nonna.
+3. Scolare i bucatini e saltare nel sugo con pecorino.', 'Primi Piatti', 'Orlandi-Emanuele-amatriciana-1766876659879.jpg', 'Amatriciana');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (2, 45, 4, '2025-04-10 12:30:00', 38, 'Come quelle della nonna.
 Morbide e saporite.', '1. Impastare carne macinata, uova, pane ammollato e parmigiano.
 2. Formare le palline.
-3. Cuocere direttamente nel sugo di pomodoro a fuoco lento.', 'Secondi Piatti', 2, 45, '2025-04-10 12:30:00', 4, 'Conforti-Edoardo-Polpette-al-Sugo-1712745000.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (39, 'Tortino al Cioccolato', 'Cuore caldo e fondente.
+3. Cuocere direttamente nel sugo di pomodoro a fuoco lento.', 'Secondi Piatti', 'Conforti-Edoardo-polpette-al-sugo-1766876329720.jpg', 'Polpette al Sugo');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (3, 25, 5, '2025-12-01 20:45:00', 39, 'Cuore caldo e fondente.
 Irresistibile.', '1. Sciogliere cioccolato e burro.
 2. Montare uova e zucchero, unire le farine.
 3. Riempire i pirottini e congelare.
-4. Cuocere 15 minuti prima di servire.', 'Dolci', 3, 25, '2025-12-01 20:45:00', 5, 'Sprynskyy-Nazar-Tortino-al-Cioccolato-1733082300.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (40, 'Brioche col Tuppo', 'La colazione siciliana.
+4. Cuocere 15 minuti prima di servire.', 'Dolci', 'Sprynskyy-Nazar-tortino-al-cioccolato-1766877872575.jpg', 'Tortino al Cioccolato');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (4, 180, 6, '2025-07-15 09:00:00', 40, 'La colazione siciliana.
 Da inzuppare nella granita.', '1. Impasto ricco con uova e burro.
 2. Formare le palline grandi e sovrapporre quelle piccole (il tuppo).
-3. Spennellare con uovo e cuocere.', 'Lievitati', 4, 180, '2025-07-15 09:00:00', 6, 'Di Lorenzo-Daniele-Brioche-col-Tuppo-1721026800.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (41, 'Zucchine Trifolate', 'Contorno semplice e versatile.
+3. Spennellare con uovo e cuocere.', 'Lievitati', 'Di Lorenzo-Daniele-brioche-col-tuppo-1766877304181.avif', 'Brioche col Tuppo');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (1, 15, 7, '2025-06-05 19:45:00', 41, 'Contorno semplice e versatile.
 Si abbina a tutto.', '1. Tagliare le zucchine a rondelle o cubetti.
 2. Saltare in padella con olio e aglio.
-3. Aggiungere prezzemolo a fine cottura.', 'Contorni', 1, 15, '2025-06-05 19:45:00', 7, 'Ambrosio-Mattia-Zucchine-Trifolate-1717609500.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (42, 'Bellini', 'Cocktail veneziano.
+3. Aggiungere prezzemolo a fine cottura.', 'Contorni', 'Ambrosio-Mattia-zucchine-trifolate-1766877629601.avif', 'Zucchine Trifolate');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (1, 10, 1, '2025-08-20 18:00:00', 42, 'Cocktail veneziano.
 Polpa di pesca bianca e prosecco.', '1. Frullare le pesche bianche e filtrare la polpa.
 2. Mettere nel flûte.
-3. Versare delicatamente il Prosecco freddo.', 'Bevande', 1, 10, '2025-08-20 18:00:00', 1, 'Conforti-Edoardo-Bellini-1724169600.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (43, 'Olive Ascolane', 'L''antipasto marchigiano famoso ovunque.
+3. Versare delicatamente il Prosecco freddo.', 'Bevande', 'Conforti-Edoardo-bellini-1766876879066.jpg', 'Bellini');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (5, 120, 2, '2025-09-10 12:00:00', 43, 'L''antipasto marchigiano famoso ovunque.
 Laborioso ma ne vale la pena.', '1. Denocciolare le olive verdi giganti a spirale.
 2. Preparare il ripieno di carne mista e spezie.
-3. Farcire, impanare e friggere.', 'Antipasti', 5, 120, '2025-09-10 12:00:00', 2, 'Tabacchini-Tommaso-Olive-Ascolane-1725962400.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (44, 'Gnocchi alla Sorrentina', 'Filanti e gustosi.
+3. Farcire, impanare e friggere.', 'Antipasti', 'Tabacchini-Tommaso-olive-ascolane-1766877143511.jpg', 'Olive Ascolane');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (2, 45, 3, '2025-05-01 13:00:00', 44, 'Filanti e gustosi.
 Pomodoro, mozzarella e basilico.', '1. Preparare gli gnocchi di patate.
 2. Cuocere e condire con sugo di pomodoro.
-3. Mettere in teglia con mozzarella e gratinare.', 'Primi Piatti', 2, 45, '2025-05-01 13:00:00', 3, 'Orlandi-Emanuele-Gnocchi-alla-Sorrentina-1714561200.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (45, 'Tagliata di Manzo', 'Per gli amanti della carne al sangue.
+3. Mettere in teglia con mozzarella e gratinare.', 'Primi Piatti', 'Orlandi-Emanuele-gnocchi-alla-sorrentina-1766876696611.jpg', 'Gnocchi alla Sorrentina');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (2, 20, 4, '2025-10-20 20:00:00', 45, 'Per gli amanti della carne al sangue.
 Rucola e grana per completare.', '1. Cuocere il controfiletto intero su piastra rovente.
 2. Lasciar riposare la carne.
-3. Tagliare a fette e servire su letto di rucola.', 'Secondi Piatti', 2, 20, '2025-10-20 20:00:00', 4, 'Conforti-Edoardo-Tagliata-di-Manzo-1729447200.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (46, 'Panna Cotta ai Frutti di Bosco', 'Dolce al cucchiaio delicato.
+3. Tagliare a fette e servire su letto di rucola.', 'Secondi Piatti', 'Conforti-Edoardo-tagliata-di-manzo-1766876350027.jpg', 'Tagliata di Manzo');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (1, 15, 5, '2025-04-25 14:00:00', 46, 'Dolce al cucchiaio delicato.
 Facilissimo da preparare.', '1. Scaldare panna, latte e zucchero.
 2. Aggiungere la colla di pesce ammollata.
 3. Versare negli stampini e raffreddare.
-4. Servire con coulis di frutti di bosco.', 'Dolci', 1, 15, '2025-04-25 14:00:00', 5, 'Sprynskyy-Nazar-Panna-Cotta-ai-Frutti-di-Bosco-1714046400.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (47, 'Danubio Salato', 'Tante palline di brioche farcite.
+4. Servire con coulis di frutti di bosco.', 'Dolci', 'Sprynskyy-Nazar-panna-cotta-ai-frutti-di-bosco-1766877894004.jpg', 'Panna Cotta ai Frutti di Bosco');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (3, 120, 6, '2025-11-01 16:00:00', 47, 'Tante palline di brioche farcite.
 Ideale per le feste.', '1. Preparare impasto brioche salato.
 2. Farcire ogni pallina con salumi e formaggi.
-3. Disporre vicine in teglia tonda e cuocere.', 'Lievitati', 3, 120, '2025-11-01 16:00:00', 6, 'Di Lorenzo-Daniele-Danubio-Salato-1730473200.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (48, 'Peperonata', 'Contorno ricco e saporito.
+3. Disporre vicine in teglia tonda e cuocere.', 'Lievitati', 'Di Lorenzo-Daniele-danubio-salato-1766877354000.jpg', 'Danubio Salato');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (1, 40, 7, '2025-07-05 19:30:00', 48, 'Contorno ricco e saporito.
 Ottimo caldo o freddo.', '1. Tagliare peperoni, cipolle e pomodori.
 2. Cuocere a fuoco lento con coperchio.
-3. Aggiungere aceto a fine cottura se piace.', 'Contorni', 1, 40, '2025-07-05 19:30:00', 7, 'Ambrosio-Mattia-Peperonata-1720197000.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (49, 'Gin Tonic', 'Il long drink più famoso.
+3. Aggiungere aceto a fine cottura se piace.', 'Contorni', 'Ambrosio-Mattia-peperonata-1766877635209.avif', 'Peperonata');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (1, 5, 1, '2025-06-10 22:30:00', 49, 'Il long drink più famoso.
 Ginepro e bollicine.', '1. Riempire il bicchiere di ghiaccio.
 2. Versare il Gin.
-3. Colmare con Acqua Tonica e una scorza di limone.', 'Bevande', 1, 5, '2025-06-10 22:30:00', 1, 'Conforti-Edoardo-Gin-Tonic-1718051400.jpg');
-INSERT INTO public.recipe (id, title, description, procedure, category, difficulty, prep_time, creation_date, author_id, image) VALUES (50, 'Prosciutto e Melone', 'L''antipasto estivo per definizione.
+3. Colmare con Acqua Tonica e una scorza di limone.', 'Bevande', 'Conforti-Edoardo-gin-tonic-1766876736054.jpg', 'Gin Tonic');
+INSERT INTO public.recipe (difficulty, prep_time, author_id, creation_date, id, description, procedure, category, image, title) VALUES (1, 10, 2, '2025-07-25 12:15:00', 50, 'L''antipasto estivo per definizione.
 Dolce e salato insieme.', '1. Pulire il melone e tagliarlo a fette.
 2. Adagiare sopra il prosciutto crudo dolce.
-3. Servire freddo.', 'Antipasti', 1, 10, '2025-07-25 12:15:00', 2, 'Tabacchini-Tommaso-Prosciutto-e-Melone-1721902500.jpg');
+3. Servire freddo.', 'Antipasti', 'Tabacchini-Tommaso-prosciutto-e-melone-1766877940009.jpg', 'Prosciutto e Melone');
 
 -- Dump dati per la tabella: ingredient
 INSERT INTO public.ingredient (id, recipe_id, name, quantity, unit_of_measure) VALUES (1, 1, 'Spaghetti', '320', 'g');

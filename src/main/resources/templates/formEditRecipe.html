@@ -11,7 +11,7 @@
 
     <header th:replace="~{fragments/base :: header}"></header>
 
-    <main class="container" style="max-width: 1200px; margin: 2rem auto; padding: 0 1rem;">
+    <main class="container" style="max-width: 95%; margin: 2rem auto; padding: 0 1rem;">
         
         <form th:action="@{'/recipe/' + ${recipe.id} + '/update'}" method="POST" th:object="${recipe}" enctype="multipart/form-data">
             
