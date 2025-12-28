@@ -14,42 +14,25 @@
                 </a>
             </div>
 
-            <div class="menu-toggle" id="mobile-menu">
-                <i class="fas fa-bars"></i>
-            </div>
+            <ul class="nav-links">
+                <li><a href="/recipes">Ricette</a></li>
+                <li><a href="#">Chef</a></li>
+                <li><a href="#">Chi Siamo</a></li>
+            </ul>
 
-            <div class="nav-container" id="nav-container">
-                <ul class="nav-links">
-                    <li><a href="/recipes">Ricette</a></li>
-                    <li><a href="#">Chef</a></li>
-                    <li><a href="#">Chi Siamo</a></li>
-                </ul>
-                <div class="auth-buttons">
-                    <div th:if="${#authentication == null || #authorization.expression('isAnonymous()')}">
-                        <a href="/login" class="btn btn-login">Accedi</a>
-                        <a href="/register" class="btn btn-register">Registrati</a>
-                    </div>
-                    <div th:unless="${#authentication == null || #authorization.expression('isAnonymous()')}">
-                        <span style="margin-right: 10px;">Ciao, <span th:text="${#authentication.name}">User</span>!</span>
-                        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" href="/admin/indexAdmin" class="btn btn-register" style="background-color: #e74c3c; border-color: #e74c3c; margin-right: 10px;">Admin</a>
-                        <a href="/profile" class="btn btn-register" style="margin-right: 10px;">Area Personale</a>
-                        <a href="/logout" class="btn btn-login">Logout</a>
-                    </div>
+            <div class="auth-buttons">
+                <div th:if="${#authentication == null || #authorization.expression('isAnonymous()')}">
+                    <a href="/login" class="btn btn-login">Accedi</a>
+                    <a href="/register" class="btn btn-register">Registrati</a>
+                </div>
+                <div th:unless="${#authentication == null || #authorization.expression('isAnonymous()')}">
+                    <span class="user-greeting">Ciao, <span th:text="${currentUser != null ? currentUser.name : #authentication.name}">User</span>!</span>
+                    <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" href="/admin/indexAdmin" class="btn btn-register" style="background-color: #e74c3c; border-color: #e74c3c;">Admin</a>
+                    <a href="/profile" class="btn btn-register">Area Personale</a>
+                    <a href="/logout" class="btn btn-login">Logout</a>
                 </div>
             </div>
         </nav>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const menuToggle = document.getElementById('mobile-menu');
-                const navContainer = document.getElementById('nav-container');
-
-                if (menuToggle && navContainer) {
-                    menuToggle.addEventListener('click', () => {
-                        navContainer.classList.toggle('active');
-                    });
-                }
-            });
-        </script>
     </header>
 
     <footer th:fragment="footer">
@@ -57,22 +40,6 @@
             <div class="footer-section">
                 <h3>SiwRecipes</h3>
                 <p>La tua destinazione quotidiana per ispirazione culinaria.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Link Utili</h3>
-                <ul>
-                    <li><a href="#">Chi Siamo</a></li>
-                    <li><a href="#">Contatti</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Seguici</h3>
-                <div class="social-links">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                </div>
             </div>
         </div>
         <div class="footer-bottom">

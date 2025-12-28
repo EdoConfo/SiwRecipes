@@ -72,6 +72,8 @@ nav {
 .nav-links {
     display: flex;
     gap: 2rem;
+    margin-right: auto;
+    margin-left: 2rem;
 }
 
 .nav-links a {
@@ -760,7 +762,7 @@ a.carousel-card {
     line-height: 1.8;
     font-size: 1.1rem;
 }
-@media (max-width: 768px) {
+@media (max-width: 1050px) {
     .recipe-top-section {
         flex-direction: column;
     }
@@ -777,120 +779,76 @@ a.carousel-card {
         align-items: center;
     }
 
+    /* Hide menu toggle as we are switching to a stacked layout */
     .menu-toggle {
-        display: block;
-        padding: 0.5rem;
-        font-size: 1.2rem;
-        border-radius: 5px;
-        transition: background-color 0.3s;
-        color: #555;
-    }
-
-    .menu-toggle:hover {
-        background-color: rgba(0,0,0,0.05);
-        color: #e67e22;
-    }
-
-    .nav-container {
         display: none;
-        flex-direction: column;
-        width: 100%;
-        margin-left: 0;
-        margin-top: 0.5rem;
-        padding-top: 0.5rem;
-        border-top: 1px solid #f0f0f0;
-        animation: slideDown 0.2s ease-out forwards;
     }
 
-    @keyframes slideDown {
-        from { opacity: 0; transform: translateY(-5px); }
-        to { opacity: 1; transform: translateY(0); }
+    /* Reset nav-container to be always visible and part of the flow */
+    .nav-container {
+        display: contents; /* Allows children to participate in the grid/flex of nav */
     }
 
-    .nav-container.active {
+    /* Order 1: Logo (already first in DOM) */
+    .logo {
+        order: 1;
+        flex: 1;
+    }
+
+    /* Order 2: Auth Buttons (Right side) */
+    .auth-buttons {
+        order: 2;
+        flex: 1;
         display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 0;
+        border: none;
+        width: auto;
     }
 
-    .nav-links {
+    .auth-buttons div {
+        display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
+        align-items: center;
         gap: 0.5rem;
-        text-align: center;
+        justify-content: flex-end;
+    }
+
+    /* Show greeting text on mobile */
+    .user-greeting {
+        display: inline-block;
+        font-size: 0.85rem;
+        margin-right: 5px;
+    }
+
+    .auth-buttons .btn {
+        margin-left: 0;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+        min-width: auto;
+    }
+
+    /* Order 3: Nav Links (Bottom Left) */
+    .nav-links {
+        order: 3;
         width: 100%;
-        margin-bottom: 0.5rem;
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 1rem;
+        margin-top: 0.8rem;
+        margin-bottom: 0;
+        border-top: 1px solid #f0f0f0;
+        padding-top: 0.8rem;
+        margin-left: 0;
     }
 
     .nav-links li {
         width: auto;
-        flex: 1 1 auto;
     }
 
     .nav-links a {
-        display: block;
-        padding: 0.6rem 0.5rem;
-        border-radius: 8px;
-        transition: all 0.2s;
-        color: #555;
-        font-weight: 500;
-    }
-
-    .nav-links a:hover {
-        background-color: #fff5eb;
-        color: #e67e22;
-    }
-
-    .auth-buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        width: 100%;
-        align-items: center;
-        padding-bottom: 1rem;
-        border-top: 1px solid #f0f0f0;
-        padding-top: 1rem;
-    }
-
-    /* Container for buttons (both anonymous and logged in) */
-    .auth-buttons div {
-        display: flex;
-        flex-direction: row; /* Side by side buttons */
-        flex-wrap: wrap;
-        width: 100%;
-        gap: 0.8rem;
-        justify-content: center;
-        align-items: center;
-    }
-
-    /* Greeting text - full width to stay on top */
-    .auth-buttons > div > span {
-        width: 100%;
-        text-align: center;
-        margin-right: 0 !important;
-        margin-bottom: 0.5rem;
-        display: block;
-        font-weight: 600;
-        color: #2c3e50;
-        font-size: 1.1rem;
-    }
-    
-    .auth-buttons > div > span > span {
-        display: inline;
-        color: #e67e22;
-    }
-
-    /* Buttons - compact and side-by-side */
-    .auth-buttons .btn {
-        margin-left: 0;
-        width: auto;
-        min-width: 120px; /* Ensure clickable area */
-        flex: 0 1 auto;
-        text-align: center;
-        padding: 0.6rem 1rem;
-        font-size: 0.9rem;
-    }
-
-    .auth-buttons a {
-        margin-right: 0 !important;
+        padding: 0.5rem;
+        display: inline-block;
     }
 }
