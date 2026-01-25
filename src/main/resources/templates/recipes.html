@@ -66,6 +66,10 @@
                             <span th:if="${recipe.difficulty == 2}">Media</span>
                             <span th:if="${recipe.difficulty >= 3}">Difficile</span>
                         </span>
+                        <span>
+                            <i class="fas fa-tag" style="color: var(--meta-color);"></i>
+                            <span th:text="${recipe.category}" style="color: var(--meta-color); font-size: 0.95em;">Categoria</span>
+                        </span>
                     </div>
                     
                     <p class="recipe-description" th:text="${recipe.description}">Descrizione breve della ricetta...</p>

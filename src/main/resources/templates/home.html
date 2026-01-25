@@ -71,8 +71,8 @@
                                     <span th:if="${recipe.difficulty >= 3}">Difficile</span>
                                 </span>
                                 <span>
-                                    <i class="fas fa-star" style="color: var(--meta-color); font-size: 0.8rem; vertical-align: middle;"></i>
-                                    <span style="font-size: 0.85rem; font-weight: bold; color: var(--meta-color); vertical-align: middle;" th:text="${averageRatings[recipe.id]}">0.0</span>
+                                    <i class="fas fa-tag" style="color: var(--meta-color);"></i>
+                                    <span th:text="${recipe.category}" style="color: var(--meta-color); font-size: 0.95em;">Categoria</span>
                                 </span>
                             </div>
                             
