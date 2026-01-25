@@ -222,16 +222,31 @@ public class RecipeController {
     @GetMapping("/recipes")
     public String getRecipes(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
         // Se c'è una parola chiave, cerchiamo (filtered). Altrimenti mostriamo tutto.
+        List<it.uniroma3.siw_recipes.model.RecipeSummary> recipes;
         if (keyword != null && !keyword.trim().isEmpty()) {
-            model.addAttribute("recipes", this.recipeService.findSummaryByTitle(keyword));
+            recipes = this.recipeService.findSummaryByTitle(keyword);
             model.addAttribute("keyword", keyword);
         } else {
-            // 1. Chiediamo al service tutte le ricette (versione ottimizzata Summary)
-            // 2. Le aggiungiamo al modello con il nome "recipes"
-            model.addAttribute("recipes", this.recipeService.getAllRecipesSummary());
+            recipes = this.recipeService.getAllRecipesSummary();
         }
-        
-        // 3. Restituiamo il nome della vista (src/main/resources/templates/recipes.html)
+        model.addAttribute("recipes", recipes);
+
+        // Calcolo media recensioni per ogni ricetta
+        Map<Long, String> averageRatings = new HashMap<>();
+        for (it.uniroma3.siw_recipes.model.RecipeSummary recipe : recipes) {
+            List<it.uniroma3.siw_recipes.model.Review> reviews = this.reviewService.getReviewsByRecipe(this.recipeService.getRecipe(recipe.getId()));
+            double avg = 0.0;
+            if (reviews != null && !reviews.isEmpty()) {
+                double sum = 0.0;
+                for (it.uniroma3.siw_recipes.model.Review r : reviews) {
+                    if (r.getRating() != null) sum += r.getRating();
+                }
+                avg = sum / reviews.size();
+            }
+            averageRatings.put(recipe.getId(), String.format("%.1f", avg));
+        }
+        model.addAttribute("averageRatings", averageRatings);
+
         return "recipes";
     }
 

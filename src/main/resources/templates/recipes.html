@@ -50,7 +50,13 @@
                 </div>
                 
                 <div class="recipe-content">
-                    <h3 class="recipe-title" th:text="${recipe.title}">Titolo Ricetta</h3>
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem;">
+                        <div class="average-rating-box" style="display: flex; align-items: center; gap: 0.2rem; background: var(--card-bg); border-radius: 8px; box-shadow: 0 2px 8px var(--shadow-color); padding: 0.15rem 0.4rem; border: 2px solid #FFD700;">
+                            <i class="fas fa-star" style="color: #FFD700; font-size: 0.8rem;"></i>
+                            <span style="font-size: 0.85rem; font-weight: bold; color: #FFD700;" th:text="${averageRatings[recipe.id]}">0.0</span>
+                        </div>
+                        <h3 class="recipe-title" th:text="${recipe.title}" style="margin: 0;">Titolo Ricetta</h3>
+                    </div>
                     
                     <div class="recipe-meta">
                         <span><i class="far fa-clock"></i> <span th:text="${recipe.prepTime} + ' min'">30 min</span></span>
