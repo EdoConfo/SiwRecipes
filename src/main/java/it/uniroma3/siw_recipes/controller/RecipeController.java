@@ -250,12 +250,24 @@ public class RecipeController {
 
         if (recipe != null) {
             // Carichiamo esplicitamente le recensioni per evitare LazyInitializationException
-            recipe.setReviews(this.reviewService.getReviewsByRecipe(recipe));
-            
+            List<Review> reviews = this.reviewService.getReviewsByRecipe(recipe);
+            recipe.setReviews(reviews);
+
+            // Calcolo media delle valutazioni
+            double averageRating = 0.0;
+            if (reviews != null && !reviews.isEmpty()) {
+                double sum = 0.0;
+                for (Review r : reviews) {
+                    if (r.getRating() != null) sum += r.getRating();
+                }
+                averageRating = sum / reviews.size();
+            }
+            model.addAttribute("averageRating", String.format("%.1f", averageRating));
+
             // Se esiste, la mettiamo nel modello
             model.addAttribute("recipe", recipe);
             model.addAttribute("editingReviewId", editingReviewId);
-            
+
             // Se siamo in modalità modifica, carichiamo la recensione nel model per il form
             if (editingReviewId != null) {
                 Review reviewToEdit = this.reviewService.getReview(editingReviewId);
@@ -263,7 +275,7 @@ public class RecipeController {
                     model.addAttribute("review", reviewToEdit);
                 }
             }
-            
+
             // Gestione permessi e ruoli
             boolean isAuthor = false;
             boolean isAdmin = false;
@@ -272,26 +284,26 @@ public class RecipeController {
             User currentUser = this.getCurrentUser();
             if (currentUser != null) {
                 model.addAttribute("currentUser", currentUser);
-                
+
                 Credentials credentials = this.getCurrentCredentials();
                 if (credentials != null && credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
                     isAdmin = true;
                 }
-                
+
                 // Verifica se l'utente è l'autore
                 if (recipe.getAuthor() != null && recipe.getAuthor().equals(currentUser)) {
                     isAuthor = true;
                 }
-                
+
                 // Se NON è l'autore, prepara l'oggetto per la recensione
                 if (!isAuthor) {
                     model.addAttribute("newReview", new Review());
                 }
             }
-            
+
             model.addAttribute("isAuthor", isAuthor);
             model.addAttribute("isAdmin", isAdmin);
-            
+
             return "recipe"; // Mostra recipe.html
         } else {
             // Se non esiste (es. ID sbagliato), torniamo alla lista

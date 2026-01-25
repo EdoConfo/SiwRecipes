@@ -36,7 +36,14 @@
 
             <!-- Intestazione Ricetta (Destra) -->
             <div class="recipe-info-container">
-                <h1 th:text="${recipe.title}" class="recipe-header-title">Titolo Ricetta</h1>
+                <!-- Media recensioni + Titolo sulla stessa riga -->
+                <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.2rem;">
+                    <div class="average-rating-box" style="display: flex; align-items: center; gap: 0.5rem; background: var(--card-bg); border-radius: 8px; box-shadow: 0 2px 8px var(--shadow-color); padding: 0.5rem 1rem; border: 2px solid #FFD700;">
+                        <i class="fas fa-star" style="color: #FFD700; font-size: 1.2rem;"></i>
+                        <span style="font-size: 1.3rem; font-weight: bold; color: #FFD700;" th:text="${averageRating}">0.0</span>
+                    </div>
+                    <h1 th:text="${recipe.title}" class="recipe-header-title" style="margin: 0;">Titolo Ricetta</h1>
+                </div>
                 <p th:text="${recipe.description}" class="recipe-header-desc">Descrizione breve...</p>
                 
                 <!-- New Info Block -->
