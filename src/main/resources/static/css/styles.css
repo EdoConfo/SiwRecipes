@@ -1101,3 +1101,40 @@ a.carousel-card {
 .rating-input label:hover ~ label {
     color: #f1c40f;
 }
+
+/* Login to Review Box */
+.login-to-review-box {
+    margin-top: 2rem;
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    border: 1px dashed var(--border-color);
+}
+
+.login-to-review-box p {
+    margin-bottom: 1rem;
+    color: var(--text-color);
+    font-size: 1.1rem;
+}
+
+.login-to-review-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 0.5rem 1.5rem;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.btn-outline:hover {
+    background-color: var(--primary-color);
+    color: white;
+}

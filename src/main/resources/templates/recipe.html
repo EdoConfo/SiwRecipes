@@ -220,6 +220,15 @@
                     <button type="submit" class="btn" style="background-color: #e67e22; color: white; padding: 0.8rem 2rem; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Invia Recensione</button>
                 </form>
             </div>
+
+            <!-- Avviso Login per Recensire -->
+            <div th:if="${currentUser == null}" class="login-to-review-box">
+                <p>Vuoi lasciare la tua opinione su questa ricetta?</p>
+                <div class="login-to-review-actions">
+                    <a th:href="@{/login}" class="btn-primary" style="padding: 0.7rem 1.5rem; text-decoration: none; border-radius: 5px; display: flex; align-items: center;">Accedi</a>
+                    <a th:href="@{/register}" class="btn-outline">Registrati</a>
+                </div>
+            </div>
         </div>
 
     </main>
