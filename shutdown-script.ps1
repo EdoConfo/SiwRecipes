@@ -22,17 +22,21 @@ if (Test-Path $PROPS_FILE) {
 
 Write-Host "Rilevato profilo attivo: $ActiveProfile"
 
-if ($ActiveProfile -ne "local") {
-    Write-Host "⚠️  AGGIORNAMENTO DATA.SQL DISABILITATO"
-    Write-Host "Il profilo attivo è '$ActiveProfile'. Lo script di shutdown aggiorna 'data.sql' solo in profilo 'local'."
-    exit
+if ($ActiveProfile -eq "supabase") {
+    Write-Host "Configurazione script per Supabase..."
+    $DB_NAME = "postgres"
+    $DB_HOST = "aws-1-eu-north-1.pooler.supabase.com"
+    $DB_PORT = "5432"
+    $DB_USER = "postgres.ymhfmdbkpbffrinammzy"
+    $DB_PASSWORD = "ModelloDiDominio"
+} else {
+    Write-Host "Configurazione script per Localhost..."
+    $DB_NAME = "SiwRecipes"
+    $DB_HOST = "localhost"
+    $DB_PORT = "5432"
+    $DB_USER = "postgres"
+    $DB_PASSWORD = "postgres"
 }
-
-$DB_NAME = "SiwRecipes"
-$DB_HOST = "localhost"
-$DB_PORT = "5432"
-$DB_USER = "postgres"
-$DB_PASSWORD = "postgres"
 
 # Configura la console per usare UTF-8
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8

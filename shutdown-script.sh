@@ -8,20 +8,23 @@ PROPS_FILE="src/main/resources/application.properties"
 ACTIVE_PROFILE=$(grep "spring.profiles.active" "$PROPS_FILE" | cut -d'=' -f2 | xargs)
 echo "Rilevato profilo attivo: $ACTIVE_PROFILE"
 
-# MODIFICA: Esegui il dump SOLO se siamo in locale
-if [ "$ACTIVE_PROFILE" != "local" ]; then
-    echo "⚠️  AGGIORNAMENTO DATA.SQL DISABILITATO"
-    echo "Il profilo attivo è '$ACTIVE_PROFILE'. Lo script di shutdown aggiorna 'data.sql' solo in profilo 'local'."
-    echo "Questo previene la sovrascrittura dei dati di seed con i dati del database remoto."
-    exit 0
+# Configurazione connessione database basata sul profilo
+if [ "$ACTIVE_PROFILE" == "supabase" ]; then
+    echo "Configurazione script per Supabase..."
+    DB_NAME="postgres"
+    DB_HOST="aws-1-eu-north-1.pooler.supabase.com"
+    DB_PORT="5432"
+    DB_USER="postgres.ymhfmdbkpbffrinammzy"
+    export PGPASSWORD="ModelloDiDominio"
+else
+    # Default to local settings
+    echo "Configurazione script per Localhost..."
+    DB_NAME="SiwRecipes"
+    DB_HOST="localhost"
+    DB_PORT="5432"
+    DB_USER="postgres"
+    export PGPASSWORD="postgres"
 fi
-
-echo "Configurazione script per Localhost..."
-DB_NAME="SiwRecipes"
-DB_HOST="localhost"
-DB_PORT="5432"
-DB_USER="postgres"
-export PGPASSWORD="postgres"
 
 # Sovrascrive il file con l'intestazione
 echo "/* Dati iniziali salvati automaticamente su Edoardo's MacBook Pro $(date '+%a %d %b %Y %H:%M:%S %Z') da profilo $ACTIVE_PROFILE */" > "$SQL_FILE"
@@ -60,7 +63,6 @@ reset_sequence() {
 }
 
 {
-  echo ""
   echo "-- Reset delle sequenze per la generazione degli ID"
   
   # Nota: I nomi delle sequenze dipendono dalla strategia di naming di Hibernate.
