@@ -2,6 +2,32 @@
 # Versione migliorata per gestire correttamente UTF-8 senza BOM e caratteri accentati
 
 $SQL_FILE = "src\main\resources\data.sql"
+$PROPS_FILE = "src\main\resources\application.properties"
+
+# Rileva il profilo attivo
+$ActiveProfile = "local" # Default
+if (Test-Path $PROPS_FILE) {
+    Try {
+        $lines = Get-Content $PROPS_FILE -ErrorAction Stop
+        foreach ($line in $lines) {
+            if ($line -match "^\s*spring\.profiles\.active\s*=\s*(.*)") {
+                $ActiveProfile = $matches[1].Trim()
+                break
+            }
+        }
+    } Catch {
+        Write-Host "Impossibile leggere application.properties"
+    }
+}
+
+Write-Host "Rilevato profilo attivo: $ActiveProfile"
+
+if ($ActiveProfile -ne "local") {
+    Write-Host "⚠️  AGGIORNAMENTO DATA.SQL DISABILITATO"
+    Write-Host "Il profilo attivo è '$ActiveProfile'. Lo script di shutdown aggiorna 'data.sql' solo in profilo 'local'."
+    exit
+}
+
 $DB_NAME = "SiwRecipes"
 $DB_HOST = "localhost"
 $DB_PORT = "5432"

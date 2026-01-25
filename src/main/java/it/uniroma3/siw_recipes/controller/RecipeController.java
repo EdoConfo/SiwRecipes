@@ -154,6 +154,11 @@ public class RecipeController {
                         ImageIO.write(newBufferedImage, "jpg", filePathSrc.toFile());
                         ImageIO.write(newBufferedImage, "jpg", filePathTarget.toFile());
                         
+                        // Save bytes to DB for hybrid/cloud support (Added by Copilot)
+                        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+                        ImageIO.write(newBufferedImage, "jpg", baos);
+                        recipe.setImageData(baos.toByteArray());
+
                         recipe.setImage(finalFileName);
                     } else {
                         // Fallback: salva il file originale
@@ -170,6 +175,9 @@ public class RecipeController {
                         Files.copy(file.getInputStream(), filePathSrc);
                         Files.copy(filePathSrc, filePathTarget);
                         
+                        // Save bytes to DB for hybrid/cloud support
+                        recipe.setImageData(file.getBytes());
+
                         recipe.setImage(finalFileName);
                     }
                 } catch (IOException e) {
@@ -249,6 +257,10 @@ public class RecipeController {
                 }
             }
             
+            // Gestione permessi e ruoli
+            boolean isAuthor = false;
+            boolean isAdmin = false;
+
             // Aggiungiamo l'utente corrente se loggato
             User currentUser = this.getCurrentUser();
             if (currentUser != null) {
@@ -256,14 +268,22 @@ public class RecipeController {
                 
                 Credentials credentials = this.getCurrentCredentials();
                 if (credentials != null && credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
-                    model.addAttribute("isAdmin", true);
+                    isAdmin = true;
                 }
                 
-                // Se l'utente non è l'autore, prepara l'oggetto per la recensione
-                if (recipe.getAuthor() != null && !recipe.getAuthor().getId().equals(currentUser.getId())) {
+                // Verifica se l'utente è l'autore
+                if (recipe.getAuthor() != null && recipe.getAuthor().equals(currentUser)) {
+                    isAuthor = true;
+                }
+                
+                // Se NON è l'autore, prepara l'oggetto per la recensione
+                if (!isAuthor) {
                     model.addAttribute("newReview", new Review());
                 }
             }
+            
+            model.addAttribute("isAuthor", isAuthor);
+            model.addAttribute("isAdmin", isAdmin);
             
             return "recipe"; // Mostra recipe.html
         } else {
@@ -519,6 +539,11 @@ public class RecipeController {
                         ImageIO.write(newBufferedImage, "jpg", filePathSrc.toFile());
                         ImageIO.write(newBufferedImage, "jpg", filePathTarget.toFile());
                         
+                        // Save bytes to DB for hybrid/cloud support
+                        java.io.ByteArrayOutputStream baos = new java.io.ByteArrayOutputStream();
+                        ImageIO.write(newBufferedImage, "jpg", baos);
+                        oldRecipe.setImageData(baos.toByteArray());
+
                         oldRecipe.setImage(finalFileName);
                     } else {
                         // Fallback
@@ -537,6 +562,9 @@ public class RecipeController {
                         // InputStream non è riutilizzabile. Meglio copiare da src a target.
                         Files.copy(filePathSrc, filePathTarget);
                         
+                        // Save bytes to DB for hybrid/cloud support
+                        oldRecipe.setImageData(file.getBytes());
+
                         oldRecipe.setImage(finalFileName);
                     }
                 } catch (IOException e) {

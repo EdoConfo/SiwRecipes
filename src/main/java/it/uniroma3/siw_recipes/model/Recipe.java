@@ -68,8 +68,12 @@ public class Recipe {
     /* Data di inserimento della ricetta */
     private LocalDateTime creationDate;
 
-    /* Nome del file dell'immagine della ricetta */
+    /* Nome del file dell'immagine della ricetta (per compatibilità / storage su disco) */
     private String image;
+
+    /* Dati binari dell'immagine (per storage su DB / Cloud) */
+    @Column(length = 10485760) // 10MB
+    private byte[] imageData;
 
     /*
      * RELAZIONI
@@ -184,6 +188,14 @@ public class Recipe {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public byte[] getImageData() {
+        return imageData;
+    }
+
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
     }
 
     public User getAuthor() {

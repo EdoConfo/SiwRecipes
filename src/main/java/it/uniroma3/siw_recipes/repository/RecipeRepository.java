@@ -29,4 +29,7 @@ public interface RecipeRepository extends CrudRepository<Recipe, Long> {
 
     /* Trova le ultime 6 ricette create */
     List<Recipe> findTop6ByOrderByCreationDateDesc();
+
+    /* Trova ricette che hanno nome file locale ma mancano di dati binari (per migrazione) */
+    List<Recipe> findByImageDataIsNullAndImageIsNotNull();
 }

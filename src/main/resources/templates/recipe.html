@@ -87,8 +87,8 @@
                 </div>
 
                 <!-- Pulsanti Modifica/Elimina per l'autore o Admin -->
-                <div th:if="${currentUser != null && (recipe.author != null && currentUser.id == recipe.author.id || isAdmin)}" style="margin-top: 2rem;">
-                    <a th:if="${recipe.author != null && currentUser.id == recipe.author.id}" th:href="@{'/recipe/' + ${recipe.id} + '/edit'}" class="btn" style="background-color: #f39c12; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; margin-right: 10px;">
+                <div th:if="${isAuthor or isAdmin}" style="margin-top: 2rem;">
+                    <a th:if="${isAuthor}" th:href="@{'/recipe/' + ${recipe.id} + '/edit'}" class="btn" style="background-color: #f39c12; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; margin-right: 10px;">
                         <i class="fas fa-edit"></i> Modifica
                     </a>
                     <a th:href="@{'/recipe/' + ${recipe.id} + '/delete'}" class="btn" style="background-color: #e74c3c; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none;" onclick="return confirm('Sei sicuro di voler eliminare questa ricetta?');">
@@ -208,7 +208,7 @@
             </div>
 
             <!-- Form Nuova Recensione -->
-            <div th:if="${currentUser != null && recipe.author.id != currentUser.id}" style="margin-top: 2rem; background: #f9f9f9; padding: 2rem; border-radius: 10px;">
+            <div th:if="${currentUser != null && !isAuthor}" style="margin-top: 2rem; background: #f9f9f9; padding: 2rem; border-radius: 10px;">
                 <h3 style="margin-bottom: 1rem; color: #2c3e50;">Lascia una recensione</h3>
                 <form th:action="@{'/recipe/' + ${recipe.id} + '/review'}" method="POST" th:object="${newReview}">
                     
