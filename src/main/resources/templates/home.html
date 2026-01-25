@@ -29,9 +29,14 @@
             <h1>Trova la ricetta perfetta</h1>
             <p>Esplora migliaia di ricette deliziose condivise dalla nostra community di appassionati.</p>
             <form class="search-bar" action="/recipes" method="get">
-                <input type="text" name="keyword" placeholder="Cosa vuoi cucinare oggi? (es. Carbonara, Tiramisù...)">
+                <input type="text" name="keyword" placeholder="Cosa vuoi cucinare oggi?">
                 <button type="submit">Cerca</button>
             </form>
+            <style>
+                .search-bar {
+                    border: 2px solid var(--primary-color) !important;
+                }
+            </style>
         </section>
 
         <!-- Featured Recipes -->
@@ -48,15 +53,26 @@
                             </div>
                         </div>
                         <div class="recipe-content">
-                            <h3 class="recipe-title" th:text="${recipe.title}">Titolo Ricetta</h3>
-                            
-                            <div class="recipe-meta">
+                            <!-- Media recensioni accanto al titolo -->
+                            <div style="display: flex; align-items: center; gap: 0.7rem; margin-bottom: 0.5rem;">
+                                <div class="average-rating-box" style="display: flex; align-items: center; gap: 0.2rem; background: var(--card-bg); border-radius: 8px; box-shadow: 0 2px 8px var(--shadow-color); padding: 0.15rem 0.4rem; border: 2px solid #FFD700;">
+                                    <i class="fas fa-star" style="color: #FFD700; font-size: 0.8rem;"></i>
+                                    <span style="font-size: 0.85rem; font-weight: bold; color: #FFD700;" th:text="${averageRatings[recipe.id]}">0.0</span>
+                                </div>
+                                <h3 class="recipe-title" th:text="${recipe.title}" style="margin: 0;">Titolo Ricetta</h3>
+                            </div>
+                            <!-- Media recensioni accanto a tempo/difficoltà -->
+                            <div class="recipe-meta" style="display: flex; align-items: center; gap: 1.2rem;">
                                 <span><i class="far fa-clock"></i> <span th:text="${recipe.prepTime} + ' min'">30 min</span></span>
                                 <span>
                                     <i class="fas fa-signal"></i> 
                                     <span th:if="${recipe.difficulty == 1}">Facile</span>
                                     <span th:if="${recipe.difficulty == 2}">Media</span>
                                     <span th:if="${recipe.difficulty >= 3}">Difficile</span>
+                                </span>
+                                <span>
+                                    <i class="fas fa-star" style="color: var(--meta-color); font-size: 0.8rem; vertical-align: middle;"></i>
+                                    <span style="font-size: 0.85rem; font-weight: bold; color: var(--meta-color); vertical-align: middle;" th:text="${averageRatings[recipe.id]}">0.0</span>
                                 </span>
                             </div>
                             

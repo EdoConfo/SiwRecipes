@@ -28,8 +28,8 @@
 
         <!-- Search Bar for Recipes Page -->
         <div style="display: flex; justify-content: center; margin-bottom: 3rem;">
-            <form class="search-bar" action="/recipes" method="get" style="margin-top: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #f0f0f0;">
-                <input type="text" name="keyword" th:value="${keyword}" placeholder="Cerca una ricetta (es. Carbonara)...">
+            <form class="search-bar" action="/recipes" method="get" style="margin-top: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 2px solid var(--primary-color);">
+                <input type="text" name="keyword" th:value="${keyword}" placeholder="Inserisci il nome di una ricetta.">
                 <button type="submit">Cerca</button>
             </form>
         </div>

@@ -1,7 +1,6 @@
 package it.uniroma3.siw_recipes.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,6 +31,9 @@ public class AuthenticationController {
     
     @Autowired
     private it.uniroma3.siw_recipes.service.RecipeService recipeService;
+
+    @Autowired
+    private it.uniroma3.siw_recipes.service.ReviewService reviewService;
 	
 	@GetMapping(value = "/register") 
 	public String showRegisterForm (Model model) {
@@ -47,16 +49,26 @@ public class AuthenticationController {
 
 	@GetMapping(value = "/") 
 	public String index(Model model) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (authentication instanceof AnonymousAuthenticationToken) {
-            model.addAttribute("latestRecipes", this.recipeService.getLastRecipes());
-	        return "home";
-		}
-		else {		
-            // Sia admin che utenti normali vanno alla home page
-            model.addAttribute("latestRecipes", this.recipeService.getLastRecipes());
-            return "home";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        java.util.List<it.uniroma3.siw_recipes.model.RecipeSummary> latestRecipes = this.recipeService.getLastRecipes();
+        model.addAttribute("latestRecipes", latestRecipes);
+
+        // Calcolo media recensioni per ogni ricetta
+        java.util.Map<Long, String> averageRatings = new java.util.HashMap<>();
+        for (it.uniroma3.siw_recipes.model.RecipeSummary recipe : latestRecipes) {
+            java.util.List<it.uniroma3.siw_recipes.model.Review> reviews = this.reviewService.getReviewsByRecipe(this.recipeService.getRecipe(recipe.getId()));
+            double avg = 0.0;
+            if (reviews != null && !reviews.isEmpty()) {
+                double sum = 0.0;
+                for (it.uniroma3.siw_recipes.model.Review r : reviews) {
+                    if (r.getRating() != null) sum += r.getRating();
+                }
+                avg = sum / reviews.size();
+            }
+            averageRatings.put(recipe.getId(), String.format("%.1f", avg));
         }
+        model.addAttribute("averageRatings", averageRatings);
+        return "home";
     }
     
     @GetMapping(value = "/profile")
