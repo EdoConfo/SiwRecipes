@@ -6,28 +6,7 @@
     <title th:text="${recipe.title} + ' - SiwRecipes'">Dettaglio Ricetta</title>
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        /* Stili specifici per la pagina di dettaglio */
-        .rating-input {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: flex-end;
-        }
-        .rating-input input {
-            display: none;
-        }
-        .rating-input label {
-            cursor: pointer;
-            font-size: 1.5rem;
-            color: #ddd;
-            margin-right: 5px;
-        }
-        .rating-input input:checked ~ label,
-        .rating-input label:hover,
-        .rating-input label:hover ~ label {
-            color: #f1c40f;
-        }
-    </style>
+    <!-- Inline styles moved to styles.css for consistency and better validation handling -->
 </head>
 <body>
 
@@ -39,44 +18,44 @@
             <!-- Immagine Ricetta (Sinistra) -->
             <div class="recipe-image-container">
                 <img th:if="${recipe.image != null}" th:src="@{'/images/uploads/' + ${recipe.image}}" alt="Immagine Ricetta">
-                <div th:if="${recipe.image == null}" style="background-color: #eee; height: 300px; display: flex; align-items: center; justify-content: center; border-radius: 10px; color: #aaa;">
+                <div th:if="${recipe.image == null}" class="recipe-image-placeholder">
                     <i class="fas fa-image fa-3x"></i>
                 </div>
             </div>
 
             <!-- Intestazione Ricetta (Destra) -->
             <div class="recipe-info-container">
-                <h1 th:text="${recipe.title}" style="font-size: 3rem; color: #2c3e50; margin-top: 0;">Titolo Ricetta</h1>
-                <p th:text="${recipe.description}" style="font-size: 1.2rem; color: #7f8c8d; margin-bottom: 1.5rem;">Descrizione breve...</p>
+                <h1 th:text="${recipe.title}" class="recipe-header-title">Titolo Ricetta</h1>
+                <p th:text="${recipe.description}" class="recipe-header-desc">Descrizione breve...</p>
                 
                 <!-- New Info Block -->
-                <div class="recipe-info-block" style="background-color: #f8f9fa; padding: 1.5rem; border-radius: 10px; border: 1px solid #eee;">
+                <div class="recipe-info-block">
                     <!-- Row 1: Author & Date -->
-                    <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1rem; color: #555;">
+                    <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1rem;" class="recipe-info-item">
                         <div th:if="${recipe.author != null}">
-                            <i class="fas fa-user" style="color: #e67e22; margin-right: 5px;"></i> 
+                            <i class="fas fa-user" style="color: var(--primary-color); margin-right: 5px;"></i> 
                             <strong>Autore:</strong> <span th:text="${recipe.author.name} + ' ' + ${recipe.author.surname}">Mario Rossi</span>
                         </div>
                         <div th:if="${recipe.creationDate != null}">
-                            <i class="far fa-calendar-alt" style="color: #e67e22; margin-right: 5px;"></i>
+                            <i class="far fa-calendar-alt" style="color: var(--primary-color); margin-right: 5px;"></i>
                             <strong>Data di inserimento:</strong> <span th:text="${#temporals.format(recipe.creationDate, 'dd/MM/yyyy')}">01/01/2024</span>
                         </div>
                     </div>
 
-                    <hr style="border: 0; border-top: 1px solid #ddd; margin: 1rem 0;">
+                    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 1rem 0;">
 
                     <!-- Row 2: Category, Time, Difficulty -->
-                    <div style="display: flex; flex-direction: column; gap: 0.8rem; color: #555;">
+                    <div style="display: flex; flex-direction: column; gap: 0.8rem;" class="recipe-info-item">
                         <div th:if="${recipe.category != null}">
-                            <i class="fas fa-tag" style="color: #e67e22; margin-right: 5px;"></i>
+                            <i class="fas fa-tag" style="color: var(--primary-color); margin-right: 5px;"></i>
                             <strong>Categoria:</strong> <span th:text="${recipe.category}">Categoria</span>
                         </div>
                         <div>
-                            <i class="far fa-clock" style="color: #e67e22; margin-right: 5px;"></i>
+                            <i class="far fa-clock" style="color: var(--primary-color); margin-right: 5px;"></i>
                             <strong>Tempo:</strong> <span th:text="${recipe.prepTime} + ' min'">45 min</span>
                         </div>
                         <div>
-                            <i class="fas fa-signal" style="color: #e67e22; margin-right: 5px;"></i>
+                            <i class="fas fa-signal" style="color: var(--primary-color); margin-right: 5px;"></i>
                             <strong>Difficoltà:</strong>
                             <span th:if="${recipe.difficulty == 1}">Facile</span>
                             <span th:if="${recipe.difficulty == 2}">Media</span>
@@ -87,11 +66,11 @@
                 </div>
 
                 <!-- Pulsanti Modifica/Elimina per l'autore o Admin -->
-                <div th:if="${isAuthor or isAdmin}" style="margin-top: 2rem;">
-                    <a th:if="${isAuthor}" th:href="@{'/recipe/' + ${recipe.id} + '/edit'}" class="btn" style="background-color: #f39c12; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; margin-right: 10px;">
+                <div th:if="${isAuthor or isAdmin}" class="action-btn-group">
+                    <a th:if="${isAuthor}" th:href="@{'/recipe/' + ${recipe.id} + '/edit'}" class="btn-warning">
                         <i class="fas fa-edit"></i> Modifica
                     </a>
-                    <a th:href="@{'/recipe/' + ${recipe.id} + '/delete'}" class="btn" style="background-color: #e74c3c; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none;" onclick="return confirm('Sei sicuro di voler eliminare questa ricetta?');">
+                    <a th:href="@{'/recipe/' + ${recipe.id} + '/delete'}" class="btn-danger" onclick="return confirm('Sei sicuro di voler eliminare questa ricetta?');">
                         <i class="fas fa-trash-alt"></i> Elimina
                     </a>
                 </div>
@@ -102,12 +81,12 @@
             
             <!-- Colonna Sinistra: Ingredienti -->
             <aside class="ingredients-box">
-                <h3 style="margin-bottom: 1.5rem; color: #e67e22;"><i class="fas fa-shopping-basket"></i> Ingredienti</h3>
+                <h3><i class="fas fa-shopping-basket"></i> Ingredienti</h3>
                 
                 <ul class="ingredients-list" th:if="${recipe.ingredients != null && !recipe.ingredients.isEmpty()}">
                     <li th:each="ingredient : ${recipe.ingredients}">
                         <span th:text="${ingredient.name}">Farina</span>
-                        <span style="font-weight: bold; color: #2c3e50;">
+                        <span>
                             <span th:text="${ingredient.quantity}">200</span>
                             <span th:text="${ingredient.unitOfMeasure}">g</span>
                         </span>
@@ -119,7 +98,7 @@
 
             <!-- Colonna Destra: Procedimento -->
             <section class="procedure-box">
-                <h3 style="margin-bottom: 1.5rem; color: #e67e22;"><i class="fas fa-list-ol"></i> Procedimento</h3>
+                <h3><i class="fas fa-list-ol"></i> Procedimento</h3>
                 <div class="procedure-text" th:text="${recipe.procedure}">
                     Qui apparirà il testo del procedimento della ricetta...
                 </div>
@@ -129,18 +108,18 @@
 
         <!-- Sezione Recensioni -->
         <div class="reviews-section" style="margin-top: 3rem;">
-            <h2 style="color: #2c3e50; border-bottom: 2px solid #e67e22; padding-bottom: 0.5rem; display: inline-block; margin-bottom: 1.5rem;">Recensioni</h2>
+            <h2 class="reviews-section-title">Recensioni</h2>
             
             <!-- Lista Recensioni (Griglia) -->
             <div th:if="${recipe.reviews != null && !recipe.reviews.isEmpty()}" class="reviews-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
-                <div th:each="singleReview : ${recipe.reviews}" th:id="'review-' + ${singleReview.id}" class="review-card" style="background: #fff; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; transition: transform 0.2s ease, box-shadow 0.2s ease;">
+                <div th:each="singleReview : ${recipe.reviews}" th:id="'review-' + ${singleReview.id}" class="review-card">
                     
                     <!-- Visualizzazione Normale -->
                     <div th:if="${editingReviewId != singleReview.id}">
                         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
                             <div>
-                                <strong th:text="${singleReview.title}" style="font-size: 1.1rem; color: #2c3e50; display: block; margin-bottom: 0.2rem;">Titolo</strong>
-                                <span style="font-size: 0.85rem; color: #95a5a6;">
+                                <strong th:text="${singleReview.title}" class="review-card-title">Titolo</strong>
+                                <span class="review-card-meta">
                                     da <span th:text="${singleReview.author.name}" style="font-weight: 600;">Autore</span>
                                 </span>
                             </div>
@@ -150,10 +129,10 @@
                             </div>
                         </div>
                         
-                        <p th:text="${singleReview.text}" style="color: #555; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem;">Testo recensione...</p>
+                        <p th:text="${singleReview.text}" class="review-card-text">Testo recensione...</p>
                         
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid #f9f9f9; padding-top: 0.5rem;">
-                            <div style="font-size: 0.8rem; color: #bdc3c7;">
+                        <div class="review-card-footer">
+                            <div style="font-size: 0.8rem;">
                                 <i class="far fa-calendar-alt"></i> <span th:text="${#temporals.format(singleReview.creationDate, 'dd/MM/yyyy')}">Data</span>
                             </div>
                             
@@ -167,11 +146,11 @@
 
                     <!-- Form di Modifica Inline -->
                     <div th:if="${editingReviewId == singleReview.id}">
-                        <h4 style="margin-bottom: 1rem; color: #e67e22;">Modifica Recensione</h4>
+                        <h4 style="margin-bottom: 1rem; color: var(--primary-color);">Modifica Recensione</h4>
                         <form th:action="@{'/review/' + ${singleReview.id} + '/update'}" method="POST" th:object="${review}">
                             
                             <div style="margin-bottom: 0.5rem;">
-                                <label style="display: block; font-size: 0.9rem; font-weight: bold;">Valutazione:</label>
+                                <label style="display: block; font-size: 0.9rem; font-weight: bold; color: var(--text-color);">Valutazione:</label>
                                 <div class="rating-input" style="font-size: 0.9rem;">
                                     <input type="radio" th:id="'edit-star5-' + ${singleReview.id}" name="rating" value="5" th:field="*{rating}" /><label th:for="'edit-star5-' + ${singleReview.id}"><i class="fas fa-star"></i></label>
                                     <input type="radio" th:id="'edit-star4-' + ${singleReview.id}" name="rating" value="4" th:field="*{rating}" /><label th:for="'edit-star4-' + ${singleReview.id}"><i class="fas fa-star"></i></label>
@@ -183,12 +162,12 @@
                             </div>
 
                             <div style="margin-bottom: 0.5rem;">
-                                <input type="text" th:field="*{title}" placeholder="Titolo" required style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
+                                <input type="text" th:field="*{title}" placeholder="Titolo" required class="card-input">
                                 <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color: #e74c3c; font-size: 0.8rem;"></span>
                             </div>
 
                             <div style="margin-bottom: 0.5rem;">
-                                <textarea th:field="*{text}" placeholder="Testo" rows="3" style="width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px; resize: vertical;"></textarea>
+                                <textarea th:field="*{text}" placeholder="Testo" rows="3" class="card-input" style="resize: vertical;"></textarea>
                                 <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}" style="color: #e74c3c; font-size: 0.8rem;"></span>
                             </div>
 
@@ -202,14 +181,14 @@
                 </div>
             </div>
             
-            <div th:if="${recipe.reviews == null || recipe.reviews.isEmpty()}" style="color: #7f8c8d; font-style: italic; margin-top: 1rem;">
+            <div th:if="${recipe.reviews == null || recipe.reviews.isEmpty()}" style="color: var(--meta-color); font-style: italic; margin-top: 1rem;">
                 <p th:if="${currentUser != null}" style="margin: 0;">Nessuna recensione ancora. Sii il primo a recensire!</p>
                 <p th:if="${currentUser == null}" style="margin: 0;">Nessuna recensione ancora. <a th:href="@{/login}" style="color: #e67e22; text-decoration: underline; font-weight: bold;">Accedi</a> o <a th:href="@{/register}" style="color: #e67e22; text-decoration: underline; font-weight: bold;">Registrati</a> per scriverne una.</p>
             </div>
 
             <!-- Form Nuova Recensione -->
-            <div th:if="${currentUser != null && !isAuthor}" style="margin-top: 2rem; background: #f9f9f9; padding: 2rem; border-radius: 10px;">
-                <h3 style="margin-bottom: 1rem; color: #2c3e50;">Lascia una recensione</h3>
+            <div th:if="${currentUser != null && !isAuthor}" class="new-review-form">
+                <h3>Lascia una recensione</h3>
                 <form th:action="@{'/recipe/' + ${recipe.id} + '/review'}" method="POST" th:object="${newReview}">
                     
                     <div th:if="${#fields.hasGlobalErrors()}" class="error-message" style="color: #e74c3c; margin-bottom: 1rem;">
@@ -217,24 +196,24 @@
                     </div>
 
                     <div style="margin-bottom: 1rem;">
-                        <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">Valutazione:</label>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: var(--text-color);">Valutazione:</label>
                         <div class="rating-input">
-                            <input type="radio" id="star5" name="rating" value="5" th:field="*{rating}" /><label for="star5" title="5 stelle"><i class="fas fa-star"></i></label>
-                            <input type="radio" id="star4" name="rating" value="4" th:field="*{rating}" /><label for="star4" title="4 stelle"><i class="fas fa-star"></i></label>
-                            <input type="radio" id="star3" name="rating" value="3" th:field="*{rating}" /><label for="star3" title="3 stelle"><i class="fas fa-star"></i></label>
-                            <input type="radio" id="star2" name="rating" value="2" th:field="*{rating}" /><label for="star2" title="2 stelle"><i class="fas fa-star"></i></label>
-                            <input type="radio" id="star1" name="rating" value="1" th:field="*{rating}" /><label for="star1" title="1 stella"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star5" name="rating" value="5" th:field="*{rating}" required /><label for="star5" title="5 stelle"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star4" name="rating" value="4" th:field="*{rating}" required /><label for="star4" title="4 stelle"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star3" name="rating" value="3" th:field="*{rating}" required /><label for="star3" title="3 stelle"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star2" name="rating" value="2" th:field="*{rating}" required /><label for="star2" title="2 stelle"><i class="fas fa-star"></i></label>
+                            <input type="radio" id="star1" name="rating" value="1" th:field="*{rating}" required /><label for="star1" title="1 stella"><i class="fas fa-star"></i></label>
                         </div>
                         <span th:if="${#fields.hasErrors('rating')}" th:errors="*{rating}" style="color: #e74c3c; font-size: 0.9rem;"></span>
                     </div>
 
                     <div style="margin-bottom: 1rem;">
-                        <input type="text" th:field="*{title}" placeholder="Titolo della recensione" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                        <input type="text" th:field="*{title}" placeholder="Titolo della recensione" required class="card-input">
                         <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" style="color: #e74c3c; font-size: 0.9rem;"></span>
                     </div>
 
                     <div style="margin-bottom: 1rem;">
-                        <textarea th:field="*{text}" placeholder="Scrivi la tua opinione..." rows="4" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; resize: vertical;"></textarea>
+                        <textarea th:field="*{text}" placeholder="Scrivi la tua opinione..." rows="4" class="card-input" style="resize: vertical;"></textarea>
                         <span th:if="${#fields.hasErrors('text')}" th:errors="*{text}" style="color: #e74c3c; font-size: 0.9rem;"></span>
                     </div>
 

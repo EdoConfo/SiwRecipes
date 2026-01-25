@@ -320,6 +320,23 @@ public class RecipeController {
             
             model.addAttribute("recipe", recipe);
             model.addAttribute("currentUser", currentUser);
+            
+            // Re-populate flags to avoid template errors
+            boolean isAuthor = false;
+            boolean isAdmin = false;
+            
+            if (recipe.getAuthor() != null && recipe.getAuthor().equals(currentUser)) {
+                isAuthor = true;
+            }
+            
+            Credentials credentials = this.getCurrentCredentials();
+            if (credentials != null && credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+                isAdmin = true;
+            }
+            
+            model.addAttribute("isAuthor", isAuthor);
+            model.addAttribute("isAdmin", isAdmin);
+            
             return "recipe";
         }
         
@@ -361,7 +378,21 @@ public class RecipeController {
             model.addAttribute("recipe", recipe);
             model.addAttribute("currentUser", currentUser);
             model.addAttribute("editingReviewId", id);
-            // 'review' (con errori) è già nel model grazie a @ModelAttribute
+            
+            // Re-populate flags
+            boolean isAuthor = false; // Author of recipe, not review
+            if (recipe.getAuthor() != null && recipe.getAuthor().getId().equals(currentUser.getId())) {
+                isAuthor = true;
+            }
+            
+            boolean isAdmin = false;
+            Credentials credentials = this.getCurrentCredentials();
+            if (credentials != null && credentials.getRole().equals(Credentials.ADMIN_ROLE)) {
+                isAdmin = true;
+            }
+            
+            model.addAttribute("isAuthor", isAuthor);
+            model.addAttribute("isAdmin", isAdmin);
             
             return "recipe";
         }

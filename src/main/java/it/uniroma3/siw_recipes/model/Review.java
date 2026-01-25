@@ -40,7 +40,6 @@ public class Review {
 
     /* Testo della recensione */
     @Column(length = 1000)
-    @NotBlank
     private String text;
 
     /* Valutazione numerica (es. da 1 a 5 stelle) */

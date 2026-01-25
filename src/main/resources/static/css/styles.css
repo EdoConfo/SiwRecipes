@@ -1,4 +1,40 @@
 /* Reset e stili base */
+:root {
+    --bg-color: #f4f6f8;
+    --bg-pattern: #ddd;
+    --text-color: #333;
+    --heading-color: #2c3e50;
+    --meta-color: #7f8c8d;
+    --header-bg: #fff;
+    --card-bg: #fff;
+    --nav-text: #555;
+    --primary-color: #e67e22;
+    --border-color: #ddd;
+    --shadow-color: rgba(0,0,0,0.05);
+    --input-bg: #fff;
+    --input-border: #ccc;
+    --shadow-strong: rgba(0,0,0,0.15);
+    --placeholder-bg: #eee;
+}
+
+[data-theme="dark"] {
+    --bg-color: #0d1117;         /* GitHub Dark Style Background */
+    --bg-pattern: #161b22;
+    --text-color: #e6edf3;       /* High contrast text */
+    --heading-color: #e6edf3;
+    --meta-color: #8b949e;
+    --header-bg: #161b22;        /* Distinct header */
+    --card-bg: #1d2129;          /* Lighter than BG for elevation (cards) */
+    --nav-text: #8b949e;
+    --primary-color: #f0883e;    /* Automatic orange adjustment */
+    --border-color: #30363d;
+    --shadow-color: rgba(0,0,0,0.8);
+    --input-bg: #0d1117;
+    --input-border: #30363d;
+    --shadow-strong: rgba(0,0,0,0.9);
+    --placeholder-bg: #2d333b;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -8,14 +44,15 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    color: #333;
-    background-color: #f4f6f8;
-    background-image: radial-gradient(#e67e22 0.5px, transparent 0.5px), radial-gradient(#e67e22 0.5px, #f4f6f8 0.5px);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    background-image: radial-gradient(var(--bg-pattern) 0.5px, transparent 0.5px), radial-gradient(var(--bg-pattern) 0.5px, var(--bg-color) 0.5px);
     background-size: 20px 20px;
     background-position: 0 0, 10px 10px;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 a {
@@ -29,11 +66,12 @@ ul {
 
 /* Header e Navigazione */
 header {
-    background-color: #fff;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    background-color: var(--header-bg);
+    box-shadow: 0 2px 10px var(--shadow-color);
     position: sticky;
     top: 0;
     z-index: 1000;
+    transition: background-color 0.3s ease;
 }
 
 nav {
@@ -48,7 +86,7 @@ nav {
 .logo {
     font-size: 1.5rem;
     font-weight: 800;
-    color: #e67e22;
+    color: var(--primary-color);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -57,7 +95,7 @@ nav {
 .menu-toggle {
     display: none;
     font-size: 1.5rem;
-    color: #e67e22;
+    color: var(--primary-color);
     cursor: pointer;
 }
 
@@ -78,12 +116,12 @@ nav {
 
 .nav-links a {
     font-weight: 600;
-    color: #555;
+    color: var(--nav-text);
     transition: color 0.3s;
 }
 
 .nav-links a:hover {
-    color: #e67e22;
+    color: var(--primary-color);
 }
 
 .auth-buttons .btn {
@@ -174,23 +212,23 @@ main {
 .auth-container {
     max-width: 450px;
     margin: 2rem auto;
-    background: white;
+    background: var(--card-bg);
     padding: 2.5rem;
     border-radius: 16px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+    box-shadow: 0 10px 40px var(--shadow-strong);
     border: 1px solid rgba(0,0,0,0.02);
 }
 
 .auth-container h1 {
     text-align: center;
-    color: #2c3e50;
+    color: var(--text-color);
     margin-bottom: 0.5rem;
     font-size: 2rem;
 }
 
 .auth-container > p {
     text-align: center;
-    color: #7f8c8d;
+    color: var(--nav-text);
     margin-bottom: 2rem;
 }
 
@@ -300,10 +338,10 @@ footer p {
 /* Search Bar */
 .search-bar {
     display: flex;
-    background: white;
+    background: var(--card-bg);
     padding: 0.5rem;
     border-radius: 50px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 20px var(--shadow-strong);
     width: 100%;
     max-width: 600px;
     margin-top: 1rem;
@@ -316,6 +354,8 @@ footer p {
     font-size: 1rem;
     border-radius: 50px;
     outline: none;
+    background: transparent;
+    color: var(--text-color);
 }
 
 .search-bar button {
@@ -341,7 +381,7 @@ footer p {
 .section-title {
     text-align: center;
     font-size: 2.5rem;
-    color: #2c3e50;
+    color: var(--heading-color);
     margin-bottom: 3rem;
     position: relative;
 }
@@ -450,18 +490,19 @@ footer p {
     padding-left: 2.8rem !important; /* Make space for the icon */
     width: 100%;
     padding: 0.9rem 1rem;
-    border: 2px solid #eef2f7;
+    border: 2px solid var(--border-color);
     border-radius: 8px;
     font-size: 1rem;
     transition: all 0.3s ease;
-    background-color: #fdfdfd;
+    background-color: var(--input-bg);
     font-family: inherit;
+    color: var(--text-color);
 }
 
 .input-group input:focus,
 .input-group textarea:focus {
     border-color: #e67e22;
-    background-color: #fff;
+    background-color: var(--card-bg);
     outline: none;
     box-shadow: 0 0 0 4px rgba(230, 126, 34, 0.1);
 }
@@ -490,15 +531,16 @@ footer p {
 
 /* --- Recipe Card Styles --- */
 .recipe-card {
-    background: white;
+    background: var(--card-bg);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 15px var(--shadow-color);
     transition: transform 0.3s, box-shadow 0.3s;
     display: flex;
     flex-direction: column;
     height: 100%;
     text-decoration: none; /* Remove underline from links wrapping the card */
+    color: var(--text-color);
 }
 
 .recipe-card:hover {
@@ -510,7 +552,7 @@ footer p {
     height: 200px;
     overflow: hidden;
     position: relative;
-    background-color: #eee;
+    background-color: var(--placeholder-bg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -541,7 +583,7 @@ footer p {
 
 .recipe-title {
     font-size: 1.25rem;
-    color: #2c3e50;
+    color: var(--heading-color);
     margin-bottom: 0.5rem;
     font-weight: 700;
 }
@@ -550,12 +592,12 @@ footer p {
     display: flex;
     gap: 1rem;
     font-size: 0.9rem;
-    color: #7f8c8d;
+    color: var(--meta-color);
     margin-bottom: 1rem;
 }
 
 .recipe-description {
-    color: #555;
+    color: var(--nav-text);
     font-size: 0.95rem;
     margin-bottom: 1.5rem;
     flex: 1;
@@ -570,13 +612,13 @@ footer p {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-top: 1px solid #f0f0f0;
+    border-top: 1px solid var(--border-color);
     padding-top: 1rem;
 }
 
 .recipe-author {
     font-size: 0.85rem;
-    color: #95a5a6;
+    color: var(--meta-color);
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -614,12 +656,13 @@ footer p {
 
 .carousel-card {
     flex: 0 0 300px; /* Fixed width for cards */
-    background: white;
+    background: var(--card-bg);
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 15px var(--shadow-color);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border: 1px solid rgba(0,0,0,0.03);
+    color: var(--text-color);
 }
 
 .carousel-card:hover {
@@ -651,7 +694,7 @@ footer p {
 .carousel-card h3 {
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
-    color: #2c3e50;
+    color: var(--heading-color);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -659,7 +702,7 @@ footer p {
 
 .carousel-card .card-meta {
     font-size: 0.9rem;
-    color: #7f8c8d;
+    color: var(--meta-color);
     margin-bottom: 1rem;
 }
 
@@ -854,4 +897,207 @@ a.carousel-card {
         padding: 0.5rem;
         display: inline-block;
     }
+}
+
+/* --- Recipe Detail Page Styles --- */
+
+.recipe-header-title {
+    font-size: 3rem;
+    color: var(--heading-color);
+    margin-top: 0;
+}
+
+.recipe-header-desc {
+    font-size: 1.2rem;
+    color: var(--nav-text);
+    margin-bottom: 1.5rem;
+}
+
+.recipe-info-block {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+}
+
+.recipe-info-item {
+    color: var(--meta-color);
+}
+
+/* Ingredients & Procedure Boxes */
+.ingredients-box, .procedure-box {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    border: 1px solid var(--border-color);
+}
+
+.ingredients-box h3, .procedure-box h3 {
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+.ingredients-list li span:last-child {
+    font-weight: bold;
+    color: var(--heading-color);
+}
+
+.procedure-text {
+    line-height: 1.8;
+    color: var(--text-color);
+}
+
+/* Reviews Section */
+.reviews-section-title {
+    color: var(--heading-color);
+    border-bottom: 2px solid var(--primary-color);
+    padding-bottom: 0.5rem; 
+    display: inline-block; 
+    margin-bottom: 1.5rem;
+}
+
+.review-card {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px var(--shadow-color);
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.review-card-title {
+    font-size: 1.1rem; 
+    color: var(--heading-color); 
+    display: block; 
+    margin-bottom: 0.2rem;
+}
+
+.review-card-meta {
+    font-size: 0.85rem; 
+    color: var(--meta-color);
+}
+
+.review-card-text {
+    color: var(--text-color); 
+    font-size: 0.95rem; 
+    line-height: 1.6; 
+    margin-bottom: 1rem;
+}
+
+.review-card-footer {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border-top: 1px solid var(--border-color); 
+    padding-top: 0.5rem;
+    color: var(--meta-color);
+}
+
+/* New Review Form */
+.new-review-form {
+    margin-top: 2rem; 
+    background: var(--card-bg); 
+    padding: 2rem; 
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.new-review-form h3 {
+    margin-bottom: 1rem;
+    color: var(--heading-color);
+}
+
+/* Generic Form Inputs inside cards */
+.card-input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+}
+
+.card-input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.recipe-image-placeholder {
+    background-color: var(--input-bg);
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: var(--meta-color);
+    border: 1px solid var(--border-color);
+}
+
+.btn-warning {
+    background-color: #f39c12;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+.btn-warning:hover {
+    background-color: #d35400;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.action-btn-group {
+    margin-top: 2rem;
+    display: flex;
+    gap: 10px;
+}
+
+/* Star Rating System - Validation Compatible */
+.rating-input {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end; /* Aligns to left in row-reverse */
+    position: relative; /* Anchor for absolute inputs */
+}
+
+.rating-input input {
+    /* 
+       Allows browser validation (required) to work by keeping element in DOM/layout 
+       but making it invisible. display: none prevents validation messages.
+    */
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.rating-input label {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--meta-color); /* Adapts to theme (gray) */
+    margin-right: 5px;
+    transition: color 0.2s;
+}
+
+/* Star Logic: Checked or Hovering lights up previous siblings (which are visually to the left) */
+.rating-input input:checked ~ label,
+.rating-input label:hover,
+.rating-input label:hover ~ label {
+    color: #f1c40f;
 }
