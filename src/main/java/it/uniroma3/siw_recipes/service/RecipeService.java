@@ -103,13 +103,23 @@ public class RecipeService {
     }
     
     /**
-     * Cerca ricette che contengono una certa parola nel titolo.
+     * Cerca ricette che contengono una certa parola nel titolo (Entity).
      * @param title La parola chiave da cercare.
      * @return Lista di ricette corrispondenti.
      */
     @Transactional(readOnly = true)
     public List<Recipe> findByTitle(String title) {
         return this.recipeRepository.findByTitleContainingIgnoreCase(title);
+    }
+
+    /**
+     * Cerca ricette che contengono una certa parola nel titolo (Summary).
+     * @param title La parola chiave da cercare.
+     * @return Lista di ricette (Summary) corrispondenti.
+     */
+    @Transactional(readOnly = true)
+    public List<it.uniroma3.siw_recipes.model.RecipeSummary> findSummaryByTitle(String title) {
+        return this.recipeRepository.findAllByTitleContainingIgnoreCase(title);
     }
 
     public List<it.uniroma3.siw_recipes.model.RecipeSummary> getLastRecipes() {

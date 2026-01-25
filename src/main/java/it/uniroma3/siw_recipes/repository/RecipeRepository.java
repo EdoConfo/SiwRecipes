@@ -27,6 +27,9 @@ public interface RecipeRepository extends CrudRepository<Recipe, Long> {
     /* Cerca ricette il cui titolo contiene la stringa passata (case insensitive) */
     List<Recipe> findByTitleContainingIgnoreCase(String title);
 
+    /* Cerca ricette il cui titolo contiene la stringa passata (case insensitive) - Returns Summary */
+    List<it.uniroma3.siw_recipes.model.RecipeSummary> findAllByTitleContainingIgnoreCase(String title);
+
     /* Trova tutte le ricette ma solo i dati "summary" (senza BLOB) - Proiezione */
     List<it.uniroma3.siw_recipes.model.RecipeSummary> findAllBy();
 

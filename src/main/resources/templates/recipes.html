@@ -15,6 +15,14 @@
     <main class="container" style="max-width: 95%; margin: 2rem auto; padding: 0 1rem;">
         <h1 class="section-title">Tutte le nostre Ricette</h1>
 
+        <!-- Search Bar for Recipes Page -->
+        <div style="display: flex; justify-content: center; margin-bottom: 3rem;">
+            <form class="search-bar" action="/recipes" method="get" style="margin-top: 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border: 1px solid #f0f0f0;">
+                <input type="text" name="keyword" th:value="${keyword}" placeholder="Cerca una ricetta (es. Carbonara)...">
+                <button type="submit">Cerca</button>
+            </form>
+        </div>
+
         <!-- Controllo se ci sono ricette -->
         <div th:if="${recipes==null || recipes.isEmpty()}" style="text-align: center; padding: 2rem;">
             <p>Non ci sono ancora ricette nel sistema. Torna presto!</p>

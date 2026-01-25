@@ -213,16 +213,23 @@ public class RecipeController {
     /**
      * Gestisce la richiesta per visualizzare l'elenco di tutte le ricette.
      * URL: /recipes
+     * Supporta filtro opzionale per parola chiave.
      * 
+     * @param keyword Parola chiave per la ricerca (opzionale).
      * @param model Il "contenitore" dove mettiamo i dati da inviare alla pagina HTML.
      * @return Il nome del file HTML da visualizzare (senza .html).
      */
     @GetMapping("/recipes")
-    public String getRecipes(Model model) {
-        // 1. Chiediamo al service tutte le ricette (versione ottimizzata Summary)
-        // 2. Le aggiungiamo al modello con il nome "recipes"
-        // Nella pagina HTML potremo usare th:each="recipe : ${recipes}"
-        model.addAttribute("recipes", this.recipeService.getAllRecipesSummary());
+    public String getRecipes(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+        // Se c'è una parola chiave, cerchiamo (filtered). Altrimenti mostriamo tutto.
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            model.addAttribute("recipes", this.recipeService.findSummaryByTitle(keyword));
+            model.addAttribute("keyword", keyword);
+        } else {
+            // 1. Chiediamo al service tutte le ricette (versione ottimizzata Summary)
+            // 2. Le aggiungiamo al modello con il nome "recipes"
+            model.addAttribute("recipes", this.recipeService.getAllRecipesSummary());
+        }
         
         // 3. Restituiamo il nome della vista (src/main/resources/templates/recipes.html)
         return "recipes";
