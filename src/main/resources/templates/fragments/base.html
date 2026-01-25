@@ -20,25 +20,29 @@
                 <li><a href="#">Chi Siamo</a></li>
             </ul>
 
-            <div class="auth-buttons">
-                <div th:if="${#authentication == null || #authorization.expression('isAnonymous()')}" style="display: inline-block;">
-                    <a href="/login" class="btn btn-login">Accedi</a>
-                    <a href="/register" class="btn btn-register">Registrati</a>
-                    <!-- Theme Toggle Button placed after Accedi/Registrati for anonymous users -->
-                    <button id="theme-toggle" class="btn theme-toggle" style="border: 2px solid var(--nav-text); background: transparent; color: var(--nav-text); cursor: pointer;" title="Cambia tema" aria-label="Cambia tema">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                </div>
-                <div th:unless="${#authentication == null || #authorization.expression('isAnonymous()')}" style="display: inline-block;">
+            <div class="auth-wrapper">
+                <!-- Greeting (first on desktop, moved by grid on mobile) -->
+                <div th:unless="${#authentication == null || #authorization.expression('isAnonymous()')}">
                     <span class="user-greeting">Ciao, <span th:text="${currentUser != null ? currentUser.name : #authentication.name}">User</span>!</span>
-                    <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" href="/admin/indexAdmin" class="btn btn-register" style="background-color: #e74c3c; border-color: #e74c3c;">Admin</a>
-                    <a href="/profile" class="btn btn-register">Area Personale</a>
-                    <a href="/logout" class="btn btn-login">Logout</a>
-                    <!-- Theme Toggle Button placed after Logout for authenticated users -->
-                    <button id="theme-toggle" class="btn theme-toggle" style="border: 2px solid var(--nav-text); background: transparent; color: var(--nav-text); cursor: pointer; margin-left: 10px;" title="Cambia tema" aria-label="Cambia tema">
-                        <i class="fas fa-moon"></i>
-                    </button>
                 </div>
+
+                <!-- Action buttons (Accedi/Registrati OR Admin / Area Personale / Logout) -->
+                <div class="auth-top">
+                    <div th:if="${#authentication == null || #authorization.expression('isAnonymous()')}">
+                        <a href="/login" class="btn btn-login">Accedi</a>
+                        <a href="/register" class="btn btn-register">Registrati</a>
+                    </div>
+                    <div th:unless="${#authentication == null || #authorization.expression('isAnonymous()')}">
+                        <a th:if="${#authorization.expression('hasAuthority(''ADMIN'')')}" href="/admin/indexAdmin" class="btn btn-register" style="background-color: #e74c3c; border-color: #e74c3c;">Admin</a>
+                        <a href="/profile" class="btn btn-register">Area Personale</a>
+                        <a href="/logout" class="btn btn-login">Logout</a>
+                    </div>
+                </div>
+
+                <!-- Theme Toggle (placed last on desktop) -->
+                <button id="theme-toggle" class="btn theme-toggle" style="border: 2px solid var(--nav-text); background: transparent; color: var(--nav-text); cursor: pointer;" title="Cambia tema" aria-label="Cambia tema">
+                    <i class="fas fa-moon"></i>
+                </button>
             </div>
         </nav>
         <script>

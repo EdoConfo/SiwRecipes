@@ -144,6 +144,27 @@ nav {
     margin-left: 1rem;
 }
 
+/* Auth wrapper: desktop single-row (grid), mobile becomes two-row via media query */
+.auth-wrapper {
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* greeting | buttons | theme-toggle */
+    align-items: center;
+    gap: 0.6rem;
+    align-self: center;
+}
+
+.auth-top {
+    display: flex;
+    gap: 0.5rem;
+    justify-self: center;
+}
+
+.user-greeting {
+    font-weight: 600;
+    color: var(--nav-text);
+    justify-self: end;
+}
+
 .theme-toggle i {
     font-size: 1rem;
 }
@@ -154,7 +175,67 @@ nav {
     padding-bottom: 0.6rem; /* same vertical padding as .btn */
     padding-left: 0.9rem;
     padding-right: 0.9rem;
-    /* ensure it respects min-height defined on .btn */
+    justify-self: end;
+}
+
+/* Responsive: collapse header for small screens
+   - keep logo left and auth buttons right on the first row
+   - move main nav links to a full-width second row centered
+   - hide verbose greeting on very small widths to save space */
+@media (max-width: 800px) {
+    nav {
+        flex-wrap: wrap;
+        align-items: center;
+        padding: 0.75rem 1rem;
+    }
+
+    .logo {
+        order: 1;
+        flex: 0 0 auto;
+        margin-right: auto; /* force logo to the left */
+    }
+
+    /* Change auth-wrapper into a 2-row layout: first row = buttons, second row = greeting + toggle */
+    .auth-wrapper {
+        order: 2;
+        margin-left: auto; /* force auth block to the right */
+        grid-template-columns: 1fr auto;
+        grid-template-areas: "auth-top auth-top" "greeting theme-toggle";
+        gap: 0.4rem 0.8rem;
+        width: auto;
+        align-items: center;
+    }
+
+    .auth-top { grid-area: auth-top; justify-self: end; }
+    .user-greeting { grid-area: greeting; justify-self: end; display: inline-flex; }
+    .theme-toggle { grid-area: theme-toggle; justify-self: end; }
+
+    .nav-links {
+        order: 3;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        margin-top: 0.6rem;
+    }
+
+    /* Make buttons slightly smaller horizontally on small screens */
+    .btn {
+        padding: 0.45rem 0.9rem;
+        min-height: calc(1em + 0.9rem);
+        font-size: 0.95rem;
+    }
+
+    /* keep greeting visible but compact on mobile; if you prefer to hide, change here */
+    .user-greeting {
+        font-size: 0.95rem;
+    }
+
+    /* ensure theme-toggle aligns visually with auth buttons */
+    .theme-toggle {
+        padding-left: 0.8rem;
+        padding-right: 0.8rem;
+    }
 }
 
 .btn-login {
