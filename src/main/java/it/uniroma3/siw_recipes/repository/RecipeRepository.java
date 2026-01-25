@@ -27,9 +27,15 @@ public interface RecipeRepository extends CrudRepository<Recipe, Long> {
     /* Cerca ricette il cui titolo contiene la stringa passata (case insensitive) */
     List<Recipe> findByTitleContainingIgnoreCase(String title);
 
-    /* Trova le ultime 6 ricette create */
-    List<Recipe> findTop6ByOrderByCreationDateDesc();
+    /* Trova tutte le ricette ma solo i dati "summary" (senza BLOB) - Proiezione */
+    List<it.uniroma3.siw_recipes.model.RecipeSummary> findAllBy();
+
+    /* Trova le ultime 6 ricette create (Proiezione) */
+    List<it.uniroma3.siw_recipes.model.RecipeSummary> findTop6ByOrderByCreationDateDesc();
 
     /* Trova ricette che hanno nome file locale ma mancano di dati binari (per migrazione) */
     List<Recipe> findByImageDataIsNullAndImageIsNotNull();
+
+    /* Trova una ricetta dato il nome del file immagine */
+    Recipe findByImage(String image);
 }

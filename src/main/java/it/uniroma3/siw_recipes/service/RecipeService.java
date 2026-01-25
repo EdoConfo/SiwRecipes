@@ -56,6 +56,11 @@ public class RecipeService {
         return null;
     }
 
+    @Transactional(readOnly = true)
+    public Recipe getRecipeByImageFilename(String filename) {
+        return this.recipeRepository.findByImage(filename);
+    }
+
     /**
      * Cancella una ricetta dato il suo ID.
      * @param id L'ID della ricetta da cancellare.
@@ -76,7 +81,16 @@ public class RecipeService {
     }
 
     /**
-     * Restituisce la lista di tutte le ricette presenti nel sistema.
+     * Restituisce la lista di tutte le ricette presenti nel sistema (Summary Projection).
+     * @return Lista di ricette ottimizzata.
+     */
+    @Transactional(readOnly = true)
+    public List<it.uniroma3.siw_recipes.model.RecipeSummary> getAllRecipesSummary() {
+        return this.recipeRepository.findAllBy();
+    }
+    
+    /**
+     * Restituisce la lista di tutte le ricette presenti nel sistema (Entity complete).
      * @return Lista di ricette.
      */
     @Transactional(readOnly = true)
@@ -98,7 +112,7 @@ public class RecipeService {
         return this.recipeRepository.findByTitleContainingIgnoreCase(title);
     }
 
-    public List<Recipe> getLastRecipes() {
+    public List<it.uniroma3.siw_recipes.model.RecipeSummary> getLastRecipes() {
         return this.recipeRepository.findTop6ByOrderByCreationDateDesc();
     }
 }

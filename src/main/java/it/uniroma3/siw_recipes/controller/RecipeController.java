@@ -219,10 +219,10 @@ public class RecipeController {
      */
     @GetMapping("/recipes")
     public String getRecipes(Model model) {
-        // 1. Chiediamo al service tutte le ricette
+        // 1. Chiediamo al service tutte le ricette (versione ottimizzata Summary)
         // 2. Le aggiungiamo al modello con il nome "recipes"
         // Nella pagina HTML potremo usare th:each="recipe : ${recipes}"
-        model.addAttribute("recipes", this.recipeService.getAllRecipes());
+        model.addAttribute("recipes", this.recipeService.getAllRecipesSummary());
         
         // 3. Restituiamo il nome della vista (src/main/resources/templates/recipes.html)
         return "recipes";

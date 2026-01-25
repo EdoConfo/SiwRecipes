@@ -73,6 +73,7 @@ public class Recipe {
 
     /* Dati binari dell'immagine (per storage su DB / Cloud) */
     @Column(length = 10485760) // 10MB
+    @jakarta.persistence.Basic(fetch = jakarta.persistence.FetchType.LAZY)
     private byte[] imageData;
 
     /*
