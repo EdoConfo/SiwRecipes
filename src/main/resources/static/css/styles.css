@@ -124,12 +124,37 @@ nav {
     color: var(--primary-color);
 }
 
-.auth-buttons .btn {
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.6rem 1.2rem;
     border-radius: 8px;
-    margin-left: 1rem;
     font-weight: 600;
     transition: all 0.3s ease;
+    gap: 0.5rem;
+    line-height: 1; /* ensure predictable text height */
+    box-sizing: border-box; /* include border in sizing */
+    /* Make min-height responsive: 1em (text height) + 2 * vertical padding (0.6rem * 2 = 1.2rem) */
+    min-height: calc(1em + 1.2rem);
+}
+
+.auth-buttons .btn {
+    margin-left: 1rem;
+}
+
+.theme-toggle i {
+    font-size: 1rem;
+}
+
+/* Theme toggle should share the same vertical sizing but can be narrower horizontally */
+.theme-toggle {
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem; /* same vertical padding as .btn */
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+    /* ensure it respects min-height defined on .btn */
 }
 
 .btn-login {

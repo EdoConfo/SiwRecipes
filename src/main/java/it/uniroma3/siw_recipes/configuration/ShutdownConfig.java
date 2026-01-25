@@ -27,10 +27,10 @@ public class ShutdownConfig {
 
         // Seleziona lo script corretto in base al sistema operativo
         if (os.contains("win")) {
-            System.out.println("Rilevato Windows, eseguo lo script PowerShell per il dump dei dati...");
+            System.out.println("\nRilevato Windows, eseguo lo script PowerShell per il dump dei dati...");
             processBuilder = new ProcessBuilder("powershell.exe", "-ExecutionPolicy", "Bypass", "-File", "shutdown-script.ps1");
         } else {
-            System.out.println("Rilevato macOS/Linux, eseguo lo script Shell per il dump dei dati...");
+            System.out.println("\nRilevato macOS/Linux, eseguo lo script Shell per il dump dei dati...");
             processBuilder = new ProcessBuilder("bash", "shutdown-script.sh");
         }
 
@@ -52,16 +52,16 @@ public class ShutdownConfig {
             if (finished) {
                 int exitValue = process.exitValue();
                 if (exitValue == 0) {
-                    System.out.println("Dump dei dati completato con successo.");
+                    System.out.println("Dump dei dati completato con successo.\n");
                 } else {
-                    System.err.println("Il comando di dump è terminato con errori (codice: " + exitValue + ").");
+                    System.err.println("Il comando di dump è terminato con errori (codice: " + exitValue + ").\n");
                 }
             } else {
-                System.out.println("Il comando di dump non è terminato entro 30 secondi, forzo l'interruzione.");
+                System.out.println("Il comando di dump non è terminato entro 30 secondi, forzo l'interruzione.\n");
                 process.destroyForcibly();
             }
         } catch (IOException | InterruptedException e) {
-            System.err.println("Errore durante l'esecuzione del comando di shutdown: " + e.getMessage());
+            System.err.println("Errore durante l'esecuzione del comando di shutdown: " + e.getMessage() + "\n");
             Thread.currentThread().interrupt();
         }
     }
