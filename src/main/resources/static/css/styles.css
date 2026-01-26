@@ -34,6 +34,7 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 /* Reset e stili base */
+
 :root {
     --bg-color: #f4f6f8;
     --bg-pattern: #ddd;
@@ -41,7 +42,7 @@ input[type="number"] {
     --heading-color: #2c3e50;
     --meta-color: #7f8c8d;
     --header-bg: #fff;
-    --card-bg: #fff;
+    --card-bg: #f3f4f7;
     --nav-text: #555;
     --primary-color: #e67e22;
     --border-color: #ddd;
@@ -50,6 +51,65 @@ input[type="number"] {
     --input-border: #ccc;
     --shadow-strong: rgba(0,0,0,0.15);
     --placeholder-bg: #eee;
+    --table-header-bg: #f5f6fa;
+    --table-border: #ececec;
+}
+
+[data-theme="dark"] {
+    --bg-color: #0d1117;
+    --bg-pattern: #161b22;
+    --text-color: #e6edf3;
+    --heading-color: #e6edf3;
+    --meta-color: #8b949e;
+    --header-bg: #161b22;
+    --card-bg: #1d2129;
+    --nav-text: #8b949e;
+    --primary-color: #f0883e;
+    --border-color: #30363d;
+    --shadow-color: rgba(0,0,0,0.8);
+    --input-bg: #0d1117;
+    --input-border: #30363d;
+    --shadow-strong: rgba(0,0,0,0.9);
+    --placeholder-bg: #2d333b;
+    --table-header-bg: #23272f;
+    --table-border: #2c313a;
+}
+
+/* --- Admin Users Table --- */
+.admin-users-block {
+    background: var(--card-bg);
+    color: var(--text-color);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: background 0.2s, color 0.2s;
+}
+
+.admin-users-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--text-color);
+    background: transparent;
+}
+
+.admin-users-table thead {
+    background-color: var(--table-header-bg);
+    border-bottom: 2px solid var(--table-border);
+}
+
+.admin-users-table th {
+    padding: 1rem;
+    text-align: left;
+    color: var(--heading-color);
+    font-weight: 700;
+}
+
+.admin-users-table td {
+    padding: 1rem;
+}
+
+.admin-users-table tbody tr:not(:last-child) {
+    border-bottom: 1px solid var(--table-border);
 }
 
 [data-theme="dark"] {

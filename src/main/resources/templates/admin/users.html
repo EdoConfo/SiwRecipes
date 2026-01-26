@@ -19,32 +19,32 @@
             </a>
         </div>
 
-        <div style="background: var(--card-bg); color: var(--text-color); border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); overflow: hidden; transition: background 0.2s, color 0.2s;">
-            <table style="width: 100%; border-collapse: collapse; color: var(--text-color); background: transparent;">
-                <thead style="background-color: var(--table-header-bg, #23272f); border-bottom: 2px solid var(--table-border, #2c313a);">
+        <div class="admin-users-block">
+            <table class="admin-users-table">
+                <thead>
                     <tr>
-                        <th style="padding: 1rem; text-align: left; color: var(--text-color);">Username</th>
-                        <th style="padding: 1rem; text-align: left; color: var(--text-color);">Nome Completo</th>
-                        <th style="padding: 1rem; text-align: left; color: var(--text-color);">Email</th>
-                        <th style="padding: 1rem; text-align: center; color: var(--text-color);">Ruolo</th>
-                        <th style="padding: 1rem; text-align: center; color: var(--text-color);">Stato</th>
-                        <th style="padding: 1rem; text-align: center; color: var(--text-color);">Azioni</th>
+                        <th>Username</th>
+                        <th>Nome Completo</th>
+                        <th>Email</th>
+                        <th style="text-align: center;">Ruolo</th>
+                        <th style="text-align: center;">Stato</th>
+                        <th style="text-align: center;">Azioni</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="cred,iterStat : ${credentialsList}" th:style="${!iterStat.last} ? 'border-bottom: 1px solid var(--table-border, #23272f);' : ''">
-                        <td style="padding: 1rem;" th:text="${cred.username}">user123</td>
-                        <td style="padding: 1rem;" th:text="${cred.user.name} + ' ' + ${cred.user.surname}">Mario Rossi</td>
-                        <td style="padding: 1rem;" th:text="${cred.user.email}">mario@email.com</td>
-                        <td style="padding: 1rem; text-align: center;">
+                    <tr th:each="cred,iterStat : ${credentialsList}">
+                        <td th:text="${cred.username}">user123</td>
+                        <td th:text="${cred.user.name} + ' ' + ${cred.user.surname}">Mario Rossi</td>
+                        <td th:text="${cred.user.email}">mario@email.com</td>
+                        <td style="text-align: center;">
                             <span th:if="${cred.role == 'ADMIN'}" style="background-color: #e74c3c; color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">ADMIN</span>
                             <span th:if="${cred.role == 'DEFAULT'}" style="background-color: #3498db; color: white; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">USER</span>
                         </td>
-                        <td style="padding: 1rem; text-align: center;">
+                        <td style="text-align: center;">
                             <span th:if="${cred.enabled}" style="color: #2ecc71; font-weight: bold;"><i class="fas fa-check-circle"></i> Attivo</span>
                             <span th:if="${!cred.enabled}" style="color: #e74c3c; font-weight: bold;"><i class="fas fa-ban"></i> Bannato</span>
                         </td>
-                        <td style="padding: 1rem; text-align: center;">
+                        <td style="text-align: center;">
                             <div th:if="${cred.role != 'ADMIN'}">
                                 <a th:if="${cred.enabled}" th:href="@{'/admin/users/' + ${cred.id} + '/toggle-status'}" 
                                    class="btn" style="background-color: #e74c3c; color: white; padding: 0.4rem 0.8rem; border-radius: 4px; text-decoration: none; font-size: 0.9rem;"
