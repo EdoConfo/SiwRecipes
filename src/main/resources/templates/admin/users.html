@@ -13,26 +13,26 @@
 
     <main class="container" style="max-width: 95%; margin: 3rem auto; padding: 0 1rem;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-            <h1 style="color: #2c3e50;">Gestione Utenti</h1>
+            <h1 style="color: var(--text-color);">Gestione Utenti</h1>
             <a th:href="@{/admin/indexAdmin}" class="btn" style="background-color: #95a5a6; color: white; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none;">
                 <i class="fas fa-arrow-left"></i> Torna alla Dashboard
             </a>
         </div>
 
-        <div style="background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden;">
-            <table style="width: 100%; border-collapse: collapse;">
-                <thead style="background-color: #f8f9fa; border-bottom: 2px solid #e9ecef;">
+        <div style="background: var(--card-bg); color: var(--text-color); border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); overflow: hidden; transition: background 0.2s, color 0.2s;">
+            <table style="width: 100%; border-collapse: collapse; color: var(--text-color); background: transparent;">
+                <thead style="background-color: var(--table-header-bg, #23272f); border-bottom: 2px solid var(--table-border, #2c313a);">
                     <tr>
-                        <th style="padding: 1rem; text-align: left; color: #495057;">Username</th>
-                        <th style="padding: 1rem; text-align: left; color: #495057;">Nome Completo</th>
-                        <th style="padding: 1rem; text-align: left; color: #495057;">Email</th>
-                        <th style="padding: 1rem; text-align: center; color: #495057;">Ruolo</th>
-                        <th style="padding: 1rem; text-align: center; color: #495057;">Stato</th>
-                        <th style="padding: 1rem; text-align: center; color: #495057;">Azioni</th>
+                        <th style="padding: 1rem; text-align: left; color: var(--text-color);">Username</th>
+                        <th style="padding: 1rem; text-align: left; color: var(--text-color);">Nome Completo</th>
+                        <th style="padding: 1rem; text-align: left; color: var(--text-color);">Email</th>
+                        <th style="padding: 1rem; text-align: center; color: var(--text-color);">Ruolo</th>
+                        <th style="padding: 1rem; text-align: center; color: var(--text-color);">Stato</th>
+                        <th style="padding: 1rem; text-align: center; color: var(--text-color);">Azioni</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="cred : ${credentialsList}" style="border-bottom: 1px solid #e9ecef;">
+                    <tr th:each="cred,iterStat : ${credentialsList}" th:style="${!iterStat.last} ? 'border-bottom: 1px solid var(--table-border, #23272f);' : ''">
                         <td style="padding: 1rem;" th:text="${cred.username}">user123</td>
                         <td style="padding: 1rem;" th:text="${cred.user.name} + ' ' + ${cred.user.surname}">Mario Rossi</td>
                         <td style="padding: 1rem;" th:text="${cred.user.email}">mario@email.com</td>
