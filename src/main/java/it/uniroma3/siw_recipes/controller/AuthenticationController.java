@@ -1,5 +1,7 @@
 package it.uniroma3.siw_recipes.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -76,10 +78,25 @@ public class AuthenticationController {
         UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
         User user = credentials.getUser();
-        
+
+        List<it.uniroma3.siw_recipes.model.Recipe> userRecipes = recipeService.getRecipesByAuthor(user);
+        java.util.Map<Long, String> averageRatings = new java.util.HashMap<>();
+        for (it.uniroma3.siw_recipes.model.Recipe recipe : userRecipes) {
+            java.util.List<it.uniroma3.siw_recipes.model.Review> reviews = this.reviewService.getReviewsByRecipe(recipe);
+            double avg = 0.0;
+            if (reviews != null && !reviews.isEmpty()) {
+                double sum = 0.0;
+                for (it.uniroma3.siw_recipes.model.Review r : reviews) {
+                    if (r.getRating() != null) sum += r.getRating();
+                }
+                avg = sum / reviews.size();
+            }
+            averageRatings.put(recipe.getId(), String.format("%.1f", avg));
+        }
+
         model.addAttribute("user", user);
-        model.addAttribute("recipes", recipeService.getRecipesByAuthor(user));
-        
+        model.addAttribute("recipes", userRecipes);
+        model.addAttribute("averageRatings", averageRatings);
         return "userProfile";
     }
 		
