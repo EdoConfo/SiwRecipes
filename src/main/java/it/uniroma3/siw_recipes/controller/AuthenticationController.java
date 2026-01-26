@@ -24,29 +24,44 @@ import jakarta.validation.Valid;
  */
 @Controller
 public class AuthenticationController {
-        @GetMapping("/profile/edit")
-        public String showEditAccountForm(Model model) {
-            UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-            User user = credentials.getUser();
-            model.addAttribute("user", user);
+    @GetMapping("/profile/edit")
+    public String showEditAccountForm(Model model) {
+        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+        User user = credentials.getUser();
+        model.addAttribute("user", user);
+        model.addAttribute("credentials", credentials);
+        return "formEditAccount";
+    }
+
+    @PostMapping("/profile/edit")
+    public String editAccount(@ModelAttribute("user") @Valid User user, BindingResult userBindingResult,
+                              @ModelAttribute("credentials") Credentials credentialsForm, BindingResult credentialsBindingResult,
+                              Model model) {
+        if (userBindingResult.hasErrors() || credentialsBindingResult.hasErrors()) {
+            model.addAttribute("credentials", credentialsForm);
             return "formEditAccount";
         }
+        UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+        User currentUser = credentials.getUser();
+        currentUser.setName(user.getName());
+        currentUser.setSurname(user.getSurname());
+        currentUser.setEmail(user.getEmail());
 
-        @PostMapping("/profile/edit")
-        public String editAccount(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
-            if (bindingResult.hasErrors()) {
-                return "formEditAccount";
-            }
-            UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
-            User currentUser = credentials.getUser();
-            currentUser.setName(user.getName());
-            currentUser.setSurname(user.getSurname());
-            currentUser.setEmail(user.getEmail());
-            userService.saveUser(currentUser);
-            return "redirect:/profile";
+        // Aggiorna username se cambiato
+        if (credentialsForm.getUsername() != null && !credentialsForm.getUsername().isBlank()
+                && !credentialsForm.getUsername().equals(credentials.getUsername())) {
+            credentials.setUsername(credentialsForm.getUsername());
         }
+        // Aggiorna password solo se fornita
+        if (credentialsForm.getPassword() != null && !credentialsForm.getPassword().isBlank()) {
+            credentials.setPassword(credentialsForm.getPassword());
+        }
+        userService.saveUser(currentUser);
+        credentialsService.saveCredentials(credentials);
+        return "redirect:/profile";
+    }
 	
 	@Autowired
 	private CredentialsService credentialsService;
