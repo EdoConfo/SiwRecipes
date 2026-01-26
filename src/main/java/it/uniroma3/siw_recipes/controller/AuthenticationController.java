@@ -24,6 +24,29 @@ import jakarta.validation.Valid;
  */
 @Controller
 public class AuthenticationController {
+        @GetMapping("/profile/edit")
+        public String showEditAccountForm(Model model) {
+            UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+            User user = credentials.getUser();
+            model.addAttribute("user", user);
+            return "formEditAccount";
+        }
+
+        @PostMapping("/profile/edit")
+        public String editAccount(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model) {
+            if (bindingResult.hasErrors()) {
+                return "formEditAccount";
+            }
+            UserDetails userDetails = (UserDetails)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            Credentials credentials = credentialsService.getCredentials(userDetails.getUsername());
+            User currentUser = credentials.getUser();
+            currentUser.setName(user.getName());
+            currentUser.setSurname(user.getSurname());
+            currentUser.setEmail(user.getEmail());
+            userService.saveUser(currentUser);
+            return "redirect:/profile";
+        }
 	
 	@Autowired
 	private CredentialsService credentialsService;

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script>
+        (function() {
+            try {
+                var savedTheme = localStorage.getItem('theme');
+                var systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                }
+            } catch(e) {}
+        })();
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifica Dati Account - SiwRecipes</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header th:replace="fragments/base :: header"></header>
+    <main>
+        <div class="auth-container" style="max-width: 500px;">
+            <h1>Modifica Dati Account</h1>
+            <p>Puoi aggiornare i tuoi dati personali qui sotto.</p>
+            <form th:action="@{/profile/edit}" method="post" class="auth-form">
+                <div class="form-group">
+                    <label for="name">Nome</label>
+                    <input type="text" id="name" th:field="${user.name}" placeholder="Mario" required>
+                    <span th:if="${#fields.hasErrors('user.name')}" th:errors="${user.name}" class="error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="surname">Cognome</label>
+                    <input type="text" id="surname" th:field="${user.surname}" placeholder="Rossi" required>
+                    <span th:if="${#fields.hasErrors('user.surname')}" th:errors="${user.surname}" class="error-message"></span>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" th:field="${user.email}" placeholder="mario@email.com" required>
+                    <span th:if="${#fields.hasErrors('user.email')}" th:errors="${user.email}" class="error-message"></span>
+                </div>
+                <button type="submit" class="btn" style="width: 100%; margin-top: 1.5rem;">Salva Modifiche</button>
+            </form>
+        </div>
+    </main>
+    <footer th:replace="fragments/base :: footer"></footer>
+</body>
+</html>

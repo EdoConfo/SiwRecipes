@@ -30,7 +30,7 @@
                     <div style="font-size: 2rem; font-weight: bold; color: var(--primary-color);" th:text="${profileAverageRating}">0.0</div>
                     <div style="font-size: 1.05rem; color: var(--text-color);">Valutazione media profilo</div>
                 </div>
-                <button class="btn edit-account-btn" style="
+                <a href="/profile/edit" class="btn edit-account-btn" style="
                     background: var(--card-bg);
                     color: #ff8800;
                     border: 2.5px solid #ff8800;
@@ -47,12 +47,13 @@
                     padding: 0;
                     font-weight: 500;
                     transition: background 0.18s, color 0.18s;
+                    text-decoration: none;
                 "
                 onmouseover="this.style.background='#ff8800';this.style.color='#fff';"
                 onmouseout="this.style.background='var(--card-bg)';this.style.color='#ff8800';"
                 >
                     Modifica dati account
-                </button>
+                </a>
             </div>
         </section>
         <section class="user-recipes">
