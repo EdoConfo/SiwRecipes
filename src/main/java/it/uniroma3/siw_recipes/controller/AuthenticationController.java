@@ -81,6 +81,8 @@ public class AuthenticationController {
 
         List<it.uniroma3.siw_recipes.model.Recipe> userRecipes = recipeService.getRecipesByAuthor(user);
         java.util.Map<Long, String> averageRatings = new java.util.HashMap<>();
+        double sumOfAverages = 0.0;
+        int recipesWithReviews = 0;
         for (it.uniroma3.siw_recipes.model.Recipe recipe : userRecipes) {
             java.util.List<it.uniroma3.siw_recipes.model.Review> reviews = this.reviewService.getReviewsByRecipe(recipe);
             double avg = 0.0;
@@ -90,9 +92,13 @@ public class AuthenticationController {
                     if (r.getRating() != null) sum += r.getRating();
                 }
                 avg = sum / reviews.size();
+                sumOfAverages += avg;
+                recipesWithReviews++;
             }
             averageRatings.put(recipe.getId(), String.format("%.1f", avg));
         }
+        double profileAverageRating = recipesWithReviews > 0 ? sumOfAverages / recipesWithReviews : 0.0;
+        model.addAttribute("profileAverageRating", String.format("%.1f", profileAverageRating));
 
         // Recensioni fatte dall'utente
         java.util.List<it.uniroma3.siw_recipes.model.Review> userReviews = user.getReviews();

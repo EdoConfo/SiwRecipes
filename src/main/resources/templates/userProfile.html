@@ -27,7 +27,7 @@
             <h1 class="section-title">Area Personale</h1>
             <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; align-items: stretch; width: 100%;">
                 <div class="user-stat-box" style="background: var(--card-bg); border-radius: 12px; box-shadow: 0 2px 8px var(--shadow-color); padding: 1.5rem 1rem; min-width: 0; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100%;">
-                    <div style="font-size: 2rem; font-weight: bold; color: var(--primary-color);">0.0</div>
+                    <div style="font-size: 2rem; font-weight: bold; color: var(--primary-color);" th:text="${profileAverageRating}">0.0</div>
                     <div style="font-size: 1.05rem; color: var(--text-color);">Valutazione media profilo</div>
                 </div>
                 <button class="btn edit-account-btn" style="
