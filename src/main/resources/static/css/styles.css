@@ -596,7 +596,7 @@ footer p {
 }
 
 .section-title {
-    text-align: center;
+    text-align: left;
     font-size: 2.5rem;
     color: var(--heading-color);
     margin-bottom: 3rem;
@@ -609,7 +609,7 @@ footer p {
     width: 60px;
     height: 4px;
     background-color: #e67e22;
-    margin: 1rem auto 0;
+    margin: 1rem 0 0 0;
     border-radius: 2px;
 }
 
