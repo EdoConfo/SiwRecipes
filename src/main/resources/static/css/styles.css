@@ -443,23 +443,39 @@ main {
     font-weight: 600;
     color: #34495e;
     font-size: 0.95rem;
+    transition: color 0.3s;
+}
+
+[data-theme="dark"] .auth-form label {
+    color: #b3bac5;
 }
 
 .auth-form input {
     width: 100%;
     padding: 0.9rem 1rem;
-    border: 2px solid #eef2f7;
+    border: 2px solid var(--input-border);
     border-radius: 8px;
     font-size: 1rem;
     transition: all 0.3s ease;
-    background-color: #fdfdfd;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .auth-form input {
+    background-color: #23272f;
+    color: #e6edf3;
 }
 
 .auth-form input:focus {
-    border-color: #e67e22;
-    background-color: #fff;
+    border-color: var(--primary-color);
+    background-color: var(--input-bg);
     outline: none;
     box-shadow: 0 0 0 4px rgba(230, 126, 34, 0.1);
+}
+
+[data-theme="dark"] .auth-form input:focus {
+    background-color: #23272f;
+    color: #e6edf3;
 }
 
 .auth-form button {
