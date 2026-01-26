@@ -94,6 +94,14 @@ public class User {
     }
 
     /* GETTER E SETTER */
+
+    public java.util.List<Review> getReviews() {
+        return this.reviews;
+    }
+
+    public void setReviews(java.util.List<Review> reviews) {
+        this.reviews = reviews;
+    }
     
     public Long getId() {
         return id;

@@ -94,9 +94,13 @@ public class AuthenticationController {
             averageRatings.put(recipe.getId(), String.format("%.1f", avg));
         }
 
+        // Recensioni fatte dall'utente
+        java.util.List<it.uniroma3.siw_recipes.model.Review> userReviews = user.getReviews();
+
         model.addAttribute("user", user);
         model.addAttribute("recipes", userRecipes);
         model.addAttribute("averageRatings", averageRatings);
+        model.addAttribute("userReviews", userReviews);
         return "userProfile";
     }
 		
