@@ -1,3 +1,38 @@
+/* Ingredienti input dark mode */
+.ingredienti-block input[type="text"],
+.ingredienti-block input[type="number"] {
+    background: var(--card-bg);
+    color: var(--meta-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.ingredienti-block input[type="text"]:focus,
+.ingredienti-block input[type="number"]:focus {
+    outline: 2px solid var(--primary-color);
+    background: var(--card-bg);
+    color: var(--meta-color);
+}
+/* Input number spinner dark mode */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    background: var(--card-bg);
+    border-radius: 2px;
+    border: 1px solid var(--border-color);
+    color: var(--meta-color);
+    filter: invert(0.8);
+}
+
+input[type="number"] {
+    background: var(--card-bg);
+    color: var(--meta-color);
+}
+
+/* Per Firefox */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
 /* Reset e stili base */
 :root {
     --bg-color: #f4f6f8;
