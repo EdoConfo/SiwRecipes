@@ -28,7 +28,7 @@
                 <a href="/recipes/new" class="cta-button"><i class="fas fa-plus"></i> Nuova Ricetta</a>
             </div>
 
-            <div th:if="${recipes.empty}" style="text-align: center; padding: 3rem; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <div th:if="${recipes.empty}" style="text-align: center; padding: 3rem; background: var(--card-bg); border-radius: 10px; box-shadow: 0 4px 15px var(--shadow-color); color: var(--meta-color);">
                 <i class="fas fa-book-open" style="font-size: 3rem; color: #ddd; margin-bottom: 1rem;"></i>
                 <p style="color: #7f8c8d; font-size: 1.1rem;">Non hai ancora creato nessuna ricetta.</p>
                 <p>Condividi la tua prima creazione con la community!</p>

@@ -48,18 +48,18 @@
                 <div class="recipe-info-container">
                     <!-- Titolo -->
                     <div class="form-group" style="margin-bottom: 1rem;">
-                        <input type="text" id="title" th:field="*{title}" placeholder="Titolo della Ricetta" required style="font-size: 2.5rem; color: #2c3e50; width: 100%; border: none; border-bottom: 2px solid #eee; padding: 0.5rem 0; outline: none; background: transparent; font-weight: bold;">
+                        <input type="text" id="title" th:field="*{title}" placeholder="Titolo della Ricetta" required style="font-size: 2.5rem; color: var(--heading-color); width: 100%; border: none; border-bottom: 2px solid var(--border-color); padding: 0.5rem 0; outline: none; background: transparent; font-weight: bold;">
                         <span th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error-message" style="color: #e74c3c; font-size: 0.9rem;"></span>
                     </div>
 
                     <!-- Descrizione -->
                     <div class="form-group" style="margin-bottom: 1.5rem;">
-                        <textarea id="description" th:field="*{description}" placeholder="Breve descrizione del piatto..." rows="3" style="width: 100%; border: 1px solid #eee; padding: 1rem; border-radius: 5px; font-size: 1.1rem; color: #7f8c8d; resize: vertical; font-family: inherit;"></textarea>
+                        <textarea id="description" th:field="*{description}" placeholder="Breve descrizione del piatto..." rows="3" style="width: 100%; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--meta-color); padding: 1rem; border-radius: 5px; font-size: 1.1rem; resize: vertical; font-family: inherit;"></textarea>
                         <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error-message" style="color: #e74c3c; font-size: 0.9rem;"></span>
                     </div>
                     
                     <!-- Info Block -->
-                    <div class="recipe-info-block" style="background-color: #f8f9fa; padding: 1.5rem; border-radius: 10px; border: 1px solid #eee;">
+                    <div class="recipe-info-block" style="background: var(--card-bg); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--border-color);">
                         <!-- Row 1: Author & Date (Static/Hidden for new recipe) -->
                         <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1rem; color: #555;">
                             <div>
@@ -76,10 +76,10 @@
 
                         <!-- Row 2: Category, Time, Difficulty -->
                         <div style="display: flex; flex-direction: column; gap: 0.8rem; color: #555;">
-                            <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
+                            <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center; background: var(--card-bg); border-radius: 6px; padding: 0.3rem 0.5rem;">
                                 <i class="fas fa-tag" style="color: #e67e22; margin-right: 5px; width: 20px;"></i>
                                 <strong style="margin-right: 10px;">Categoria:</strong>
-                                <input type="text" id="category" th:field="*{category}" placeholder="Es. Primi Piatti" list="categories" required style="border: 1px solid #ddd; padding: 0.3rem; border-radius: 4px; flex: 1;">
+                                <input type="text" id="category" th:field="*{category}" placeholder="Es. Primi Piatti" list="categories" required style="border: 1px solid var(--border-color); background: var(--card-bg); color: var(--meta-color); padding: 0.3rem; border-radius: 4px; flex: 1;">
                                 <datalist id="categories">
                                     <option value="Antipasti">
                                     <option value="Primi Piatti">
@@ -95,14 +95,14 @@
                             <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
                                 <i class="far fa-clock" style="color: #e67e22; margin-right: 5px; width: 20px;"></i>
                                 <strong style="margin-right: 10px;">Tempo:</strong>
-                                <input type="number" id="prepTime" th:field="*{prepTime}" min="1" placeholder="30" required style="width: 80px; border: 1px solid #ddd; padding: 0.3rem; border-radius: 4px;"> <span style="margin-left: 5px;">min</span>
+                                <input type="number" id="prepTime" th:field="*{prepTime}" min="1" placeholder="30" required style="width: 80px; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--meta-color); padding: 0.3rem; border-radius: 4px;"> <span style="margin-left: 5px;">min</span>
                             </div>
                             <span th:if="${#fields.hasErrors('prepTime')}" th:errors="*{prepTime}" class="error-message" style="color: #e74c3c; font-size: 0.9rem; margin-left: 25px;"></span>
 
                             <div class="form-group" style="margin-bottom: 0; display: flex; align-items: center;">
                                 <i class="fas fa-signal" style="color: #e67e22; margin-right: 5px; width: 20px;"></i>
                                 <strong style="margin-right: 10px;">Difficoltà:</strong>
-                                <select id="difficulty" th:field="*{difficulty}" required style="border: 1px solid #ddd; padding: 0.3rem; border-radius: 4px; flex: 1;">
+                                <select id="difficulty" th:field="*{difficulty}" required style="border: 1px solid var(--border-color); background: var(--card-bg); color: var(--meta-color); padding: 0.3rem; border-radius: 4px; flex: 1;">
                                     <option value="1">Facile</option>
                                     <option value="2">Media</option>
                                     <option value="3">Difficile</option>
@@ -126,12 +126,11 @@
                 <!-- Colonna Sinistra: Ingredienti -->
                 <aside class="ingredients-box">
                     <h3 style="margin-bottom: 1.5rem; color: #e67e22;"><i class="fas fa-shopping-basket"></i> Ingredienti</h3>
-                    
-                    <div id="ingredients-container">
+                    <div id="ingredients-container" class="ingredienti-block">
                         <div class="form-row ingredient-row" style="margin-bottom: 10px; display: flex; gap: 5px;">
-                            <input type="text" name="ingName" placeholder="Nome (Es. Farina)" required style="flex: 2; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
-                            <input type="text" name="ingQuantity" placeholder="Quantità (Es. 200)" required style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
-                            <input type="text" name="ingUnit" placeholder="Unità di misura (Es. g)" style="flex: 1; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px;">
+                            <input type="text" name="ingName" placeholder="Nome (Es. Farina)" required style="flex: 2; padding: 0.5rem;">
+                            <input type="text" name="ingQuantity" placeholder="Quantità (Es. 200)" required style="flex: 1; padding: 0.5rem;">
+                            <input type="text" name="ingUnit" placeholder="Unità di misura (Es. g)" style="flex: 1; padding: 0.5rem;">
                             <button type="button" class="btn btn-danger" onclick="removeRow(this)" style="padding: 0 10px; background-color: #e74c3c; color: white; border: none; border-radius: 4px; cursor: pointer;"><i class="fas fa-times"></i></button>
                         </div>
                     </div>
@@ -143,7 +142,7 @@
                 <!-- Colonna Destra: Procedimento -->
                 <section class="procedure-box">
                     <h3 style="margin-bottom: 1.5rem; color: #e67e22;"><i class="fas fa-list-ol"></i> Procedimento</h3>
-                    <textarea id="procedure" th:field="*{procedure}" placeholder="Descrivi i passaggi passo dopo passo..." rows="15" style="width: 100%; border: 1px solid #ddd; padding: 1rem; border-radius: 5px; font-size: 1.1rem; line-height: 1.6; resize: vertical; font-family: inherit;"></textarea>
+                    <textarea id="procedure" th:field="*{procedure}" placeholder="Descrivi i passaggi passo dopo passo..." rows="15" style="width: 100%; border: 1px solid var(--border-color); background: var(--card-bg); color: var(--meta-color); padding: 1rem; border-radius: 5px; font-size: 1.1rem; line-height: 1.6; resize: vertical; font-family: inherit;"></textarea>
                     <span th:if="${#fields.hasErrors('procedure')}" th:errors="*{procedure}" class="error-message" style="color: #e74c3c; font-size: 0.9rem;"></span>
                 </section>
             </div>
