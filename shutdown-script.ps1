@@ -89,7 +89,6 @@ $content.AddRange([string[]](Get-TableDump "ingredient"))
 $content.AddRange([string[]](Get-TableDump "review"))
 
 # Reset delle sequenze
-$content.Add("")
 $content.Add("-- Reset delle sequenze per la generazione degli ID")
 
 $sequences = @(
