@@ -59,6 +59,10 @@ public class CredentialsService {
     
     @Transactional
     public Credentials updateCredentials(Credentials credentials) {
+        // Se la password non è già crittografata, la crittografa
+        if (credentials.getPassword() != null && !credentials.getPassword().isBlank() && !credentials.getPassword().startsWith("$2a$")) {
+            credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
+        }
         return this.credentialsRepository.save(credentials);
     }
 

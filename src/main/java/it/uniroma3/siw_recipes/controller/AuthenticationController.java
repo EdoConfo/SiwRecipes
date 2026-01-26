@@ -59,7 +59,7 @@ public class AuthenticationController {
             credentials.setPassword(credentialsForm.getPassword());
         }
         userService.saveUser(currentUser);
-        credentialsService.saveCredentials(credentials);
+        credentialsService.updateCredentials(credentials);
         return "redirect:/profile";
     }
 	
