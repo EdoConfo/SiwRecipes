@@ -22,4 +22,6 @@ public interface CredentialsRepository extends CrudRepository<Credentials, Long>
      * Restituisce un Optional perché lo username potrebbe non esistere.
      */
     Optional<Credentials> findByUsername(String username);
+
+    Optional<Credentials> findByUserId(Long userId);
 }

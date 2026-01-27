@@ -50,9 +50,15 @@
                 <div class="recipe-info-block">
                     <!-- Row 1: Author & Date -->
                     <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1rem;" class="recipe-info-item">
+                        <!--Pulsante dell'autore-->
+                        
                         <div th:if="${recipe.author != null}">
                             <i class="fas fa-user" style="color: var(--primary-color); margin-right: 5px;"></i> 
-                            <strong>Autore:</strong> <span th:text="${recipe.author.name} + ' ' + ${recipe.author.surname}">Mario Rossi</span>
+                            <strong>Autore:</strong> 
+                                <span> 
+                                    <a th:href="@{'/recipes/author/' + ${recipe.author.id}}"
+                                       th:text="${recipe.author.name} + ' ' + ${recipe.author.surname}">Autore</a>
+                                </span>
                         </div>
                         <div th:if="${recipe.creationDate != null}">
                             <i class="far fa-calendar-alt" style="color: var(--primary-color); margin-right: 5px;"></i>
@@ -64,14 +70,36 @@
 
                     <!-- Row 2: Category, Time, Difficulty -->
                     <div style="display: flex; flex-direction: column; gap: 0.8rem;" class="recipe-info-item">
+                        <!---Pulsante della categoria-->
                         <div th:if="${recipe.category != null}">
                             <i class="fas fa-tag" style="color: var(--primary-color); margin-right: 5px;"></i>
-                            <strong>Categoria:</strong> <span th:text="${recipe.category}">Categoria</span>
+                            <strong>Categoria:</strong> <span> 
+                                    <a th:href="@{'/recipes/category/' + ${recipe.category}}"
+                                       th:text="${recipe.category}">Categoria</a>
+                                </span>
                         </div>
                         <div>
                             <i class="far fa-clock" style="color: var(--primary-color); margin-right: 5px;"></i>
                             <strong>Tempo:</strong> <span th:text="${recipe.prepTime} + ' min'">45 min</span>
                         </div>
+                        <!--Pulsante cliccabile della difficoltà che rimanda alla pagina recipes con tutte le ricette della stessa difficoltà-->
+                        <div>
+                            <i class="fas fa-signal" style="color: var(--primary-color); margin-right: 5px;"></i>
+                            <strong>Difficoltà:</strong>
+                            <span th:if="${recipe.difficulty == 1}">
+                                <a th:href="@{'/recipes/difficulty/' + ${recipe.difficulty}}" style="text-decoration: underline; color: var(--link-color);">Facile</a>
+                            </span>
+                            <span th:if="${recipe.difficulty == 2}">
+                                <a th:href="@{'/recipes/difficulty/' + ${recipe.difficulty}}" style="text-decoration: underline; color: var(--link-color);">Media</a>
+                            </span>
+                            <span th:if="${recipe.difficulty == 3}">
+                                <a th:href="@{'/recipes/difficulty/' + ${recipe.difficulty}}" style="text-decoration: underline; color: var(--link-color);">Difficile</a>
+                            </span>
+                            <span th:if="${recipe.difficulty > 3}">
+                                <a th:href="@{'/recipes/difficulty/' + ${recipe.difficulty}}" style="text-decoration: underline; color: var(--link-color);">Difficile</a>
+                            </span>
+                        </div>
+                        <!--Vecchia "Difficoltà"
                         <div>
                             <i class="fas fa-signal" style="color: var(--primary-color); margin-right: 5px;"></i>
                             <strong>Difficoltà:</strong>
@@ -80,6 +108,7 @@
                             <span th:if="${recipe.difficulty == 3}">Difficile</span>
                             <span th:if="${recipe.difficulty > 3}">Molto Difficile</span>
                         </div>
+                        -->
                     </div>
                 </div>
 

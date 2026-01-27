@@ -32,6 +32,7 @@
             <span>Gli utenti hanno scritto <b th:text="${totalReviewCount}">0</b> recensioni</span>
             <span>Ci sono <b th:text="${totalHighRatingRecipeCount}">0</b> ricette con valutazione 4 o superiore</span>
             <span>Ci sono <b th:text="${totalHighRatingReviewCount}">0</b> recensioni con valutazione 4 o superiore</span>
+            <span>Ci sono <b th:text="${totalUser.size()}">0</b> utenti registrati</span>
             <p>Esplora ricette deliziose condivise dalla nostra community di appassionati.</p>
             <form class="search-bar" action="/recipes" method="get">
                 <input type="text" name="keyword" placeholder="Cosa vuoi cucinare oggi?">

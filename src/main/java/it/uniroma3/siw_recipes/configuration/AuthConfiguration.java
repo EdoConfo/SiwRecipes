@@ -72,7 +72,7 @@ public class AuthConfiguration {
                     // .requestMatchers("/**").permitAll() // Scommenta per rendere tutto pubblico in fase di debug
                     .requestMatchers("/css/**", "/images/**", "favicon.ico").permitAll()
                     .requestMatchers("/", "/index", "/register", "/login").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/recipes", "/recipe/**").permitAll()
+                    .requestMatchers(HttpMethod.GET, "/recipes", "/recipe/**", "/recipes/author/**", "/recipes/category/**", "/recipes/difficulty/**").permitAll()
                     .requestMatchers("/admin/**").hasAnyAuthority(ADMIN_ROLE)
                     .anyRequest().authenticated()
                 )

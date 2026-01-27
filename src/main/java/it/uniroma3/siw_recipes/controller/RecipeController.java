@@ -222,12 +222,12 @@ public class RecipeController {
     @GetMapping("/recipes")
     public String getRecipes(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
         // Se c'è una parola chiave, cerchiamo (filtered). Altrimenti mostriamo tutto.
-        List<it.uniroma3.siw_recipes.model.RecipeSummary> recipes;
+        List<Recipe> recipes;
         if (keyword != null && !keyword.trim().isEmpty()) {
-            recipes = this.recipeService.findSummaryByTitle(keyword);
+            recipes = this.recipeService.findByTitle(keyword);
             model.addAttribute("keyword", keyword);
         } else {
-            recipes = this.recipeService.getAllRecipesSummary();
+            recipes = this.recipeService.getAllRecipes();
         }
         model.addAttribute("recipes", recipes);
 
@@ -530,5 +530,39 @@ public class RecipeController {
         return null;
     }
 
+    @GetMapping("/recipes/author/{authorId}")
+    public String getRecipesByAuthor(@PathVariable("authorId") Long authorId, Model model) {
+        User author = this.credentialsService.getUserById(authorId);
+        if (author == null) {
+            return "redirect:/recipes";
+        }
+        List<Recipe> recipes = this.recipeService.getRecipesByAuthor(author);
+        model.addAttribute("recipes", recipes);
+        model.addAttribute("selectedAuthor", author);
+        Map<Long, String> averageRatings = this.reviewService.getAverageRatingsForAllRecipes();
+        model.addAttribute("averageRatings", averageRatings);
+        return "recipes";
+    }
+    
+    //mapping uguale a sopra ma per categoria
+    @GetMapping("/recipes/category/{category}")
+    public String getRecipesByCategory(@PathVariable("category") String category, Model model) {
+        List<Recipe> recipes = this.recipeService.getRecipesByCategory(category);
+        model.addAttribute("recipes", recipes);
+        model.addAttribute("selectedCategory", category);
+        Map<Long, String> averageRatings = this.reviewService.getAverageRatingsForAllRecipes();
+        model.addAttribute("averageRatings", averageRatings);
+        return "recipes";
+    }
 
+    //mapping per avere la page recipes filtrata per difficoltà
+    @GetMapping("/recipes/difficulty/{difficulty}")
+    public String getRecipesByDifficulty(@PathVariable("difficulty") int difficulty, Model model) {
+        List<Recipe> recipes = this.recipeService.getRecipesByDifficulty(difficulty);
+        model.addAttribute("recipes", recipes);
+        model.addAttribute("selectedDifficulty", difficulty);
+        Map<Long, String> averageRatings = this.reviewService.getAverageRatingsForAllRecipes();
+        model.addAttribute("averageRatings", averageRatings);
+        return "recipes";
+    }
 }

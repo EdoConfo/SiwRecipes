@@ -1,5 +1,7 @@
 package it.uniroma3.siw_recipes.service;
 
+import java.awt.List;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +79,38 @@ public class CredentialsService {
         credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
         return this.credentialsRepository.save(credentials);
     }
-}
 
+    //getCredentialsByUserId
+    @Transactional(readOnly = true)
+    public Credentials getCredentialsByUserId(Long userId) {
+        Optional<Credentials> result = this.credentialsRepository.findByUserId(userId);
+        return result.orElse(null);
+    }
+
+    //getUserById
+    @Transactional(readOnly = true)
+    public it.uniroma3.siw_recipes.model.User getUserById(Long userId) {
+        Credentials credentials = this.getCredentialsByUserId(userId);
+        if (credentials != null) {
+            return credentials.getUser();
+        }
+        return null;
+    }
+
+    //countAllUsers
+    @Transactional(readOnly = true)
+    public Long countAllUsers() {
+        return this.credentialsRepository.count();
+    }
+
+    //findAllUsers
+    @Transactional(readOnly = true)
+    public Iterable<it.uniroma3.siw_recipes.model.User> findAllUsers() {
+        Iterable<Credentials> allCredentials = this.credentialsRepository.findAll();
+        ArrayList<it.uniroma3.siw_recipes.model.User> allUsers = new ArrayList<>();
+        for (Credentials cred : allCredentials) {
+            allUsers.add(cred.getUser());
+        }
+        return allUsers;
+    }
+}

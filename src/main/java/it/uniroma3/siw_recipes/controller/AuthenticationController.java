@@ -1,5 +1,7 @@
 package it.uniroma3.siw_recipes.controller;
 
+import it.uniroma3.siw_recipes.model.Recipe;
+
 // ...existing code...
 
 import java.util.List;
@@ -65,7 +67,12 @@ public class AuthenticationController {
     // Home
     @GetMapping("/")
     public String index(Model model) {
-        List<it.uniroma3.siw_recipes.model.RecipeSummary> latestRecipes = this.recipeService.getLastRecipes();
+        List<Recipe> allRecipes = this.recipeService.getAllRecipes();
+        // Prendi le ultime 6 ricette per data di creazione (se presente)
+        List<Recipe> latestRecipes = allRecipes.stream()
+            .sorted((a, b) -> b.getCreationDate().compareTo(a.getCreationDate()))
+            .limit(6)
+            .toList();
         model.addAttribute("latestRecipes", latestRecipes);
 
         // Calcolo media recensioni per tutte le ricette mostrate in una sola query
@@ -76,6 +83,7 @@ public class AuthenticationController {
         model.addAttribute("totalReviewCount", this.reviewService.countAllReviews());
         model.addAttribute("totalHighRatingRecipeCount", this.recipeService.countRecipesWithAverageRatingGreaterThanEqual(4.0));
         model.addAttribute("totalHighRatingReviewCount", this.reviewService.countAllReviewsWith4OrHigherRating());
+        model.addAttribute("totalUser", this.credentialsService.findAllUsers());
         return "home";
     }
 

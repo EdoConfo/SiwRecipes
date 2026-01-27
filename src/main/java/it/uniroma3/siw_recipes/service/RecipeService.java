@@ -81,14 +81,7 @@ public class RecipeService {
         return this.recipeRepository.findByAuthor(author);
     }
 
-    /**
-     * Restituisce la lista di tutte le ricette presenti nel sistema (Summary Projection).
-     * @return Lista di ricette ottimizzata.
-     */
-    @Transactional(readOnly = true)
-    public List<it.uniroma3.siw_recipes.model.RecipeSummary> getAllRecipesSummary() {
-        return this.recipeRepository.findAllBy();
-    }
+    // Ora si usa solo getAllRecipes()
     
     /**
      * Restituisce la lista di tutte le ricette presenti nel sistema (Entity complete).
@@ -113,19 +106,9 @@ public class RecipeService {
         return this.recipeRepository.findByTitleContainingIgnoreCase(title);
     }
 
-    /**
-     * Cerca ricette che contengono una certa parola nel titolo (Summary).
-     * @param title La parola chiave da cercare.
-     * @return Lista di ricette (Summary) corrispondenti.
-     */
-    @Transactional(readOnly = true)
-    public List<it.uniroma3.siw_recipes.model.RecipeSummary> findSummaryByTitle(String title) {
-        return this.recipeRepository.findAllByTitleContainingIgnoreCase(title);
-    }
+    // Ora si usa solo findByTitle()
 
-    public List<it.uniroma3.siw_recipes.model.RecipeSummary> getLastRecipes() {
-        return this.recipeRepository.findTop6ByOrderByCreationDateDesc();
-    }
+    // Ora si può usare una query su Recipe per le ultime ricette, oppure filtrare in memoria
 
     /**
      * Restituisce il numero totale di ricette.
@@ -154,4 +137,31 @@ public class RecipeService {
         return count;
     }
 
+    // Trova tutte le ricette di una categoria
+    @Transactional(readOnly = true)
+    public List<Recipe> getRecipesByCategory(String category) {
+        List<Recipe> allRecipes = new ArrayList<>();
+        this.recipeRepository.findAll().forEach(allRecipes::add);
+        List<Recipe> filtered = new ArrayList<>();
+        for (Recipe r : allRecipes) {
+            if (r.getCategory() != null && r.getCategory().equalsIgnoreCase(category)) {
+                filtered.add(r);
+            }
+        }
+        return filtered;
+    }
+
+    //getRecipesByDifficulty
+    @Transactional(readOnly = true)
+    public List<Recipe> getRecipesByDifficulty(int difficulty) {
+        List<Recipe> allRecipes = new ArrayList<>();
+        this.recipeRepository.findAll().forEach(allRecipes::add);
+        List<Recipe> filtered = new ArrayList<>();
+        for (Recipe r : allRecipes) {
+            if (r.getDifficulty() == difficulty) {
+                filtered.add(r);
+            }
+        }
+        return filtered;
+    }
 }
