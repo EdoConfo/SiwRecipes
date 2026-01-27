@@ -125,4 +125,13 @@ public class RecipeService {
     public List<it.uniroma3.siw_recipes.model.RecipeSummary> getLastRecipes() {
         return this.recipeRepository.findTop6ByOrderByCreationDateDesc();
     }
+
+    /**
+     * Restituisce il numero totale di ricette.
+     */
+    public long countAllRecipes() {
+        return this.recipeRepository.count();
+    }
+
+
 }

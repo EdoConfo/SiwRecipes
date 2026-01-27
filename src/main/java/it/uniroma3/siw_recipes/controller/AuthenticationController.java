@@ -71,6 +71,9 @@ public class AuthenticationController {
         // Calcolo media recensioni per tutte le ricette mostrate in una sola query
         java.util.Map<Long, String> averageRatings = this.reviewService.getAverageRatingsForAllRecipes();
         model.addAttribute("averageRatings", averageRatings);
+        // Aggiunta del conteggio totale di ricette e recensioni
+        model.addAttribute("totalRecipeCount", this.recipeService.countAllRecipes());
+        model.addAttribute("totalReviewCount", this.reviewService.countAllReviews());
         return "home";
     }
 

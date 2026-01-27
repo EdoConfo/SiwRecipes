@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.env.Environment;
 
 /**
  * Questa classe gestisce le operazioni da eseguire alla chiusura dell'applicazione.
@@ -19,9 +20,23 @@ public class ShutdownConfig {
     @Value("${spring.datasource.password}")
     private String databasePassword;
 
+    private final Environment environment;
+
+    public ShutdownConfig(Environment environment) {
+        this.environment = environment;
+    }
+
     @EventListener(ContextClosedEvent.class)
     public void onContextClosed() {
-        
+        // Salta il dump se il profilo attivo è supabase
+        String[] activeProfiles = environment.getActiveProfiles();
+        for (String profile : activeProfiles) {
+            if (profile.equalsIgnoreCase("supabase")) {
+                System.out.println("[ShutdownConfig] Profilo 'supabase' attivo: dump disabilitato.");
+                return;
+            }
+        }
+
         String os = System.getProperty("os.name").toLowerCase();
         ProcessBuilder processBuilder;
 

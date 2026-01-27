@@ -78,4 +78,8 @@ public class ReviewService {
         }
         return averageRatings;
     }
+
+    public long countAllReviews() {
+        return this.reviewRepository.count();
+    }
 }

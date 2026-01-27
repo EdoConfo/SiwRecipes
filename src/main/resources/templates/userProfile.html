@@ -30,6 +30,16 @@
                     <div style="font-size: 2rem; font-weight: bold; color: var(--primary-color);" th:text="${profileAverageRating}">0.0</div>
                     <div style="font-size: 1.05rem; color: var(--text-color);">Valutazione media profilo</div>
                 </div>
+                <!--Blocco per il conteggio delle ricette caricate dall'utente-->
+                <div class="user-stat-box" style="background: var(--card-bg); border-radius: 12px; box-shadow: 0 2px 8px var(--shadow-color); padding: 1.5rem 1rem; min-width: 0; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100%;">
+                    <div style="font-size: 2rem; font-weight: bold; color: var(--primary-color);" th:text="${recipeCount}">0</div>
+                    <div style="font-size: 1.05rem; color: var(--text-color);">Ricette create</div>
+                </div>
+                <!--Blocco per il conteggio delle recensioni scritte dall'utente-->
+                <div class="user-stat-box" style="background: var(--card-bg); border-radius: 12px; box-shadow: 0 2px 8px var(--shadow-color); padding: 1.5rem 1rem; min-width: 0; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100%;">
+                    <div style="font-size: 2rem; font-weight: bold; color: var(--primary-color);" th:text="${reviewCount}">0</div>
+                    <div style="font-size: 1.05rem; color: var(--text-color);">Recensioni scritte</div>
+                </div>     
                 <a href="/profile/edit" class="btn edit-account-btn" style="
                     background: var(--card-bg);
                     color: #ff8800;
