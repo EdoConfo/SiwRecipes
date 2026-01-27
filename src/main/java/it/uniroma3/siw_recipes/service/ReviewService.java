@@ -82,4 +82,9 @@ public class ReviewService {
     public long countAllReviews() {
         return this.reviewRepository.count();
     }
+
+    // Conta tutte le recensioni con rating >= 4
+    public long countAllReviewsWith4OrHigherRating() {
+        return this.reviewRepository.countByRatingGreaterThanEqual(4);
+    }
 }

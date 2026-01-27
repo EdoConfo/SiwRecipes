@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.uniroma3.siw_recipes.model.Recipe;
+import it.uniroma3.siw_recipes.model.Review;
 import it.uniroma3.siw_recipes.repository.RecipeRepository;
 
 /**
@@ -133,5 +134,24 @@ public class RecipeService {
         return this.recipeRepository.count();
     }
 
+    // Conta tutte le ricette con media recensioni >= 4
+    public long countRecipesWithAverageRatingGreaterThanEqual(double rating) {
+        List<Recipe> recipes = new ArrayList<>();
+        recipeRepository.findAll().forEach(recipes::add);
+
+        long count = 0;
+        for (Recipe r : recipes) {
+            List<Review> reviews = r.getReviews();
+            if (reviews == null || reviews.isEmpty()) continue;
+            // Filtra solo le recensioni con autore abilitato
+            List<Review> enabledReviews = reviews.stream()
+                .filter(rev -> rev.getAuthor() != null && rev.getAuthor().getCredentials() != null && rev.getAuthor().getCredentials().isEnabled())
+                .toList();
+            if (enabledReviews.isEmpty()) continue;
+            double avg = enabledReviews.stream().mapToInt(Review::getRating).average().orElse(0);
+            if (avg >= rating) count++;
+        }
+        return count;
+    }
 
 }

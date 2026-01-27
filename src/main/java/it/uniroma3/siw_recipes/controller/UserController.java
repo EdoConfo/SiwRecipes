@@ -108,6 +108,7 @@ public class UserController {
 		model.addAttribute("userReviews", userReviews);
 		model.addAttribute("recipeCount", userRecipes.size());
 		model.addAttribute("reviewCount", userReviews.size());
+		model.addAttribute("totalHighRatingRecipeCount", this.recipeService.countRecipesWithAverageRatingGreaterThanEqual(4.0));
 		return "userProfile";
 	}
 }

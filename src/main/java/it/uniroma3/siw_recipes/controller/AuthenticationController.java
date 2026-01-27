@@ -74,6 +74,8 @@ public class AuthenticationController {
         // Aggiunta del conteggio totale di ricette e recensioni
         model.addAttribute("totalRecipeCount", this.recipeService.countAllRecipes());
         model.addAttribute("totalReviewCount", this.reviewService.countAllReviews());
+        model.addAttribute("totalHighRatingRecipeCount", this.recipeService.countRecipesWithAverageRatingGreaterThanEqual(4.0));
+        model.addAttribute("totalHighRatingReviewCount", this.reviewService.countAllReviewsWith4OrHigherRating());
         return "home";
     }
 

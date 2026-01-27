@@ -143,6 +143,10 @@ public class User {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public Credentials getCredentials() {
+        return credentials;
+    }
+
     /*
      * EQUALS E HASHCODE
      * Fondamentali per il corretto funzionamento di Hibernate, specialmente quando si usano Set o Liste.
