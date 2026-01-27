@@ -20,6 +20,12 @@ if (Test-Path $PROPS_FILE) {
     }
 }
 
+# Controllo subito: se Windows e profilo supabase, non fare nulla
+if ($env:OS -like "*Windows*" -and $ActiveProfile -eq "supabase") {
+    Write-Host "Dump disabilitato su Windows con profilo supabase. Nessuna operazione eseguita."
+    return
+}
+
 Write-Host "Rilevato profilo attivo: $ActiveProfile"
 
 if ($ActiveProfile -eq "supabase") {

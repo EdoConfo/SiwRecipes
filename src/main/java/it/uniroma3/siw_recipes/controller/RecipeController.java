@@ -231,20 +231,8 @@ public class RecipeController {
         }
         model.addAttribute("recipes", recipes);
 
-        // Calcolo media recensioni per ogni ricetta
-        Map<Long, String> averageRatings = new HashMap<>();
-        for (it.uniroma3.siw_recipes.model.RecipeSummary recipe : recipes) {
-            List<it.uniroma3.siw_recipes.model.Review> reviews = this.reviewService.getReviewsByRecipe(this.recipeService.getRecipe(recipe.getId()));
-            double avg = 0.0;
-            if (reviews != null && !reviews.isEmpty()) {
-                double sum = 0.0;
-                for (it.uniroma3.siw_recipes.model.Review r : reviews) {
-                    if (r.getRating() != null) sum += r.getRating();
-                }
-                avg = sum / reviews.size();
-            }
-            averageRatings.put(recipe.getId(), String.format("%.1f", avg));
-        }
+        // Calcolo media recensioni per tutte le ricette in una sola query
+        Map<Long, String> averageRatings = this.reviewService.getAverageRatingsForAllRecipes();
         model.addAttribute("averageRatings", averageRatings);
 
         return "recipes";
@@ -541,4 +529,6 @@ public class RecipeController {
         }
         return null;
     }
+
+
 }

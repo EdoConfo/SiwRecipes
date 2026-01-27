@@ -68,20 +68,8 @@ public class AuthenticationController {
         List<it.uniroma3.siw_recipes.model.RecipeSummary> latestRecipes = this.recipeService.getLastRecipes();
         model.addAttribute("latestRecipes", latestRecipes);
 
-        // Calcolo media recensioni per ogni ricetta
-        java.util.Map<Long, String> averageRatings = new java.util.HashMap<>();
-        for (it.uniroma3.siw_recipes.model.RecipeSummary recipe : latestRecipes) {
-            List<it.uniroma3.siw_recipes.model.Review> reviews = this.reviewService.getReviewsByRecipe(this.recipeService.getRecipe(recipe.getId()));
-            double avg = 0.0;
-            if (reviews != null && !reviews.isEmpty()) {
-                double sum = 0.0;
-                for (it.uniroma3.siw_recipes.model.Review r : reviews) {
-                    if (r.getRating() != null) sum += r.getRating();
-                }
-                avg = sum / reviews.size();
-            }
-            averageRatings.put(recipe.getId(), String.format("%.1f", avg));
-        }
+        // Calcolo media recensioni per tutte le ricette mostrate in una sola query
+        java.util.Map<Long, String> averageRatings = this.reviewService.getAverageRatingsForAllRecipes();
         model.addAttribute("averageRatings", averageRatings);
         return "home";
     }

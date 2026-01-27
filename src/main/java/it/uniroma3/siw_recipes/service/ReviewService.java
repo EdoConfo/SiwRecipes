@@ -1,6 +1,8 @@
 package it.uniroma3.siw_recipes.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,5 +63,19 @@ public class ReviewService {
     @Transactional
     public void deleteReview(Long id) {
         this.reviewRepository.deleteById(id);
+    }
+
+    /**
+     * Restituisce una mappa id ricetta -> media recensioni.
+     */
+    public Map<Long, String> getAverageRatingsForAllRecipes() {
+        Map<Long, String> averageRatings = new HashMap<>();
+        List<Object[]> results = reviewRepository.findAverageRatingForAllRecipes();
+        for (Object[] row : results) {
+            Long recipeId = (Long) row[0];
+            Double avg = (Double) row[1];
+            averageRatings.put(recipeId, avg != null ? String.format("%.2f", avg) : "-");
+        }
+        return averageRatings;
     }
 }

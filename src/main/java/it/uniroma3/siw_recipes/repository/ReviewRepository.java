@@ -22,4 +22,10 @@ public interface ReviewRepository extends CrudRepository<Review, Long> {
     /* Trova tutte le recensioni associate a una specifica ricetta, escludendo quelle di utenti bannati */
     @Query("SELECT r FROM Review r WHERE r.recipe = :recipe AND r.author.credentials.enabled = true")
     List<Review> findByRecipe(@Param("recipe") Recipe recipe);
+
+    /**
+     * Restituisce la media delle recensioni per tutte le ricette (id -> media).
+     */
+    @Query("SELECT r.recipe.id, AVG(r.rating) FROM Review r WHERE r.author.credentials.enabled = true GROUP BY r.recipe.id")
+    List<Object[]> findAverageRatingForAllRecipes();
 }
