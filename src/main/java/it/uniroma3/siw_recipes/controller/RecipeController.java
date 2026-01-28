@@ -224,8 +224,8 @@ public class RecipeController {
         // Se c'è una parola chiave, cerchiamo (filtered). Altrimenti mostriamo tutto.
         List<it.uniroma3.siw_recipes.model.RecipeSummary> recipes;
         if (keyword != null && !keyword.trim().isEmpty()) {
-            recipes = this.recipeService.findSummaryByTitle(keyword);
-            model.addAttribute("keyword", keyword);
+            recipes = this.recipeService.findSummaryByTitle(keyword.trim());
+            model.addAttribute("keyword", keyword.trim());
         } else {
             recipes = this.recipeService.getAllRecipesSummary();
         }
