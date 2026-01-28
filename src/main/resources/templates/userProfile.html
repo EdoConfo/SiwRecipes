@@ -25,6 +25,9 @@
         <!-- Area Personale: Statistiche Utente -->
         <section style="margin-bottom: 2.5rem;">
             <h1 class="section-title">Area Personale</h1>
+            <span>Hai caricato <strong th:text="${recipes.size()}">0</strong> ricette finora.</span>
+            <section>Hai ricevuto <strong th:text="${totalReviews}">0</strong> recensioni sulle tue ricette.</section>
+            <span>Hai scritto <strong th:text="${userReviews.size()}">0</strong> recensioni.</span>
             <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; align-items: stretch; width: 100%;">
                 <div class="user-stat-box" style="background: var(--card-bg); border-radius: 12px; box-shadow: 0 2px 8px var(--shadow-color); padding: 1.5rem 1rem; min-width: 0; text-align: center; display: flex; flex-direction: column; justify-content: center; height: 100%;">
                     <div style="font-size: 2rem; font-weight: bold; color: var(--primary-color);" th:text="${profileAverageRating}">0.0</div>

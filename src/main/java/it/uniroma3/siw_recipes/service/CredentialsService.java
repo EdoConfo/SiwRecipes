@@ -77,5 +77,11 @@ public class CredentialsService {
         credentials.setPassword(this.passwordEncoder.encode(credentials.getPassword()));
         return this.credentialsRepository.save(credentials);
     }
+
+    //Count di tutti gli utenti registrati (countAllUsers)
+    @Transactional(readOnly = true)
+    public long countAllUsers() {
+        return this.credentialsRepository.count();
+    }
 }
 

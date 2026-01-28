@@ -41,4 +41,13 @@ public interface RecipeRepository extends CrudRepository<Recipe, Long> {
 
     /* Trova una ricetta dato il nome del file immagine */
     Recipe findByImage(String image);
+
+    /* Trova le ricette di un certo tipo*/
+    long countByCategory(String category);
+
+    /* Trova le ricette di una certa difficoltà */
+    List<Recipe> findByDifficulty(int difficulty);
+
+    /* Trova ricette di una certa categoria */
+    List<Recipe> findByCategory(String category);
 }

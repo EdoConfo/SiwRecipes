@@ -2,6 +2,7 @@ package it.uniroma3.siw_recipes.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -77,5 +78,37 @@ public class ReviewService {
             averageRatings.put(recipeId, avg != null ? String.format("%.2f", avg) : "-");
         }
         return averageRatings;
+    }
+
+    //Count di tutte le recensioni (countAllReviews)
+    @Transactional(readOnly = true)
+    public long countAllReviews() {
+        return this.reviewRepository.count();
+    }
+
+    //Totale recensioni ricevute per utente (getReviewsByRecipeInList(userRecipes))
+    @Transactional(readOnly = true)
+    public List<Review> getReviewsByRecipeInList(List<Recipe> recipes) {
+        return this.reviewRepository.findByRecipeIn(recipes);
+    }
+
+    //getAverageRatingForRecipeId(r.getId())
+    @Transactional(readOnly = true)
+    public Double getAverageRatingForRecipeId(Long recipeId) {
+        Double avg = this.reviewRepository.findAverageRatingByRecipeId(recipeId);
+        return avg != null ? Double.valueOf(String.format(Locale.US, "%.2f", avg)) : null;
+    }
+
+    //countReviewsWithRatingBetween(min, max)
+    @Transactional(readOnly = true)
+    public long countReviewsWithRatingBetween(int min, int max) {
+        long count = 0;
+        List<Review> allReviews = (List<Review>) this.reviewRepository.findAll();
+        for (Review r : allReviews) {
+            if (r.getRating() >= min && r.getRating() <= max) {
+                count++;
+            }
+        }
+        return count;
     }
 }

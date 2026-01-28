@@ -76,6 +76,7 @@ public class Recipe {
     @jakarta.persistence.Basic(fetch = jakarta.persistence.FetchType.LAZY)
     private byte[] imageData;
 
+
     /*
      * RELAZIONI
      */
@@ -236,4 +237,17 @@ public class Recipe {
     public int hashCode() {
         return Objects.hash(id);
     }
+
+    //getAverageRating(): Calcola la media delle valutazioni
+    public double getAverageRating() {
+        if (reviews != null && !reviews.isEmpty()) {
+            double sum = 0.0;
+            for (Review r : reviews) {
+                sum += r.getRating();
+            }
+            return sum / reviews.size();
+        }
+        return 0.0;
+    }
+
 }

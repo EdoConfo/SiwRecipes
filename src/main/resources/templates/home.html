@@ -28,6 +28,12 @@
         <section class="hero">
             <h1>Trova la ricetta perfetta</h1>
             <p>Esplora migliaia di ricette deliziose condivise dalla nostra community di appassionati.</p>
+            <span>Il nostro catalogo offere oltre <strong th:text="${totalRecipes}">0</strong> ricette!</span>
+            <span>I nostri utenti hanno scritto più di <strong th:text="${totalReviews}">0</strong> recensioni!</span>
+            <span>Gli utenti che si sono registrati presso la nostra piattaforma sono oltre <strong th:text="${totalUsers}">0</strong>.</span>
+            <span>Il nostro catalogo contiene esattamente <strong th:text="${totalDesserts}">0</strong> dessert! Non perderteli!</span>
+            <span>Le ricette difficili da preparare sono ben <strong th:text="${totalHardRecipes}">0</strong>!</span>
+            <span>Le ricette con rating compreso tra 2 e 4 sono più di <strong th:text="${mediumRatedCount}">0</strong>!</span>
             <form class="search-bar" action="/recipes" method="get">
                 <input type="text" name="keyword" placeholder="Cosa vuoi cucinare oggi?">
                 <button type="submit">Cerca</button>

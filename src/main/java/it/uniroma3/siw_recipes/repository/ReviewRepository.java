@@ -28,4 +28,11 @@ public interface ReviewRepository extends CrudRepository<Review, Long> {
      */
     @Query("SELECT r.recipe.id, AVG(r.rating) FROM Review r WHERE r.author.credentials.enabled = true GROUP BY r.recipe.id")
     List<Object[]> findAverageRatingForAllRecipes();
+
+    //findByRecipeIn(recipes)
+    List<Review> findByRecipeIn(List<Recipe> recipes);
+
+    //findAverageRatingByRecipeId(recipeId)
+    @Query("SELECT AVG(r.rating) FROM Review r WHERE r.recipe.id = :recipeId AND r.author.credentials.enabled = true")
+    Double findAverageRatingByRecipeId(@Param("recipeId") Long recipeId);
 }

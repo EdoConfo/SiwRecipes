@@ -37,26 +37,31 @@
             <!-- Intestazione Ricetta (Destra) -->
             <div class="recipe-info-container">
                 <!-- Media recensioni + Titolo sulla stessa riga -->
+                <!-- Modifilo il riquadro della recensione media che deve essere cliccabile e che rimandi alla pagina recipes filtrata per recensione media /recipes/rating/${averageRating}-->
                 <div style="display: flex; align-items: center; gap: 1.2rem; margin-bottom: 1.2rem;">
-                    <div class="average-rating-box" style="display: flex; align-items: center; gap: 0.5rem; background: var(--card-bg); border-radius: 8px; box-shadow: 0 2px 8px var(--shadow-color); padding: 0.5rem 1rem; border: 2px solid #FFD700;">
+                    <a th:href="@{'/recipes/rating/' + ${averageRating}}" class="average-rating-box" style="display: flex; align-items: center; gap: 0.5rem; background: var(--card-bg); border-radius: 8px; box-shadow: 0 2px 8px var(--shadow-color); padding: 0.5rem 1rem; border: 2px solid #FFD700; text-decoration: none;">
                         <i class="fas fa-star" style="color: #FFD700; font-size: 1.2rem;"></i>
                         <span style="font-size: 1.3rem; font-weight: bold; color: #FFD700;" th:text="${averageRating}">0.0</span>
-                    </div>
+                    </a>
                     <h1 th:text="${recipe.title}" class="recipe-header-title" style="margin: 0;">Titolo Ricetta</h1>
                 </div>
                 <p th:text="${recipe.description}" class="recipe-header-desc">Descrizione breve...</p>
+                <span>La ricetta è composta da <strong th:text="${recipe.ingredients.size()}">0</strong> ingredienti<span>
                 
                 <!-- New Info Block -->
                 <div class="recipe-info-block">
                     <!-- Row 1: Author & Date -->
                     <div style="display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1rem;" class="recipe-info-item">
+                        <!--Modifico rendendolo cliccabile e che rimandi alla pagina recipes filtrata per autore /recipes/author/${recipe.author.id}-->
                         <div th:if="${recipe.author != null}">
                             <i class="fas fa-user" style="color: var(--primary-color); margin-right: 5px;"></i> 
-                            <strong>Autore:</strong> <span th:text="${recipe.author.name} + ' ' + ${recipe.author.surname}">Mario Rossi</span>
+                            <strong>Autore:</strong> <a th:href="@{'/recipes/author/' + ${recipe.author.id}}" th:text="${recipe.author.name} + ' ' + ${recipe.author.surname}">Mario Rossi</a>
                         </div>
+                        <!--Modifico rendendolo cliccabile e che rimandi alla pagina recipes filtrata per data /recipes/date/${recipe.creationDate}-->
+
                         <div th:if="${recipe.creationDate != null}">
                             <i class="far fa-calendar-alt" style="color: var(--primary-color); margin-right: 5px;"></i>
-                            <strong>Data di inserimento:</strong> <span th:text="${#temporals.format(recipe.creationDate, 'dd/MM/yyyy')}">01/01/2024</span>
+                            <strong>Data di inserimento:</strong> <a th:href="@{'/recipes/date/' + ${#temporals.format(recipe.creationDate, 'yyyy-MM-dd')}}" th:text="${#temporals.format(recipe.creationDate, 'dd/MM/yyyy')}">01/01/2024</a>
                         </div>
                     </div>
 
@@ -64,21 +69,25 @@
 
                     <!-- Row 2: Category, Time, Difficulty -->
                     <div style="display: flex; flex-direction: column; gap: 0.8rem;" class="recipe-info-item">
+                        <!--Modifico rendendolo cliccabile e che rimandi alla pagina recipes filtrata per categoria /recipes/category/${recipe.category}-->
                         <div th:if="${recipe.category != null}">
                             <i class="fas fa-tag" style="color: var(--primary-color); margin-right: 5px;"></i>
-                            <strong>Categoria:</strong> <span th:text="${recipe.category}">Categoria</span>
+                            <strong>Categoria:</strong> <a th:href="@{'/recipes/category/' + ${recipe.category}}" th:text="${recipe.category}">Categoria</a>
                         </div>
+                        <!--Modifico rendendolo cliccabile e che rimandi alla pagina recipes filtrata per tempo /recipes/time/${recipe.prepTime}-->
                         <div>
                             <i class="far fa-clock" style="color: var(--primary-color); margin-right: 5px;"></i>
-                            <strong>Tempo:</strong> <span th:text="${recipe.prepTime} + ' min'">45 min</span>
+                            <strong>Tempo:</strong> <a th:href="@{'/recipes/preptime/' + ${recipe.prepTime}}" th:text="${recipe.prepTime} + ' min'">45 min</a>
                         </div>
+                        <!--Modifico rendendolo cliccabile e che rimandi alla pagina recipes filtrata per difficoltà /recipes/difficulty/${recipe.difficulty}-->
                         <div>
                             <i class="fas fa-signal" style="color: var(--primary-color); margin-right: 5px;"></i>
                             <strong>Difficoltà:</strong>
-                            <span th:if="${recipe.difficulty == 1}">Facile</span>
-                            <span th:if="${recipe.difficulty == 2}">Media</span>
-                            <span th:if="${recipe.difficulty == 3}">Difficile</span>
-                            <span th:if="${recipe.difficulty > 3}">Molto Difficile</span>
+                            <!--Nuovi pulsanti che reindirizzano alle 4 pagine di recipes filtrate per difficoltà (usando sempre th:if, th:text e th:href)-->
+                            <a th:if="${recipe.difficulty == 1}" th:href="@{'/recipes/difficulty/1'}" th:text="'Facile'">Facile</a>
+                            <a th:if="${recipe.difficulty == 2}" th:href="@{'/recipes/difficulty/2'}" th:text="'Media'">Media</a>
+                            <a th:if="${recipe.difficulty == 3}" th:href="@{'/recipes/difficulty/3'}" th:text="'Difficile'">Difficile</a>
+                            <a th:if="${recipe.difficulty == 4}" th:href="@{'/recipes/difficulty/4'}" th:text="'Molto Difficile'">Molto Difficile</a>
                         </div>
                     </div>
                 </div>

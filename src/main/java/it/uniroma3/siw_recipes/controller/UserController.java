@@ -106,6 +106,8 @@ public class UserController {
 		model.addAttribute("recipes", userRecipes);
 		model.addAttribute("averageRatings", averageRatings);
 		model.addAttribute("userReviews", userReviews);
+		// Totale recensioni ricevute sulle ricette dell'utente
+		model.addAttribute("totalReviews", reviewService.getReviewsByRecipeInList(userRecipes).size());
 		return "userProfile";
 	}
 }

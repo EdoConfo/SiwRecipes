@@ -26,4 +26,9 @@ public interface RecipeSummary {
     // Se review/ingredienti sono caricati Lazy, qui va bene restituire le entità se non le tocchiamo troppo.
     // Ma per sicurezza, se serve solo il conteggio o altro, meglio gestire diversamente.
     // Per ora, concentriamoci sulla Home/List view che non mostra ingredienti/review in dettaglio.
+
+    //getReviews
+    java.util.List<it.uniroma3.siw_recipes.model.Review> getReviews();
+    //getIngredients
+    java.util.List<it.uniroma3.siw_recipes.model.Ingredient> getIngredients();
 }

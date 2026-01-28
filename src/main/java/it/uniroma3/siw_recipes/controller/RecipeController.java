@@ -224,10 +224,10 @@ public class RecipeController {
         // Se c'è una parola chiave, cerchiamo (filtered). Altrimenti mostriamo tutto.
         List<it.uniroma3.siw_recipes.model.RecipeSummary> recipes;
         if (keyword != null && !keyword.trim().isEmpty()) {
-            recipes = this.recipeService.findSummaryByTitle(keyword);
-            model.addAttribute("keyword", keyword);
+            recipes = this.recipeService.findSummaryByTitle(keyword.trim());
+            model.addAttribute("keyword", keyword.trim());
         } else {
-            recipes = this.recipeService.getAllRecipesSummary();
+            recipes = this.recipeService.getRecipesSummaryOrderedByTitle();
         }
         model.addAttribute("recipes", recipes);
 
@@ -266,6 +266,7 @@ public class RecipeController {
                 averageRating = sum / reviews.size();
             }
             model.addAttribute("averageRating", String.format("%.1f", averageRating));
+            
 
             // Se esiste, la mettiamo nel modello
             model.addAttribute("recipe", recipe);
@@ -530,5 +531,78 @@ public class RecipeController {
         return null;
     }
 
+    //mapping per visualizzare le ricette di un autore specifico
+    @GetMapping("/recipes/author/{authorId}")
+    public String getRecipesByAuthor(@PathVariable("authorId") Long authorId, Model model) {
+        List<Recipe> recipes = this.recipeService.findSummaryByAuthorId(authorId);
+        model.addAttribute("recipes", recipes);
 
+        // Calcolo media recensioni per tutte le ricette in una sola query
+        Map<Long, String> averageRatings = this.reviewService.getAverageRatingsForAllRecipes();
+        model.addAttribute("averageRatings", averageRatings);
+
+        return "recipes";
+    }
+
+    //mapping per visualizzare le ricette di una categoria specifica
+    @GetMapping("/recipes/category/{category}")
+    public String getRecipesByCategory(@PathVariable("category") String category, Model model) {
+        List<Recipe> recipes = this.recipeService.findByCategory(category);
+        model.addAttribute("recipes", recipes);
+
+        // Calcolo media recensioni per tutte le ricette in una sola query
+        Map<Long, String> averageRatings = this.reviewService.getAverageRatingsForAllRecipes();
+        model.addAttribute("averageRatings", averageRatings);
+
+        return "recipes";
+    }
+
+    //mapping per visualizzare ricette caricate in una certa data (che in Recipe.java è una LocalDateTime)
+    @GetMapping("/recipes/date/{date}")
+    public String getRecipesByDate(@PathVariable("date") String date, Model model) {
+        List<Recipe> recipes = this.recipeService.findByCreationDate(date);
+        model.addAttribute("recipes", recipes);
+
+        // Calcolo media recensioni per tutte le ricette in una sola query
+        Map<Long, String> averageRatings = this.reviewService.getAverageRatingsForAllRecipes();
+        model.addAttribute("averageRatings", averageRatings);
+
+        return "recipes";
+    }
+
+    //mapping per visualizzare le ricette con quell'esatto tempo di preparazione
+    @GetMapping("/recipes/preptime/{prepTime}")
+    public String getRecipesByPrepTime(@PathVariable("prepTime") Integer prepTime,    Model model) {
+        List<Recipe> recipes = this.recipeService.findByPrepTime(prepTime);
+        model.addAttribute("recipes", recipes); 
+        // Calcolo media recensioni per tutte le ricette in una sola query
+        Map<Long, String> averageRatings = this.reviewService.getAverageRatingsForAllRecipes();
+        model.addAttribute("averageRatings", averageRatings);        
+        return "recipes";
+    }
+
+    //mapping per visualizzare le ricette con una certa difficoltà
+    @GetMapping("/recipes/difficulty/{difficulty}")
+    public String getRecipesByDifficulty(@PathVariable("difficulty") Integer difficulty, Model model) {
+        List<Recipe> recipes = this.recipeService.getRecipesByDifficulty(difficulty);
+        model.addAttribute("recipes", recipes);
+
+        // Calcolo media recensioni per tutte le ricette in una sola query
+        Map<Long, String> averageRatings = this.reviewService.getAverageRatingsForAllRecipes();
+        model.addAttribute("averageRatings", averageRatings);
+
+        return "recipes";
+    }
+
+    //mappinng per visualizzare le ricette con una certa valutazione media (la media estratta non è sul DB ma calcolata sulle recensioni)
+    @GetMapping("/recipes/rating/{rating}")
+    public String getRecipesByRating(@PathVariable("rating") String rating, Model model) {
+        List<Recipe> recipes = this.recipeService.getRecipesByAverageRating(rating);
+        model.addAttribute("recipes", recipes);
+        // Calcolo media recensioni per tutte le ricette in una sola query
+        Map<Long, String> averageRatings = this.reviewService.getAverageRatingsForAllRecipes();
+        model.addAttribute("averageRatings", averageRatings);
+        return "recipes";
+    }
 }
+

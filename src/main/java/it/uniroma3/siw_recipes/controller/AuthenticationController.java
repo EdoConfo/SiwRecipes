@@ -67,7 +67,21 @@ public class AuthenticationController {
     public String index(Model model) {
         List<it.uniroma3.siw_recipes.model.RecipeSummary> latestRecipes = this.recipeService.getLastRecipes();
         model.addAttribute("latestRecipes", latestRecipes);
-
+        model.addAttribute("totalRecipes", this.recipeService.countAllRecipes());
+        model.addAttribute("totalReviews", this.reviewService.countAllReviews());
+        model.addAttribute("totalUsers", this.credentialsService.countAllUsers());
+        model.addAttribute("totalDesserts", this.recipeService.countRecipesByCategory("Dolci"));
+        model.addAttribute("totalHardRecipes", this.recipeService.getRecipesByDifficulty(3).size());
+        //restituisce il numero di ricette con media recensioni tra 2 e 4 (dinamicamente calcolato)
+        long mediumRatedCount = 0;
+        List<it.uniroma3.siw_recipes.model.RecipeSummary> allRecipes = this.recipeService.getAllRecipesSummary();
+        for (it.uniroma3.siw_recipes.model.RecipeSummary recipe : allRecipes) {
+            Double avgRating = this.reviewService.getAverageRatingForRecipeId(recipe.getId());
+            if (avgRating != null && avgRating >= 2.0 && avgRating <= 4.0) {
+                mediumRatedCount++;
+            }
+        }
+        model.addAttribute("mediumRatedCount", mediumRatedCount);
         // Calcolo media recensioni per tutte le ricette mostrate in una sola query
         java.util.Map<Long, String> averageRatings = this.reviewService.getAverageRatingsForAllRecipes();
         model.addAttribute("averageRatings", averageRatings);
